@@ -21,6 +21,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+      
+      - name: Project directory
+        run: cd esCultura
           
       - name: Install Node modules
         run: npm install
