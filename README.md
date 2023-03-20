@@ -16,3 +16,8 @@ To run the application on the, run the following command:
 ```shell
 expo web
 ```
+
+To test the application, run the following command:
+```shell
+npm test
+```
