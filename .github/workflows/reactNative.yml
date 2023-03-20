@@ -23,7 +23,7 @@ jobs:
           node-version: 14
           
       - name: Install Node modules
-        run: npm ci
+        run: npm install
         
       - name: Unit & Integration tests  
         run: npm test
