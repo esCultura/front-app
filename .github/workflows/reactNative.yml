@@ -25,11 +25,5 @@ jobs:
       - name: Install Node modules
         run: cd esCultura && npm install
         
-      - name: Unit & Integration tests  
+      - name: Unit & Integration Tests & Coverage 40%
         run: cd esCultura && npm test
-
-      - name: Jest coverage report
-        uses: ArtiomTr/jest-coverage-report-action@v2.0.6
-        with:
-          coverage-file: ./jest-report.json
-          base-coverage-file: ./jest-report.json
