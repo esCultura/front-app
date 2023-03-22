@@ -1,15 +1,12 @@
-import 'react-native-vector-icons';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import calendar from './src/components/calendar.js';
-
+import CustomCalendar from './src/components/Calendar.js';
 export default function App() {
  
   return (
-
     <View style = {styles.container}>
-        <Calendar/>
+        <CustomCalendar />
     </View>
+
   );
     
 }
@@ -22,4 +19,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   }
 });
-
