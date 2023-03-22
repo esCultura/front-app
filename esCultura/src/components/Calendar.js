@@ -2,29 +2,33 @@ import React, {useState} from 'react';
 import {Calendar, LocaleConfig, markedDates} from 'react-native-calendars';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, View } from 'react-native';
 
 
 const CustomCalendar = () => {
   const [selected, setSelected] = useState('');
-  //const like ={key: 'like', color: 'red'};
 
   return (
     
     <Calendar
     showArrows={true}
     renderArrow={direction => (
-      <Icon name={direction == 'left' ? 'chevron-left' : 'chevron-right'} size={20} color='#567545' />
+      <Icon name={direction == 'left' ? 'chevron-left' : 'chevron-right'} size={17} color='#567545' />
     )}
-    
+
         style = {styles.calendari}
-        theme= {{ backgroundColor: '#ffffff',
+        theme= {{ backgroundColor: '#33c031',
             calendarBackground: '#0000',
             textSectionTitleColor: '#b6c1cd',
-            selectedDayBackgroundColor: '#00adf5',
+            selectedDayBackgroundColor: '#1d7d1c',
             selectedDayTextColor: '#ffffff',
-            todayTextColor: '#00adf5',
+            todayTextColor: '#33c031',
             dayTextColor: '#44444',
-            textDisabledColor: '#d6e'
+            textDisabledColor: '#8d8d8d',
+            textDayFontWeight: '500',
+            textMonthFontWeight: 'bold',
+            textMonthFontFamily: 'Open Sans',
+            textDayHeaderFontSize: '30',
         }}
       onDayPress={day => {
         setSelected(day.dateString);
@@ -34,10 +38,7 @@ const CustomCalendar = () => {
         [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
        
       }}
-      /*showArrows={true}
-      colorArrows='#567545'
-      renderArrow={direction => <Arrow />}*/
-      
+      firstDay= {1} 
     />
   );
 };
@@ -61,10 +62,10 @@ LocaleConfig.locales['cat'] = {
         'Gen.','Febr.','Març','Abr.','Maig','Juny','Jul.', 'Ag.', 'Set.','Oct.','Nov.', 'Des.',
     ],
     dayNames:[
-        'Diumenge','Dilluns','Dimarts','Dimecres','Dijous','Divendres','Dissabte',
+      'Diumenge', 'Dilluns','Dimarts','Dimecres','Dijous','Divendres','Dissabte', 
     ],
     dayNamesShort:[
-        'Dig.','Dill.','Dit.','Dic.','Dij.','Div.','Diss.',
+      'Dg.', 'Dl.','Dt.','Dc.','Dj.','Dv.','Ds.', 
     ],
     today: 'Avui',
        
