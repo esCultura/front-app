@@ -1,0 +1,29 @@
+# This workflow will run tests using Node
+
+name: Pull request into Master
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  install-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Use Node.js 14  
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          
+      - name: Install Node modules
+        run: cd esCultura && npm install
+        
+      - name: Unit & Integration Tests & Coverage 40%
+        run: cd esCultura && npm test
