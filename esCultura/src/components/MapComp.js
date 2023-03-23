@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Button, Text} from 'react-native';
+import { StyleSheet, View, Button, Text, PermissionsAndroid} from 'react-native';
 import MapView from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -38,16 +38,18 @@ export default function MapComp() {
         console.log('res is:', res);
         if (res) {
             Geolocation.getCurrentPosition(
-            position => {
-                console.log(position);
+            (position) => {
+                console.log("Position value: ", position);
                 setLocation(position);
             },
-            error => {
+            (error) => {
                 // See error code charts below.
-                console.log(error.code, error.message);
+                //console.log(error.code, error.message);
+                console.log(error);
+
                 setLocation(false);
             },
-            {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000},
             );
         }
         });
