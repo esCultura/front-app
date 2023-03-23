@@ -7,6 +7,7 @@ import { Text, View } from 'react-native';
 
 const CustomCalendar = () => {
   const [selected, setSelected] = useState('');
+  const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
 
   return (
     
@@ -33,8 +34,12 @@ const CustomCalendar = () => {
       onDayPress={day => {
         setSelected(day.dateString);
       }}
+      markingType={'multi-dot'}
       markedDates={{
-       
+
+            "2023-03-05": { selected: true, marked: true, selectedColor: "blue" },
+            '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
+            
         [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
        
       }}
