@@ -25,30 +25,35 @@ export default function App() {
                 tabBarIcon: ({ color, size }) => (
                     <HouseFillIcon name="home" color={color} size={size} />
                 ),
+                headerShown: false,
             }} />
             <Tab.Screen name="Search" component={Search} options={{
                 tabBarLabel: '',
                 tabBarIcon: ({ color, size }) => (
                     <SearchIcon name="search" color={color} size={size} />
                 ),
+                headerShown: false,
             }} />
             <Tab.Screen name="Chat" component={Chat} options={{
                 tabBarLabel: '',
                 tabBarIcon: ({ color, size }) => (
                     <ChatIcon name="search" color={color} size={size} />
                 ),
+                headerShown: false,
             }}/>
             <Tab.Screen name="Map" component={Map} options={{
                 tabBarLabel: '',
                 tabBarIcon: ({ color, size }) => (
                     <MapIcon name="search" color={color} size={size} />
                 ),
+                headerShown: false,
             }}/>
             <Tab.Screen name="Agenda" component={Agenda} options={{
                 tabBarLabel: '',
                 tabBarIcon: ({ color, size }) => (
                     <CalendarIcon name="search" color={color} size={size} />
                 ),
+                headerShown: false,
             }}/>
         </Tab.Navigator>
     </NavigationContainer>
