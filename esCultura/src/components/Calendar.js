@@ -9,8 +9,9 @@ const CustomCalendar = () => {
   const [selected, setSelected] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
 
+
   return (
-    
+    <View style = {styles.container}> 
     <Calendar
     showArrows={true}
     renderArrow={direction => (
@@ -29,22 +30,42 @@ const CustomCalendar = () => {
             textDayFontWeight: '500',
             textMonthFontWeight: 'bold',
             textMonthFontFamily: 'Open Sans',
-            textDayHeaderFontSize: '30',
+            textDayHeaderFontSize: 14,
+            'stylesheet.day.basic':{
+                'base':{
+                  width: 30,
+                  height: 80,
+                  //justifyContent: 'center',
+                  alignItems: 'center',
+                }, 
+                'selected': {
+                  backgroundColor: '#1d7d1c', // cambiar al color deseado
+                  borderRadius: 3,
+                },
+            }
+            
         }}
       onDayPress={day => {
-        setSelected(day.dateString);
+        setSelected(day.dateString)
+        if (day.dateString == selected) {
+          alert(day.dateString);
+        } else {
+          alert('No hi ha reserves per la data');
+        };
       }}
       markingType={'multi-dot'}
       markedDates={{
 
-            "2023-03-05": { selected: true, marked: true, selectedColor: "blue" },
+            "2023-03-05": { selected: true, marked: true, selectedColor: "blue"  },
             '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
             
         [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
        
       }}
+
       firstDay= {1} 
     />
+    </View>
   );
 };
 
@@ -78,11 +99,19 @@ LocaleConfig.locales['cat'] = {
 LocaleConfig.defaultLocale = 'cat';
 
 const styles = StyleSheet.create({
-    calendari: {
+  container : {
       flex: 1,
+      width: '100%' ,
+  },
+  calendari: {
+      flex: 1, 
+      width: '100%',
+      height: "100%",
       backgroundColor: '#0000',
-      //alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: 'stretch',
+      justifyContent: 'stretch',
+      paddingTop: 120,
+      //paddingBottom: 40,
     }
   });
 export default CustomCalendar;
