@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import InfoCompleta from "../components/InfoCompleta";
 
 export default function Home(props) {
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(true);
 
   const handlePress = () => {
     setShowDetails(!showDetails);
@@ -40,7 +40,7 @@ export default function Home(props) {
                 type="musical" 
                 title="Billy Elliot, el musical" 
                 preu = "Preu taquilla"
-                complet= "hola que tal"
+                complet= "La trama de la obra se centra en la lucha de Billy por seguir sus sueños a pesar de la oposición de su familia y su comunidad, que consideran la danza algo inapropiado para un niño de su edad y que esperan que siga los pasos de su padre y su hermano mayor para trabajar en la mina. Billy encuentra en la danza una forma de expresión y una vía de escape de su difícil realidad, y gracias a la ayuda de su maestra de baile, la Sra. Wilkinson, y de su mejor amigo Michael, logra superar los obstáculos que se le presentan y alcanzar su objetivo de audicionar para la prestigiosa Escuela de Ballet de la Royal Ballet en Londres."
                 date="LOLASU" 
                 location="In your mind mdfk" 
                 source="https://www.atrapalo.com/houdinis/wp-content/uploads/2021/06/billyelliot-cartel.jpg" /> 
@@ -69,12 +69,6 @@ export default function Home(props) {
   buttonText: {
     color: 'white',
     fontSize: 16,
-  },
-  card: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
+  }
 });
           

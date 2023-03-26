@@ -19,8 +19,8 @@ export default function Esdeveniment (props) {
 
 const styles = StyleSheet.create({
     card: {
-        width: 404,
-        height: 161,
+        width: '100%',
+        height: '100%',
         shadowColor: "rgba(0, 0, 0, 0.25)",
         shadowOffset: {
             width: 0,
@@ -76,6 +76,6 @@ const styles = StyleSheet.create({
     },
     image: {
         width: "100%",
-        height: "50%",
+        aspectRatio: 15/3,
     }
 });

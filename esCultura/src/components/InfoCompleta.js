@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 
 const bgcolor = '#3BDE4B';
 
-export default function Esdeveniment (props) {
+export default function InfoCompleta (props) {
     return (
         <View style={styles.card}>
             <Image source={{uri: props.source}} style={styles.image}/>
@@ -20,13 +20,20 @@ export default function Esdeveniment (props) {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    image: {
+        width: "100%",
+        aspectRatio: 5/3,
+    },
     card: {
-        width: 404,
-        height: 761,
+        width: '100%',
+        height: '100%',
         shadowColor: "rgba(0, 0, 0, 0.25)",
         shadowOffset: {
             width: 0,
-            height: 4
+            height: 4,
         },
         shadowRadius: 4,
         shadowOpacity: 1,
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         lineHeight: 15,
         color: "#000000",
-        textAlign: 'justify'
+        textAlign: "justify"
     },
     source: {
         paddingTop: 10,
@@ -93,8 +100,5 @@ const styles = StyleSheet.create({
         borderColor: "#2FDD60",
         borderTopWidth: 2,
     },
-    image: {
-        width: "100%",
-        height: "23%",
-    }
+    
 });
