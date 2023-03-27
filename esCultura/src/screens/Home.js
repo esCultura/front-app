@@ -5,7 +5,21 @@ import React, { useState } from 'react';
 import InfoCompleta from "../components/InfoCompleta";
 
 export default function Home(props) {
+    
+
   const [showDetails, setShowDetails] = useState(true);
+ {/*} const [titol, setTitol] = useState([]);
+  const [data, setData] = useState([]);
+  console.log(titol);
+  
+  fetch('http://127.0.0.1:8000/esdeveniments/',{
+    "method":"GET",
+    "mode":"no-cors",
+  }).then((response) => response.json()).then((json) => setData(json));
+  
+*/}
+  
+  
 
   const handlePress = () => {
     setShowDetails(!showDetails);
@@ -19,7 +33,7 @@ export default function Home(props) {
           <View>
             <Esdeveniment
                 type="musical" 
-                title="Billy Elliot, el musical" 
+                title="Billy Elliot, el musical"
                 brief="Tant de bo el tornin a fer!" 
                 date="LOLASU" 
                 location="In your mind mdfk" 
@@ -52,6 +66,8 @@ export default function Home(props) {
 
 );
 };
+
+
  
  const styles = StyleSheet.create({
 

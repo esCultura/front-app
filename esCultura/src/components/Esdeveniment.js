@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import LikeButton from "./LikeButton";
 
 const bgcolor = '#3BDE4B';
 
@@ -8,11 +9,14 @@ export default function Esdeveniment (props) {
         <View style={styles.card}>
             <Image source={{uri: props.source}} style={styles.image}/>
             <Text style={styles.type}>{props.type}</Text>
+            
             <View style={styles.card_info}>
+                <Text style={styles.like}><LikeButton></LikeButton></Text>
                 <Text style={styles.title}>{props.title}</Text>
                 <Text style={styles.brief}>{props.brief}</Text>
                 <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text>
             </View>
+           
         </View>
     )
 }
@@ -77,5 +81,13 @@ const styles = StyleSheet.create({
     image: {
         width: "100%",
         aspectRatio: 15/3,
+    },
+    like:{
+        position: 'absolute',
+        right: 6,
+        top: 6,
+        alignSelf: 'flex-start',
+        padding: 10
+       
     }
 });

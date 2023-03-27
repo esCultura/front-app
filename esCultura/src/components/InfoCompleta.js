@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import LikeButton from "./LikeButton";
+import Reservar from "./ReservarButton";
 
 const bgcolor = '#3BDE4B';
 
@@ -9,11 +11,13 @@ export default function InfoCompleta (props) {
             <Image source={{uri: props.source}} style={styles.image}/>
             <Text style={styles.type}>{props.type}</Text>
             <View style={styles.card_info}>
-                <Text style={styles.title}>{props.title}</Text>
+                    <Text style={styles.title}>{props.title}</Text>
+                    <Text style={styles.like}><LikeButton  ></LikeButton></Text>
                 <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text>
                 <Text style={styles.preu}>{props.preu}</Text>
                 <Text style={styles.complet}>{props.complet}</Text>
                 <Text style={styles.source}>{props.source}</Text>
+                <Text style={styles.reserva}><Reservar ></Reservar></Text>
             </View>
         </View>
     )
@@ -100,5 +104,16 @@ const styles = StyleSheet.create({
         borderColor: "#2FDD60",
         borderTopWidth: 2,
     },
+    like:{
+        position: 'absolute',
+        right: 6,
+        top: 6,
+        alignSelf: 'flex-start',
+        padding: 10
+    },
+    reserva:{
+        marginTop:"25px",
+        
+    }
     
 });
