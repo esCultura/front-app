@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Text, PermissionsAndroid} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import { StyleSheet, View, TextInput} from 'react-native';
+import MapView from 'react-native-maps';
 //import Geolocation from 'react-native-geolocation-service';
 import MarkersMap from './MarkersComp';
+import SearchFilter from './SearchFilter';
 
 export default function MapComp() {
-
-    const [location, setLocation] = useState(false);
-    const [eventsData, setEventsData] = useState([]);
 
     /*
     const requestLocationPermission = async () => {
@@ -28,16 +26,6 @@ export default function MapComp() {
       }
     };
   */
-
-    /*
-    const getData = async() => {
-      const response = await fetch('http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/', {method: "GET"} );
-      const data = await response.json();
-      console.log(data);
-      setEventsData(data);
-      console.log("eventData: ", eventsData);
-    }
-    */
 
     /*
     const getLocation = async () => {
@@ -63,36 +51,26 @@ export default function MapComp() {
       console.log(location);
     };
     */
-    
-    useEffect( ()=>{
-      setEventsData([{ latitude : 41.939433, longitude : 2.250936},{ latitude : 41.389324, longitude : 2.113703},{ latitude : 41.710428, longitude : 1.831592}]);
-      //getLocation();
-      //getData();
-    }, [])
 
     return (
-        <View>
-            <MapView style={styles.map}
-                initialRegion={{
-                    latitude: 41.389324,
-                    longitude: 2.113703,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
-            >
-              <MarkersMap></MarkersMap>
-            </MapView>
-        </View>
+      <View>
+        <MapView style={styles.map}
+          initialRegion={{
+            latitude: 41.389324,
+            longitude: 2.113703,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          <MarkersMap></MarkersMap>
+        </MapView>
+        <SearchFilter></SearchFilter>
+      </View>
     );
   }
   
   const styles = StyleSheet.create({
     
-    locationContainer: {
-        marginTop: 30,
-        marginLeft: 10,
-        padding: 10, 
-    },
     map: {
       width: '100%',
       height: '100%',
