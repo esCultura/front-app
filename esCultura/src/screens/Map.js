@@ -1,8 +1,16 @@
 import { Text, View } from "react-native";
+import React, { useState} from 'react';
 import MapComp from "../components/MapComp";
 
+
 export default function Map(props) {
+
     return (
-        <MapComp />
+        //input + filtra
+        //<LocationMap></LocationMap>
+        <View>
+            <MapComp></MapComp>
+        </View>
+        
     );
 }
