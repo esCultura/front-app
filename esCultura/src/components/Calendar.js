@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Calendar, LocaleConfig, markedDates} from 'react-native-calendars';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,6 +8,30 @@ import { Text, View } from 'react-native';
 const CustomCalendar = () => {
   const [selected, setSelected] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
+  
+  
+  function getReserves(){ 
+  fetch("http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/",{
+    method: "GET",
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then(res=> res.json()).then(data => {
+        for(let d of data){
+            console.log(d.codi);
+            console.log(d.dataIni);
+            console.log(d.dataFi);
+        }
+    }).catch(console.error);
+ 
+    }
+    
+    
+    useEffect(() => {
+        getReserves();
+      }, []);
+  
 
 
   return (
