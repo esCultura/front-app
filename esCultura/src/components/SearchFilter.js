@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, TextInput, Text, Modal, Pressable} from 'react-native';
+import { StyleSheet, View, TextInput, Text, Modal, Pressable, Button} from 'react-native';
 import { CheckBox, Slider} from 'react-native-elements';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import FilterLeft from 'react-native-bootstrap-icons/icons/filter-left';
 import ArrowDown from 'react-native-bootstrap-icons/icons/arrow-down';
 
@@ -9,11 +10,16 @@ export default function SearchFilter() {
     const [modalVisible, setModalVisible] = useState(false);
     const [slier1, setSlier1] = useState(0.5);
     const [slier2, setSlier2] = useState(0.5);
+    const [date, setDate] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
-    /*
-    useEffect( ()=>{
-      
-    }, [])*/
+
+    const handleDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShowDatePicker(false);
+        setDate(currentDate);
+        console.log(date.toUTCString);
+      };
 
     //on change text debounce function
     //filter and call info
@@ -35,6 +41,20 @@ export default function SearchFilter() {
                         <ArrowDown name="closeModal" color={'black'} size={30} />
                     </Pressable>
                     <View style={styles.contentModal}>
+                        <Text style={styles.textModal}>Data ini i fi</Text>
+                        <Pressable onPress={() => setShowDatePicker(true)} >
+                            <Text>28/03/2023</Text>    
+                        </Pressable>
+                        {showDatePicker && (
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={date}
+                                mode="date"
+                                is24Hour={true}
+                                display="default"
+                                onChange={handleDateChange}
+                            />
+                        )}
                         <Text style={styles.textModal}>Categoria</Text>
                         <CheckBox
                             title="Teatre"
@@ -50,6 +70,11 @@ export default function SearchFilter() {
                         <CheckBox
                             title="Altres"
                         />
+                        <Text style={styles.textModal}>Altres</Text>
+                        <CheckBox
+                            title="Teatre"
+                        />
+                        
                         <Text style={styles.textModal}>Pressupost</Text>
                         <Slider 
                             value={slier1}
