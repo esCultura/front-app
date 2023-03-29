@@ -3,23 +3,36 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const LikeButton =  ( ) => {
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState(0);
     const [likes, setLikes] = useState(0);
     const likeValue = liked ? -1 : 1;
     
    useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments?id==20230315095' );
-        //.then ( response => response.json() );
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments?esdeveniment=20230315095' );
         if (!response.ok) {
           throw new Error('Error al obtener el número de likes');
         }    
-        
         const data = await response.json();
-        if (!data.likes) data.likes = 0;
-        setLikes(data.likes);
-        
+        setLikes(data.length);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchLikes();
+  }, []);
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments?perfil=primerUsuari' );
+        if (!response.ok) {
+          throw new Error('Error al obtener el likes');
+        }    
+        const data = await response.json();
+        if (data.length === 0) setLiked(false);
+        else setLiked(true);
     } catch (error) {
       console.error(error);
     }
@@ -29,18 +42,18 @@ const LikeButton =  ( ) => {
 
   const handlePress = async () => {     
           try {
-          const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments?id==20230315095', {
+          const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments?esdeveniment=20230315095', {
           method: 'PUT', 
           headers: {
             'Content-Type': 'application/json', 
           },
           body: JSON.stringify({ 
-            likeValue: likeValue,
+            perfil: "primerUsuari",
+            esdeveniment: "20230315095",
           }),
         });
         if (!response.ok) {
           throw new Error('Error al enviar solicitud');
-        
         }  
       setLikes((prevLikes) => prevLikes + likeValue);
       setLiked(!liked);
@@ -57,6 +70,5 @@ const LikeButton =  ( ) => {
 
     );
   };
-
 
   export default LikeButton;
