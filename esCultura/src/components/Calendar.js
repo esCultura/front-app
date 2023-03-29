@@ -11,28 +11,60 @@ const CustomCalendar = () => {
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
   
   
-  function getReserves(){ 
-    fetch("http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/",{
-    method: "GET",
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    }).then(res=> res.json()).then(data => {
-        for(let d of data){
-            console.log(d.codi);
-            console.log(d.dataIni);
-            console.log(d.dataFi);
-        }
+  useEffect(() => {
+    const fetchReserves = async () => {
+      try {
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=primerUsuari' , {
+                headers: {
+              'Content-Type': 'application/json', 
+            }});
+        if (!response.ok) {
+          throw new Error('Error al obtener el likes');
+        }    
+        const data = await response.json();
+        //let i =JSON.parse(data);
+        console.log(data);
         setData(data);
-    }).catch(console.error);
- 
+        console.log(info.esdeveniment);
+        if ((info.esdeveniment) === 20230315095) {
+            setReservat(true);
+        }
+        else setReservat(false);
+        
+        console.log(reservat);
+    } catch (error) {
+      console.error(error);
     }
-    
-    useEffect(() => {
-        getReserves();
-      }, []);
-  
+  };
+  fetchReserves();
+  }, []);
+  useEffect(() => {
+    const fetchDataEsdev = async () => {
+      try {
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?perfil=primerUsuari' , {
+                headers: {
+              'Content-Type': 'application/json', 
+            }});
+        if (!response.ok) {
+          throw new Error('Error al obtener el likes');
+        }    
+        const data = await response.json();
+        //let i =JSON.parse(data);
+        console.log(data);
+        setData(data);
+        console.log(info.esdeveniment);
+        if ((info.esdeveniment) === 20230315095) {
+            setReservat(true);
+        }
+        else setReservat(false);
+        
+        console.log(reservat);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchDataEsdev();
+  }, []);
 
 
     return (
