@@ -17,7 +17,7 @@ export default function InfoCompleta (props) {
                 <Text style={styles.preu}>{props.preu}</Text>
                 <Text style={styles.complet}>{props.complet}</Text>
                 <Text style={styles.source}>{props.source}</Text>
-                <Text style={styles.reserva}><Reservar ></Reservar></Text>
+                <Text ><Reservar ></Reservar></Text>
             </View>
         </View>
     )
@@ -111,9 +111,6 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         padding: 10
     },
-    reserva:{
-        marginTop:"25px",
-        
-    }
+   
     
 });

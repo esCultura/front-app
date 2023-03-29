@@ -1,65 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet , TouchableOpacity} from "react-native";
 
 
-/*
-const URL ='http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/';
-
-let info ={
-    perfil: "primerUsuari",
-    esdeveniment: "20230323002"
-}
-
-
-const getReserves = async() =>{
-    (async () => {
-        let data = new FormData();
-        data.append("json",JSON.stringify(info));
-        
-        await fetch(URL,{
-            method:"POST",
-            mode:"no-cors",
-            headers: {
-                'Content-Type': 'application/json', // tipo de contenido que estás enviando
-              },
-            body: JSON.stringify({
-                
-            })});
-        
-        //let body = await response.json();
-        
-      })();
-    
-    
-}*/
-
 export default function Reservar (){
     
+    const [reservat, setReservat] = useState(false);
+    const [info, setData] = useState('');
     
-    
-    
-    /*const crearReserva= async ()=>{ 
-        
-        getReserves();
-        
-        
-        
-        
-        
-        fetch("http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/",{
-            method: 'POST',
-            headers: {
-            Accept: 'application/json',
-                    'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                perfil: 'primerUsuari',
-                esdeveniment: '20230323021',
-            }),
-});*/
 
-    
-    
+    useEffect(() => {
+        const fetchReserves = async () => {
+          try {
+            const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=primerUsuari' , {
+                    headers: {
+                  'Content-Type': 'application/json', 
+                }});
+            if (!response.ok) {
+              throw new Error('Error al obtener el likes');
+            }    
+            const data = await response.json();
+            //let i =JSON.parse(data);
+            console.log(data);
+            setData(data);
+            console.log(info.esdeveniment);
+            if ((info.esdeveniment) === 20230315095) {
+                setReservat(true);
+            }
+            else setReservat(false);
+            
+            console.log(reservat);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchReserves();
+      }, []);
     
     const crearReserva = async () => {     
         try {
@@ -85,15 +60,33 @@ export default function Reservar (){
 }
           
 
-    return(
-        <View style={styles.container}>
+    
+        
+        
+        if(!reservat){
+            return(
+                <View style={styles.container}>
         <TouchableOpacity style = {styles.button} onPress={crearReserva} >
             <View>
-              <Text  style = {styles.buttonText} >  Reservar</Text>
+              <Text style = {styles.buttonText} >  Reservar</Text>
             </View>
           </TouchableOpacity>
           </View>
-    )
+            )
+        }
+        else{
+            return(
+                <View style={styles.container}>
+                <TouchableOpacity style = {styles.button} /*onPress={crearReserva}*/ >
+                    <View>
+                      <Text  style = {styles.buttonText} > Eliminar Reservar</Text>
+                    </View>
+                  </TouchableOpacity>
+                  </View> 
+            )
+        }
+        
+    
 }
 
 const styles = StyleSheet.create({

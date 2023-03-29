@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import LikeButton from "./LikeButton";
+import Reservar from "./ReservarButton";
 
 const bgcolor = '#3BDE4B';
 
@@ -15,6 +16,7 @@ export default function Esdeveniment (props) {
                 <Text style={styles.title}>{props.title}</Text>
                 <Text style={styles.brief}>{props.brief}</Text>
                 <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text>
+                <Text style><Reservar ></Reservar></Text>
             </View>
            
         </View>
@@ -89,5 +91,6 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         padding: 10
        
-    }
+    },
+    
 });
