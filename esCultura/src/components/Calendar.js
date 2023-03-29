@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {Calendar, LocaleConfig, markedDates} from 'react-native-calendars';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,6 +9,31 @@ const CustomCalendar = () => {
   const [selected, setSelected] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
 
+  useEffect(() => {
+    const fetchReserves = async () => {
+      try {
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/' );
+        if (!response.ok) {
+          throw new Error('Error al obtenir les assistencies');
+        }    
+        const data = await response.json();
+        const markedDates = {};
+        for (let i = 0; i < data.length; i++) {
+          const assistencies = data[i].esdeveniment;
+          const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniment?=${assistencies}' );
+          if (!response.ok) {
+            throw new Error('Error al obtenir el esdeveniment');
+          }  
+          const dates = await responseDates.json();
+          const date = dates[0].dataFi;
+          markedDates[date] = { dots: [reserva] };
+        }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchReserves();
+  }, []);
 
   return (
     <View style = {styles.container}> 
@@ -39,7 +64,7 @@ const CustomCalendar = () => {
                   alignItems: 'center',
                 }, 
                 'selected': {
-                  backgroundColor: '#1d7d1c', // cambiar al color deseado
+                  backgroundColor: '#1d7d1c', 
                   borderRadius: 3,
                 },
             }
@@ -54,14 +79,15 @@ const CustomCalendar = () => {
         };
       }}
       markingType={'multi-dot'}
-      markedDates={{
+      markedDates={markedDates}
+      /*markedDates={{
 
             "2023-03-05": { selected: true, marked: true, selectedColor: "blue"  },
             '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
             
         [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
        
-      }}
+      }}*/
 
       firstDay= {1} 
     />
