@@ -18,37 +18,10 @@ export default function Reservar (){
 
 
     }
-        
-        
-        
-        
-        /*  method: "PUT",
-          headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          }).then(res=> res.json()).then(data => {
-              for(let d of data){
-                  console.log(d.codi);
-                  console.log(d.dataIni);
-                  console.log(d.dataFi);
-              }
-          }).catch(console.error);
-       
-          }*/
-          
-          
           useEffect(() => {
               getReserves();
             }, []);
-        
-      
-      
-    
-    
-    
-    
-    
+
     return(
         <View style = {styles.container}>
         <Button 

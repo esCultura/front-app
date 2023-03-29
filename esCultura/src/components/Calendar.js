@@ -7,11 +7,12 @@ import { Text, View } from 'react-native';
 
 const CustomCalendar = () => {
   const [selected, setSelected] = useState('');
+  const [data, setData] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
   
   
   function getReserves(){ 
-  fetch("http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/",{
+    fetch("http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/",{
     method: "GET",
     headers: {
         Accept: 'application/json',
@@ -23,10 +24,10 @@ const CustomCalendar = () => {
             console.log(d.dataIni);
             console.log(d.dataFi);
         }
+        setData(data);
     }).catch(console.error);
  
     }
-    
     
     useEffect(() => {
         getReserves();
@@ -34,7 +35,7 @@ const CustomCalendar = () => {
   
 
 
-  return (
+    return (
     <View style = {styles.container}> 
     <Calendar
     showArrows={true}
@@ -80,7 +81,7 @@ const CustomCalendar = () => {
       markingType={'multi-dot'}
       markedDates={{
 
-            "2023-03-05": { selected: true, marked: true, selectedColor: "blue"  },
+            'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
             '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
             
         [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
