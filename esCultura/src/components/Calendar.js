@@ -65,7 +65,32 @@ const CustomCalendar = () => {
   };
   fetchDataEsdev();
   }, []);
-
+/*
+  useEffect(() => {
+    const fetchReserves = async () => {
+      try {
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/' );
+        if (!response.ok) {
+          throw new Error('Error al obtenir les assistencies');
+        }    
+        const data = await response.json();
+        const markedDates = {};
+        for (let i = 0; i < data.length; i++) {
+          const assistencies = data[i].esdeveniment;
+          const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniment?=${assistencies}' );
+          if (!response.ok) {
+            throw new Error('Error al obtenir el esdeveniment');
+          }  
+          const dates = await responseDates.json();
+          const date = dates[0].dataFi;
+          markedDates[date] = { dots: [reserva] };
+        }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchReserves();
+  }, []);*/
 
     return (
     <View style = {styles.container}> 
@@ -82,11 +107,11 @@ const CustomCalendar = () => {
             selectedDayBackgroundColor: '#1d7d1c',
             selectedDayTextColor: '#ffffff',
             todayTextColor: '#33c031',
-            dayTextColor: '#44444',
+            //dayTextColor: '#44444',
             textDisabledColor: '#8d8d8d',
             textDayFontWeight: '500',
             textMonthFontWeight: 'bold',
-            textMonthFontFamily: 'Open Sans',
+            //textMonthFontFamily: 'Open Sans',
             textDayHeaderFontSize: 14,
             'stylesheet.day.basic':{
                 'base':{
@@ -96,7 +121,7 @@ const CustomCalendar = () => {
                   alignItems: 'center',
                 }, 
                 'selected': {
-                  backgroundColor: '#1d7d1c', // cambiar al color deseado
+                  backgroundColor: '#1d7d1c', 
                   borderRadius: 3,
                 },
             }
@@ -111,6 +136,7 @@ const CustomCalendar = () => {
         };
       }}
       markingType={'multi-dot'}
+      //markedDates={markedDates}
       markedDates={{
 
             'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
@@ -165,7 +191,7 @@ const styles = StyleSheet.create({
       width: '100%',
       height: "100%",
       backgroundColor: '#0000',
-      alignItems: 'stretch',
+      //alignItems: 'stretch',
       justifyContent: 'stretch',
       paddingTop: 120,
       //paddingBottom: 40,
