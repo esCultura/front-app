@@ -5,36 +5,35 @@ import { View, Text, StyleSheet , TouchableOpacity} from "react-native";
 export default function Reservar (){
     
     const [reservat, setReservat] = useState(false);
-    const [id,setId] = useState('6');
+    const [id,setId] = useState('');
     let [info, setData] = useState('');
     
+    const fetchReserves = async () => {
+        try {
+          const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=primerUsuari' , {
+                  headers: {
+                'Content-Type': 'application/json', 
+              }});
+          if (!response.ok) {
+            throw new Error('Error al obtener el likes');
+          }    
+          
+          var data = await response.json();
+     
+          setData(data);
+          console.log(data);
+          if ((data[0].esdeveniment) == 20230315095) {
+              setReservat(true);
+          }
+          else setReservat(false);
+    
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     useEffect(() => {
-        const fetchReserves = async () => {
-          try {
-            const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=primerUsuari' , {
-                    headers: {
-                  'Content-Type': 'application/json', 
-                }});
-            if (!response.ok) {
-              throw new Error('Error al obtener el likes');
-            }    
-            
-            var data = await response.json();
        
-            setData(data);
-            console.log(data);
-            //setId(info[0].id);
-           // console.log(info[0].esdeveniment);
-            if ((data[0].esdeveniment) == 20230315095) {
-                setReservat(true);
-            }
-            else setReservat(false);
-      
-        } catch (error) {
-          console.error(error);
-        }
-      };
       fetchReserves();
       }, []);
     
@@ -55,14 +54,15 @@ export default function Reservar (){
       if (!response.ok) {
         throw new Error('Error al enviar solicitud');
       }  
-    //setLikes((prevLikes) => prevLikes + likeValue);
+
     setReservat(true);
     id +=1;
     } catch (error) {
       console.error(error);
     }
 }
-const eliminarReserva = async (id) => {     
+const eliminarReserva = async (id) => {    
+    fetchReserves(); 
     var url ='http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/' + id + '/' ;
     console.log(id)
     try {
@@ -81,7 +81,6 @@ const eliminarReserva = async (id) => {
   if (!response.ok) {
     throw new Error('Error al enviar solicitud');
   }  
-//setLikes((prevLikes) => prevLikes + likeValue);
 setReservat(false);
 } catch (error) {
   console.error(error);
@@ -91,7 +90,7 @@ return(
     <View>
         {reservat ? (
     <View style={styles.container}>
-                    <TouchableOpacity style = {styles.button} /*onPress={eliminarReserva(id)}*/ >
+                    <TouchableOpacity style = {styles.button} onPress={eliminarReserva(id)} >
                         <View>
                             <Text style = {styles.buttonText} > Eliminar Reserva</Text>
                         </View>
