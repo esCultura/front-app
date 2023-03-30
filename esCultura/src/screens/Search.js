@@ -24,7 +24,7 @@ export default function Search(props) {
             {
                 esdeveniments.map((esd) => {
                     return (<Esdeveniment key={esd.codi} title={esd.nom}
-                        source={"https://agenda.cultura.gencat.cat"+esd.imatges_list[0]} brief="---"
+                        source={"http://agenda.cultura.gencat.cat"+esd.imatges_list[0]} brief="---"
                         date={esd.dataIni} location={esd.espai} type={esd.tematiques} />)})
             }
             </ScrollView>

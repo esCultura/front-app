@@ -38,7 +38,7 @@ export default function Home(props) {
         <TouchableOpacity onPress={handlePress}>
           <View>
             <Esdeveniment
-                type="musical" 
+                type={["musical"]}
                 title="Billy Elliot, el musical"
                 brief="Tant de bo el tornin a fer!" 
                 date="LOLASU" 

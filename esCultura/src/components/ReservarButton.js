@@ -34,6 +34,26 @@ export default function Reservar (){
 
     useEffect(() => {
        
+        const fetchReserves = async () => {
+          try {
+            const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=primerUsuari' , {
+                    headers: {
+                  'Content-Type': 'application/json', 
+                }});
+            if (!response.ok) {
+              throw new Error('Error al obtener el likes');
+            }    
+            const data = await response.json();
+            //let i =JSON.parse(data);
+            setData(data);
+            if ((info.esdeveniment) === 20230315095) {
+                setReservat(true);
+            }
+            else setReservat(false);
+        } catch (error) {
+          console.error(error);
+        }
+      };
       fetchReserves();
       }, []);
     
