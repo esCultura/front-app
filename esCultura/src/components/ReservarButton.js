@@ -5,7 +5,8 @@ import { View, Text, StyleSheet , TouchableOpacity} from "react-native";
 export default function Reservar (){
     
     const [reservat, setReservat] = useState(false);
-    const [info, setData] = useState('');
+    const [id,setId] = useState('6');
+    let [info, setData] = useState('');
     
 
     useEffect(() => {
@@ -18,17 +19,18 @@ export default function Reservar (){
             if (!response.ok) {
               throw new Error('Error al obtener el likes');
             }    
-            const data = await response.json();
-            //let i =JSON.parse(data);
-            console.log(data);
+            
+            var data = await response.json();
+       
             setData(data);
-            console.log(info.esdeveniment);
-            if ((info.esdeveniment) === 20230315095) {
+            console.log(data);
+            //setId(info[0].id);
+           // console.log(info[0].esdeveniment);
+            if ((data[0].esdeveniment) == 20230315095) {
                 setReservat(true);
             }
             else setReservat(false);
-            
-            console.log(reservat);
+      
         } catch (error) {
           console.error(error);
         }
@@ -36,7 +38,8 @@ export default function Reservar (){
       fetchReserves();
       }, []);
     
-    const crearReserva = async () => {     
+    const crearReserva = async () => {   
+        
         try {
         const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/', {
         method: 'POST',
@@ -53,39 +56,60 @@ export default function Reservar (){
         throw new Error('Error al enviar solicitud');
       }  
     //setLikes((prevLikes) => prevLikes + likeValue);
-    //setLiked(!liked);
+    setReservat(true);
+    id +=1;
     } catch (error) {
       console.error(error);
     }
 }
-          
-
-    
+const eliminarReserva = async (id) => {     
+    var url ='http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/' + id + '/' ;
+    console.log(id)
+    try {
+    const response = await fetch( url, {
+    method: 'DELETE',
+    mode:'no-cors', 
+    headers: {
+      'Content-Type': 'application/json', 
+    },
+    body: JSON.stringify({ 
+        perfil: "primerUsuari",
+        esdeveniment: 20230315095,
         
+    }),
+  });
+  if (!response.ok) {
+    throw new Error('Error al enviar solicitud');
+  }  
+//setLikes((prevLikes) => prevLikes + likeValue);
+setReservat(false);
+} catch (error) {
+  console.error(error);
+}
+}
+return(
+    <View>
+        {reservat ? (
+    <View style={styles.container}>
+                    <TouchableOpacity style = {styles.button} /*onPress={eliminarReserva(id)}*/ >
+                        <View>
+                            <Text style = {styles.buttonText} > Eliminar Reserva</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+  ):(
+    <View style={styles.container}>
+    <TouchableOpacity style = {styles.button} onPress={crearReserva} >
+        <View>
+            <Text style = {styles.buttonText} > Reservar</Text>
+        </View>
+    </TouchableOpacity>
+</View> 
+  )}
+  </View>
+)
         
-        if(!reservat){
-            return(
-                <View style={styles.container}>
-        <TouchableOpacity style = {styles.button} onPress={crearReserva} >
-            <View>
-              <Text style = {styles.buttonText} >  Reservar</Text>
-            </View>
-          </TouchableOpacity>
-          </View>
-            )
-        }
-        else{
-            return(
-                <View style={styles.container}>
-                <TouchableOpacity style = {styles.button} /*onPress={crearReserva}*/ >
-                    <View>
-                      <Text  style = {styles.buttonText} > Eliminar Reservar</Text>
-                    </View>
-                  </TouchableOpacity>
-                  </View> 
-            )
-        }
-        
+       
     
 }
 
