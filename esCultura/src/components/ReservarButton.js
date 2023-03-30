@@ -62,7 +62,7 @@ export default function Reservar (){
     }
 }
 const eliminarReserva = async (id) => {    
-    fetchReserves(); 
+    
     var url ='http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/' + id + '/' ;
     console.log(id)
     try {
@@ -90,7 +90,7 @@ return(
     <View>
         {reservat ? (
     <View style={styles.container}>
-                    <TouchableOpacity style = {styles.button} onPress={eliminarReserva(id)} >
+                    <TouchableOpacity style = {styles.button} /*onPress={eliminarReserva(id)}*/ >
                         <View>
                             <Text style = {styles.buttonText} > Eliminar Reserva</Text>
                         </View>

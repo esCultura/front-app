@@ -16,7 +16,7 @@ export default function Esdeveniment (props) {
                 <Text style={styles.title}>{props.title}</Text>
                 <Text style={styles.brief}>{props.brief}</Text>
                 <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text> 
-                <Text ><Reservar ></Reservar></Text>
+                
             </View>
            
         </View>
