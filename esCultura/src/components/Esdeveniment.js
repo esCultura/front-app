@@ -1,22 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 
-const bgcolor = '#3BDE4B';
+let typecolor = '#3BDE4B';
+const colored_types = ["musical", "teatre", "exposicions", "concert"];
+const type_colors   = ['#3BDE4B', '#3BDE4B', '#3BDE4B', '#3BDE4B'];
 
 export default function Esdeveniment (props) {
+    let type = props.type[0]
+
     return (
         <View style={styles.card}>
             <Image source={{uri: props.source}} style={styles.image}/>
-            <Text style={styles.type}>{props.type}</Text>
+            <Text style={styles.type}>{type}</Text>
             
             <View style={styles.card_info}>
-                <Text style={styles.like}><LikeButton></LikeButton></Text>
+                {/* <Text style={styles.like}><LikeButton></LikeButton></Text> */}
                 <Text style={styles.title}>{props.title}</Text>
-                <Text style={styles.brief}>{props.brief}</Text>
-                <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text> 
-                
+                {/* <Text style={styles.brief}>{props.brief}</Text> */}
+                <Text style={styles.info}>🗓️ {props.date}</Text>
+                <Text style={styles.info}>📌 {props.location}</Text>
+                {/* <Text style><Reservar ></Reservar></Text> */}
             </View>
            
         </View>
@@ -25,8 +31,8 @@ export default function Esdeveniment (props) {
 
 const styles = StyleSheet.create({
     card: {
-        width: '100%',
-        height: '100%',
+        width: '95%',
+        height: 150,
         shadowColor: "rgba(0, 0, 0, 0.25)",
         shadowOffset: {
             width: 0,
@@ -37,6 +43,8 @@ const styles = StyleSheet.create({
         borderRadius: 13,
         overflow: 'hidden',
         marginVertical: 10,
+        borderColor: 'black',
+        borderWidth: 1,
     },
     type: {
         position: 'absolute',
@@ -46,14 +54,13 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         paddingHorizontal: 11,
         borderRadius: 12,
-        backgroundColor: bgcolor,
+        backgroundColor: typecolor,
         color: "white",
     },
     title: {
-        fontSize: 24,
+        fontSize: RFPercentage(2),
         fontWeight: "700",
         fontStyle: "normal",
-        lineHeight: 24,
         color: "#000000"
     },
     brief: {
