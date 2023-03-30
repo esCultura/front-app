@@ -6,11 +6,15 @@ import FilterLeft from 'react-native-bootstrap-icons/icons/filter-left';
 import CalendarEvent from 'react-native-bootstrap-icons/icons/calendar-event';
 import ArrowDown from 'react-native-bootstrap-icons/icons/arrow-down';
 
-export default function SearchFilter() {
+export default function SearchFilter({ onVariableChange }) {
+
+
+
+    const [eventsData, setEventsData] = useState([]);
+    const [endPoint, setEndPoint] = useState('');
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [slier1, setSlier1] = useState(0.5);
-    const [slier2, setSlier2] = useState(0.5);
+    const [slider1, setSlider1] = useState(0);
 
     const [dateIni, setDateIni] = useState(new Date());
     const [dateFi, setDateFi] = useState(new Date());
@@ -24,6 +28,9 @@ export default function SearchFilter() {
 
     const [textSearch, setTextSearch] = useState('');
 
+    function emitVariable() {
+        onVariableChange(endPoint);
+    };
 
     /**
      * Catche the value of the TextInput
@@ -35,17 +42,57 @@ export default function SearchFilter() {
     }
 
     /**
-     * Guarda la info obtinguda del filtra,
-     * Per enviar o per fer el fetch SHA DE QUESTIONAR
+     * Crea la query que sera enviada al component para
+     * per utilitzar desde el para possar abans ? si es de inici o & en cas que ja tingui una queri començada
      */
     function saveFilter() {
+        let endpointQuery = '';
+        let parmaArr = [];
+
         setModalVisible(false);
         console.log("filter saved");
-        console.log("CheckBoxResult: ", tematiquesArry());
-        console.log("Date inicial: ", dateIni.toUTCString());
-        console.log("Date final: ", dateFi.toUTCString());
-        console.log("Pressupost: ", slier1);
-        console.log("Distancia: ", slier2);
+
+        //search text
+        if (textSearch != '') {
+            parmaArr.push('search='+textSearch);
+        }
+
+        //query per les tematiques
+        if (tematiquesArry().length != 0) {
+            let tematicQuery = 'tematiques__in=';
+            tematiquesArry().forEach((value, index) => {
+                if (index === 0) {
+                    tematicQuery+=value;
+                }
+                else {
+                    tematicQuery+=','+value;
+                }
+            })
+            parmaArr.push(tematicQuery);
+        }
+        
+        //query per interval de dates, si les dates son el dia de avui es excepcio i no s'aplica
+        if (dateIni.getTime() != dateFi.getTime()) {
+            parmaArr.push('dataIni__range=' + dateIni.toISOString() + ',' + dateFi.toISOString());
+            parmaArr.push('dataFi__range=' + dateIni.toISOString() + ',' + dateFi.toISOString());
+        }
+        
+        //sha de canviar pero de moment posso limit
+        if (slider1 != 0) {
+            parmaArr.push('limit='+slider1.toString());
+        }
+
+        parmaArr.forEach((value, index) => {
+            if (index === 0) {
+                endpointQuery+=value;
+            }
+            else {
+                endpointQuery+='&'+value;
+            }
+        })
+        console.log("Final endpoint Query: ", endpointQuery);
+        setEndPoint(endpointQuery);
+        emitVariable();
     }
 
     /**
@@ -82,7 +129,6 @@ export default function SearchFilter() {
     };
 
     return (
-        
         <View style={styles.contetnView}>
             <Pressable 
                 title="filter" 
@@ -156,26 +202,14 @@ export default function SearchFilter() {
                             checked={checkAltres}
                             onPress={() => setCheckAltres(!checkAltres)}
                         />
-                        <Text style={styles.textModal}>Altres</Text>
-                        <CheckBox
-                            title="Teatre"
-                        />
                         
-                        <Text style={styles.textModal}>Pressupost</Text>
-                        <Slider 
-                            value={slier1}
-                            onValueChange={setSlier1}
-                            minimumValue={0}
-                            maximumValue={1}
-                            step={0.1}
-                        />
                         <Text style={styles.textModal}>Distancia</Text>
                         <Slider 
-                            value={slier2}
-                            onValueChange={setSlier2}
+                            value={slider1}
+                            onValueChange={setSlider1}
                             minimumValue={0}
-                            maximumValue={1}
-                            step={0.1}
+                            maximumValue={1000}
+                            step={50}
                         />
                         
                     </View>
@@ -192,6 +226,7 @@ export default function SearchFilter() {
 
             <TextInput 
                 value={textSearch}
+                onBlur={saveFilter}
                 onChangeText={handleTextChange}
                 placeholder={'Search'}
                 placeholderTextColor={'#666'}

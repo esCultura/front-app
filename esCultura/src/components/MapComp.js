@@ -7,6 +7,12 @@ import SearchFilter from './SearchFilter';
 
 export default function MapComp() {
 
+  const [dataEvent, setDataEvent] = useState('');
+
+  const onVarChange = (newVariable) => {
+    setDataEvent(newVariable);
+  };
+
     /*
     const requestLocationPermission = async () => {
       try {
@@ -62,9 +68,9 @@ export default function MapComp() {
             longitudeDelta: 0.0421,
           }}
         >
-          <MarkersMap></MarkersMap>
+          <MarkersMap queryFilter={dataEvent}></MarkersMap>
         </MapView>
-        <SearchFilter></SearchFilter>
+        <SearchFilter onVariableChange={onVarChange}></SearchFilter>
       </View>
     );
   }
