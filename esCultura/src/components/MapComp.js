@@ -70,7 +70,7 @@ export default function MapComp() {
         >
           <MarkersMap queryFilter={dataEvent}></MarkersMap>
         </MapView>
-        <SearchFilter onVariableChange={onVarChange}></SearchFilter>
+        <SearchFilter onVariableChange={onVarChange} isList={false} ></SearchFilter>
       </View>
     );
   }

@@ -6,9 +6,7 @@ import FilterLeft from 'react-native-bootstrap-icons/icons/filter-left';
 import CalendarEvent from 'react-native-bootstrap-icons/icons/calendar-event';
 import ArrowDown from 'react-native-bootstrap-icons/icons/arrow-down';
 
-export default function SearchFilter({ onVariableChange }) {
-
-
+export default function SearchFilter({onVariableChange}, isList) {
 
     const [eventsData, setEventsData] = useState([]);
     const [endPoint, setEndPoint] = useState('');
@@ -22,9 +20,14 @@ export default function SearchFilter({ onVariableChange }) {
     const [showDatePickerFi, setShowDatePickerFi] = useState(false);
 
     const [checkTeatre, setCheckTeatre] = useState(false);
-    const [checkMusical, setCheckMusical] = useState(false);
-    const [checkOpera, setCheckOpera] = useState(false);
-    const [checkAltres, setCheckAltres] = useState(false);
+    const [checkEspectacles, setCheckEspectacles] = useState(false);
+    const [checkMusica, setCheckMusica] = useState(false);
+    const [checkExposicions, setCheckExposicions] = useState(false);
+    const [checkCinema, setCheckCinema] = useState(false);
+    const [checkDivulgacio, setCheckDivulgacio] = useState(false);
+    const [checkDansa, setCheckDansa] = useState(false);
+    const [checkInfantil, setCheckInfantil] = useState(false);
+    
 
     const [textSearch, setTextSearch] = useState('');
 
@@ -59,7 +62,7 @@ export default function SearchFilter({ onVariableChange }) {
 
         //query per les tematiques
         if (tematiquesArry().length != 0) {
-            let tematicQuery = 'tematiques__in=';
+            let tematicQuery = 'tematiques_nom_in=';
             tematiquesArry().forEach((value, index) => {
                 if (index === 0) {
                     tematicQuery+=value;
@@ -103,14 +106,26 @@ export default function SearchFilter({ onVariableChange }) {
         if (checkTeatre) {
             arr.push('Teatre');
         }
-        if (checkMusical) {
-            arr.push('Musical');
+        if (checkEspectacles) {
+            arr.push('Espectacles');
         }
-        if (checkOpera) {
-            arr.push('Opera');
+        if (checkMusica) {
+            arr.push('Musica');
         }
-        if (checkAltres) {
-            arr.push('Altres');
+        if (checkExposicions) {
+            arr.push('Exposicions');
+        }
+        if (checkCinema) {
+            arr.push('Cinema');
+        }
+        if (checkDivulgacio) {
+            arr.push('Divulgacio');
+        }
+        if (checkDansa) {
+            arr.push('Dansa');
+        }
+        if (checkInfantil) {
+            arr.push('Infantil');
         }
 
         return arr;
@@ -185,32 +200,61 @@ export default function SearchFilter({ onVariableChange }) {
                             onPress={() => setCheckTeatre(!checkTeatre)}
                         />
                         <CheckBox
-                            title="Musical"
+                            title="Espectacles"
                             checkedColor='green'
-                            checked={checkMusical}
-                            onPress={() => setCheckMusical(!checkMusical)}
+                            checked={checkEspectacles}
+                            onPress={() => setCheckEspectacles(!checkEspectacles)}
                         />
                         <CheckBox
-                            title="Opera"
+                            title="Musica"
                             checkedColor='green'
-                            checked={checkOpera}
-                            onPress={() => setCheckOpera(!checkOpera)}
+                            checked={checkMusica}
+                            onPress={() => setCheckMusica(!checkMusica)}
                         />
                         <CheckBox
-                            title="Altres"
+                            title="Exposicions"
                             checkedColor='green'
-                            checked={checkAltres}
-                            onPress={() => setCheckAltres(!checkAltres)}
+                            checked={checkExposicions}
+                            onPress={() => setCheckExposicions(!checkExposicions)}
                         />
+                        <CheckBox
+                            title="Cinema"
+                            checkedColor='green'
+                            checked={checkCinema}
+                            onPress={() => setCheckCinema(!checkCinema)}
+                        />
+                        <CheckBox
+                            title="Divulgacio"
+                            checkedColor='green'
+                            checked={checkDivulgacio}
+                            onPress={() => setCheckDivulgacio(!checkDivulgacio)}
+                        />
+                        <CheckBox
+                            title="Dansa"
+                            checkedColor='green'
+                            checked={checkDansa}
+                            onPress={() => setCheckDansa(!checkDansa)}
+                        />
+                        <CheckBox
+                            title="Infantil"
+                            checkedColor='green'
+                            checked={checkInfantil}
+                            onPress={() => setCheckInfantil(!checkInfantil)}
+                        />
+
+                        {isList ? (<></>) : (
+                            <>
+                            <Text style={styles.textModal}>Distancia</Text>
+                            <Slider
+                                value={slider1}
+                                onValueChange={setSlider1}
+                                minimumValue={0}
+                                maximumValue={1000}
+                                step={50} 
+                            />
+                            </>
+                        )}
                         
-                        <Text style={styles.textModal}>Distancia</Text>
-                        <Slider 
-                            value={slider1}
-                            onValueChange={setSlider1}
-                            minimumValue={0}
-                            maximumValue={1000}
-                            step={50}
-                        />
                         
                     </View>
                     <View style={styles.btnFilter}>
