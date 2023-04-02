@@ -5,92 +5,44 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View } from 'react-native';
 
 
-const CustomCalendar = () => {
+const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
   const [data, setData] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
-  
-  
+ 
   useEffect(() => {
     const fetchReserves = async () => {
       try {
-        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=primerUsuari' , {
-                headers: {
-              'Content-Type': 'application/json', 
-            }});
-        if (!response.ok) {
-          throw new Error('Error al obtener el likes');
-        }    
-        const data = await response.json();
-        //let i =JSON.parse(data);
-        console.log(data);
-        setData(data);
-        console.log(info.esdeveniment);
-        if ((info.esdeveniment) === 20230315095) {
-            setReservat(true);
-        }
-        else setReservat(false);
-        
-        console.log(reservat);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  fetchReserves();
-  }, []);
-  useEffect(() => {
-    const fetchDataEsdev = async () => {
-      try {
-        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?perfil=primerUsuari' , {
-                headers: {
-              'Content-Type': 'application/json', 
-            }});
-        if (!response.ok) {
-          throw new Error('Error al obtener el likes');
-        }    
-        const data = await response.json();
-        //let i =JSON.parse(data);
-        console.log(data);
-        setData(data);
-        console.log(info.esdeveniment);
-        if ((info.esdeveniment) === 20230315095) {
-            setReservat(true);
-        }
-        else setReservat(false);
-        
-        console.log(reservat);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  fetchDataEsdev();
-  }, []);
-/*
-  useEffect(() => {
-    const fetchReserves = async () => {
-      try {
-        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/' );
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil='+props.perfil ,{
+            headers: {
+                'Content-Type': 'application/json', 
+          }});
         if (!response.ok) {
           throw new Error('Error al obtenir les assistencies');
         }    
         const data = await response.json();
+        console.log(data);
         const markedDates = {};
         for (let i = 0; i < data.length; i++) {
           const assistencies = data[i].esdeveniment;
-          const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniment?=${assistencies}' );
+          const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
+            headers: {
+                'Content-Type': 'application/json', 
+          }});
           if (!response.ok) {
             throw new Error('Error al obtenir el esdeveniment');
-          }  
+          }
           const dates = await responseDates.json();
           const date = dates[0].dataFi;
           markedDates[date] = { dots: [reserva] };
+          console.log(markedDates);
         }
     } catch (error) {
       console.error(error);
     }
   };
   fetchReserves();
-  }, []);*/
+  }, []);
 
     return (
     <View style = {styles.container}> 
@@ -107,18 +59,15 @@ const CustomCalendar = () => {
             selectedDayBackgroundColor: '#1d7d1c',
             selectedDayTextColor: '#ffffff',
             todayTextColor: '#33c031',
-            //dayTextColor: '#44444',
             textDisabledColor: '#8d8d8d',
             textDayFontWeight: '500',
             textMonthFontWeight: 'bold',
-            //textMonthFontFamily: 'Open Sans',
             textDayHeaderFontSize: 14,
             'stylesheet.day.basic':{
                 'base':{
                   width: 30,
                   height: 80,
-                  //justifyContent: 'center',
-                  alignItems: 'center',
+
                 }, 
                 'selected': {
                   backgroundColor: '#1d7d1c', 
@@ -135,16 +84,16 @@ const CustomCalendar = () => {
           alert('No hi ha reserves per la data');
         };
       }}
-      markingType={'multi-dot'}
-      //markedDates={markedDates}
-      markedDates={{
+      //markingType={'multi-dot'}
+      markedDates={markedDates}
+     /* markedDates={{
 
             'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
             '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
             
         [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
        
-      }}
+      }}*/
 
       firstDay= {1} 
     />
@@ -190,11 +139,9 @@ const styles = StyleSheet.create({
       flex: 1, 
       width: '100%',
       height: "100%",
-      backgroundColor: '#0000',
-      //alignItems: 'stretch',
-      justifyContent: 'stretch',
+      backgroundColor: '#00456',
       paddingTop: 120,
-      //paddingBottom: 40,
+      paddingBottom: 40,
     }
   });
 export default CustomCalendar;

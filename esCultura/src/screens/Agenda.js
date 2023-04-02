@@ -6,7 +6,7 @@ import { Dimensions } from 'react-native';
 export default function Agenda(props) {
     return (
       <View>
-      <CustomCalendar>
+      <CustomCalendar perfil="primerUsuari">
 
       </CustomCalendar>
       </View>
