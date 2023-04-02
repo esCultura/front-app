@@ -81,8 +81,6 @@ export default function Home(props) {
     backgroundColor: 'green',
     padding: 5,
     borderRadius: 5,
-    alignItems: 'left',
-    justifyContent: 'left',
     shadowOffset: { width: 2 , height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,

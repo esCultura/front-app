@@ -16,8 +16,8 @@ export default function Esdeveniment (props) {
             <Image source={{uri: props.source}} style={styles.image}/>
             <Text style={styles.type}>{type}</Text>
             
-            <View style={styles.card_info}>
-                {/* <Text style={styles.like}><LikeButton></LikeButton></Text> */}
+                <View style={styles.card_info}>
+                { <Text style={styles.like}><LikeButton></LikeButton></Text> }
                 <Text style={styles.title}>{props.title}</Text>
                 {/* <Text style={styles.brief}>{props.brief}</Text> */}
                 <Text style={styles.info}>🗓️ {props.date}</Text>

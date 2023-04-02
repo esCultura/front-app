@@ -17,7 +17,7 @@ export default function InfoCompleta (props) {
                 <Text style={styles.preu}>{props.preu}</Text>
                 <Text style={styles.complet}>{props.complet}</Text>
                 <Text style={styles.source}>{props.source}</Text>
-                <Text ><Reservar ></Reservar></Text>
+                <Text ><Reservar perfil="primerUsuari" esdeveniment="20230315095" ></Reservar></Text>
             </View>
         </View>
     )
