@@ -5,7 +5,7 @@ import Esdeveniment from "../components/Esdeveniment";
 export default function Search(props) {
     const [esdeveniments, setEsdeveniments] = useState([]);
     function componenDidMount() {
-        fetch("http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/", { method: "GET" })
+        fetch("http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?limit=15&offset=0", { method: "GET" })
             .then(data => data.json())
             .then(obj => {
                 setEsdeveniments(obj)
