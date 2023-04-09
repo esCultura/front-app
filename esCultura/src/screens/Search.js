@@ -44,7 +44,7 @@ export default function Search(props) {
     };
 
     return (
-        <>
+        <Screen>
             <ScrollView 
             onScroll={({nativeEvent}) => {
                 if (isCloseToBottom(nativeEvent)) {
@@ -53,7 +53,6 @@ export default function Search(props) {
             }
             scrollEventThrottle={400}
             contentContainerStyle={styles.llistat}>
-                <Text>LListat d'esdeveniments</Text>
                 <SearchFilter onVariableChange={onQueryChange} isList={false} />
                 {
                     esdeveniments.map((esd) => {
@@ -62,14 +61,12 @@ export default function Search(props) {
                             date={esd.dataIni} location={esd.espai} type={esd.tematiques} />)})
                 }
             </ScrollView>
-        </>
+        </Screen>
     );
 }
 
 const styles = StyleSheet.create({
     llistat: {
-        borderColor: 'red',
-        borderWidth: 1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
