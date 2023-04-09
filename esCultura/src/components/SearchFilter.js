@@ -93,7 +93,7 @@ export default function SearchFilter({onVariableChange}, isList) {
                 endpointQuery+='&'+value;
             }
         })
-        console.log("Final endpoint Query: ", endpointQuery);
+        // console.log("Final endpoint Query: ", endpointQuery);
         setEndPoint(endpointQuery);
         emitVariable();
     }
@@ -282,9 +282,9 @@ export default function SearchFilter({onVariableChange}, isList) {
 
   const styles = StyleSheet.create({
     contetnView: {
-        position: 'absolute', 
-        top: 10,
-        left: 8, 
+        // position: 'absolute', 
+        // top: 10,
+        // left: 8, 
         width: '90%', 
         borderRadius: 10,
         margin: 10,
