@@ -6,10 +6,19 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(esCultura) to use your location.",
+          "isAndroidBackgroundLocationEnabled": "Allow $(esCultura) to use your location."
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2FDD60"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,8 +29,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#2FDD60"
+      },
+      "package": "com.anonymous.esCultura"
     },
     "web": {
       "favicon": "./assets/favicon.png"

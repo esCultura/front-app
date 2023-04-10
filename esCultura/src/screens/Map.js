@@ -1,7 +1,13 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
+import React, { useState} from 'react';
+import MapComp from "../components/MapComp";
+import Screen from "../components/Screen";
 
 export default function Map(props) {
+
     return (
-        <Text>MAP</Text>
+        <Screen>
+            <MapComp></MapComp>
+        </Screen>
     );
 }
