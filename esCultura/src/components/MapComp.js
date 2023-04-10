@@ -43,18 +43,19 @@ export default function MapComp() {
 
     return (
       <View>
+        <View>
+          <SearchFilter onVariableChange={onVarChange} isList={false} ></SearchFilter>
+        </View>
         <MapView style={styles.map}
           region={region}
         >
           <MarkersMap queryFilter={dataEvent}></MarkersMap>
         </MapView>
-        <SearchFilter onVariableChange={onVarChange} isList={false} ></SearchFilter>
       </View>
     );
   }
   
   const styles = StyleSheet.create({
-    
     map: {
       width: '100%',
       height: '100%',

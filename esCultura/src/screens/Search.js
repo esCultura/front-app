@@ -54,7 +54,7 @@ export default function Search(props) {
             }
             scrollEventThrottle={400}
             contentContainerStyle={styles.llistat}>
-                <SearchFilter onVariableChange={onQueryChange} isList={false} />
+                <SearchFilter onVariableChange={onQueryChange} isList={true} />
                 {
                     esdeveniments.map((esd) => {
                         return (<Esdeveniment key={esd.codi} title={esd.nom}

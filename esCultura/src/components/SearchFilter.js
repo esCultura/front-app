@@ -282,9 +282,7 @@ export default function SearchFilter({onVariableChange}, isList) {
 
   const styles = StyleSheet.create({
     contetnView: {
-        // position: 'absolute', 
-        // top: 10,
-        // left: 8, 
+        
         width: '90%', 
         borderRadius: 10,
         margin: 10,

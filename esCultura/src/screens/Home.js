@@ -2,6 +2,7 @@ import { Modal, StyleSheet, Text, View, TouchableOpacity, Button } from "react-n
 import Esdeveniment from "../components/Esdeveniment";
 import { StatusBar } from "react-native";
 import React, { useState, useEffect } from 'react';
+import Screen from "../components/Screen";
 import InfoCompleta from "../components/InfoCompleta";
 
 export default function Home(props) {
@@ -32,7 +33,7 @@ export default function Home(props) {
   }
 
   return (
-    <>
+    <Screen>
       <Esdeveniment
           type={["musical"]}
           title="Billy Elliot, el musical"
@@ -41,7 +42,7 @@ export default function Home(props) {
           location="In your mind mdfk" 
         source="https://www.atrapalo.com/houdinis/wp-content/uploads/2021/06/billyelliot-cartel.jpg" /> 
       <StatusBar style="auto" />
-    </>
+    </Screen>
 
 );
 };
