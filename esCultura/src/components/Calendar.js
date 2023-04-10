@@ -45,59 +45,56 @@ const CustomCalendar = (props) => {
   }, []);
 
     return (
-    <View style = {styles.container}> 
-    <Calendar
-    showArrows={true}
-    renderArrow={direction => (
-      <Icon name={direction == 'left' ? 'chevron-left' : 'chevron-right'} size={17} color='#567545' />
-    )}
+      <Calendar
+      showArrows={true}
+      renderArrow={direction => (
+        <Icon name={direction == 'left' ? 'chevron-left' : 'chevron-right'} size={17} color='#567545' />
+      )}
 
-        style = {styles.calendari}
-        theme= {{ backgroundColor: '#33c031',
-            calendarBackground: '#0000',
-            textSectionTitleColor: '#b6c1cd',
-            selectedDayBackgroundColor: '#1d7d1c',
-            selectedDayTextColor: '#ffffff',
-            todayTextColor: '#33c031',
-            textDisabledColor: '#8d8d8d',
-            textDayFontWeight: '500',
-            textMonthFontWeight: 'bold',
-            textDayHeaderFontSize: 14,
-            'stylesheet.day.basic':{
-                'base':{
-                  width: 30,
-                  height: 80,
+          theme= {{ backgroundColor: '#33c031',
+              calendarBackground: '#0000',
+              textSectionTitleColor: '#b6c1cd',
+              selectedDayBackgroundColor: '#1d7d1c',
+              selectedDayTextColor: '#ffffff',
+              todayTextColor: '#33c031',
+              textDisabledColor: '#8d8d8d',
+              textDayFontWeight: '500',
+              textMonthFontWeight: 'bold',
+              textDayHeaderFontSize: 14,
+              'stylesheet.day.basic':{
+                  'base':{
+                    width: 30,
+                    height: 80,
 
-                }, 
-                'selected': {
-                  backgroundColor: '#1d7d1c', 
-                  borderRadius: 3,
-                },
-            }
-            
+                  }, 
+                  'selected': {
+                    backgroundColor: '#1d7d1c', 
+                    borderRadius: 3,
+                  },
+              }
+              
+          }}
+        onDayPress={day => {
+          setSelected(day.dateString)
+          if (day.dateString == selected) {
+            alert(day.dateString);
+          } else {
+            alert('No hi ha reserves per la data');
+          };
         }}
-      onDayPress={day => {
-        setSelected(day.dateString)
-        if (day.dateString == selected) {
-          alert(day.dateString);
-        } else {
-          alert('No hi ha reserves per la data');
-        };
-      }}
-      //markingType={'multi-dot'}
-      markedDates={markedDates}
-     /* markedDates={{
+        //markingType={'multi-dot'}
+        markedDates={markedDates}
+      /* markedDates={{
 
-            'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
-            '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
-            
-        [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
-       
-      }}*/
+              'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
+              '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
+              
+          [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+        
+        }}*/
 
-      firstDay= {1} 
-    />
-    </View>
+        firstDay= {1} 
+      />
   );
 };
 
