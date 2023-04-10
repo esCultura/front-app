@@ -1,31 +1,47 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
+import InfoCompleta from "./InfoCompleta";
 
 let typecolor = '#3BDE4B';
 const colored_types = ["musical", "teatre", "exposicions", "concert"];
 const type_colors   = ['#3BDE4B', '#3BDE4B', '#3BDE4B', '#3BDE4B'];
 
 export default function Esdeveniment (props) {
+    const [modalVisible, setModalVisible] = useState(false);
+
     let type = props.type[0]
 
     return (
-        <View style={styles.card}>
-            <Image source={{uri: props.source}} style={styles.image}/>
-            <Text style={styles.type}>{type}</Text>
-            
-            <View style={styles.card_info}>
-                {/* <Text style={styles.like}><LikeButton></LikeButton></Text> */}
-                <Text style={styles.title}>{props.title}</Text>
-                {/* <Text style={styles.brief}>{props.brief}</Text> */}
-                <Text style={styles.info}>🗓️ {props.date}</Text>
-                <Text style={styles.info}>📌 {props.location}</Text>
-                {/* <Text style><Reservar ></Reservar></Text> */}
-            </View>
-           
-        </View>
+        <>
+            <TouchableOpacity style={styles.card} onPress={() => setModalVisible(true)}>
+                <Image source={{uri: props.source}} style={styles.image}/>
+                <Text style={styles.type}>{type}</Text>
+                
+                <View style={styles.card_info}>
+                    {/* <Text style={styles.like}><LikeButton></LikeButton></Text> */}
+                    <Text style={styles.title}>{props.title}</Text>
+                    {/* <Text style={styles.brief}>{props.brief}</Text> */}
+                    <Text style={styles.info}>🗓️ {props.date}</Text>
+                    <Text style={styles.info}>📌 {props.location}</Text>
+                    {/* <Text style><Reservar ></Reservar></Text> */}
+                </View>
+            </TouchableOpacity>
+
+            <InfoCompleta 
+                visible={modalVisible} 
+                back={() => setModalVisible(false)}
+                type={props.type}
+                title={props.title}
+                preu={props.preu}
+                complet = {props.desc}
+                date = {props.date}
+                location = {props.location}
+                source= {props.source}
+            />
+        </>
     )
 }
 
