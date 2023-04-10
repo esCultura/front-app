@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 import Esdeveniment from "../components/Esdeveniment";
 import SearchFilter from "../components/SearchFilter";
+import Screen from "../components/Screen";
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
   const paddingToBottom = 20;
