@@ -43,7 +43,7 @@ export default function MapComp() {
 
     return (
       <View>
-        <View>
+        <View style={styles.search}>
           <SearchFilter onVariableChange={onVarChange} isList={false} ></SearchFilter>
         </View>
         <MapView style={styles.map}
@@ -60,4 +60,10 @@ export default function MapComp() {
       width: '100%',
       height: '100%',
     },
+    search: {
+      zIndex: 1,
+      position: 'absolute',
+      top: 0,
+      left: 0
+    }
   });

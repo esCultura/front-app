@@ -144,7 +144,7 @@ export default function SearchFilter({onVariableChange}, isList) {
     };
 
     return (
-        <View style={styles.contetnView}>
+        <View style={styles.contentView}>
             <Pressable 
                 title="filter" 
                 onPress={() => setModalVisible(true)}
@@ -281,9 +281,8 @@ export default function SearchFilter({onVariableChange}, isList) {
   }
 
   const styles = StyleSheet.create({
-    contetnView: {
-        
-        width: '90%', 
+    contentView: {
+        width: 370, 
         borderRadius: 10,
         margin: 10,
         color: '#000',
