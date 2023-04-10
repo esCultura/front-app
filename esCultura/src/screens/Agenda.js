@@ -1,14 +1,13 @@
 import { Text , View} from "react-native";
 import CustomCalendar from '../components/Calendar.js';
 import { StyleSheet } from "react-native";
-import Screen from "../components/Screen";
-
 import { Dimensions } from 'react-native';
+import Screen from "../components/Screen.js";
 
 export default function Agenda(props) {
     return (
       <Screen>
-      
+        <CustomCalendar perfil="primerUsuari" />
       </Screen>
   );
     
