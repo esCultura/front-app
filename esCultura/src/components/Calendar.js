@@ -7,8 +7,9 @@ import { Text, View } from 'react-native';
 
 const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
+  const [newMarkedDates, setnewMarkedDates] = useState({});
   const [data, setData] = useState('');
-  const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue'};
+  const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
  
   useEffect(() => {
     const fetchReserves = async () => {
@@ -22,7 +23,6 @@ const CustomCalendar = (props) => {
         }    
         const data = await response.json();
         console.log(data);
-        const markedDates = {};
         for (let i = 0; i < data.length; i++) {
           const assistencies = data[i].esdeveniment;
           const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
@@ -33,10 +33,14 @@ const CustomCalendar = (props) => {
             throw new Error('Error al obtenir el esdeveniment');
           }
           const dates = await responseDates.json();
-          const date = dates[0].dataFi;
-          markedDates[date] = { dots: [reserva] };
-          console.log(markedDates);
+          const date = dates[0].dataFi.slice(0,10);
+          newMarkedDates[date] = { marked: true };
+          console.log("hola1")
+          console.log(newMarkedDates);
         }
+        setnewMarkedDates(newMarkedDates); 
+        console.log("hola2")
+        console.log(newMarkedDates);
     } catch (error) {
       console.error(error);
     }
@@ -76,23 +80,22 @@ const CustomCalendar = (props) => {
           }}
         onDayPress={day => {
           setSelected(day.dateString)
-          if (day.dateString == selected) {
-            alert(day.dateString);
+          if (newMarkedDates.hasOwnProperty(day.dateString)) {
+            alert("hi ha una reserva");
           } else {
             alert('No hi ha reserves per la data');
           };
         }}
+
+        markedDates={newMarkedDates}
         //markingType={'multi-dot'}
-        markedDates={markedDates}
-      /* markedDates={{
-
-              'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
-              '2023-03-26': {dots: [reserva], marked:false, selected:false, activeOpacity: 0},
-              
-          [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
         
+       /*markedDates={{
+              '2023-03-26': {dots: [reserva], marked:true, selected:false, activeOpacity: 0},
+              //'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
+          //[selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+            "2023-05-17": {marked: true},
         }}*/
-
         firstDay= {1} 
       />
   );
