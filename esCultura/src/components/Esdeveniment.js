@@ -40,6 +40,7 @@ export default function Esdeveniment (props) {
                 date = {props.date}
                 location = {props.location}
                 source= {props.source}
+                codi = {props.codi}
             />
         </>
     )

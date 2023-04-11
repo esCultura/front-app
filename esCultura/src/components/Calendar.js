@@ -10,11 +10,13 @@ const CustomCalendar = (props) => {
   const [newMarkedDates, setnewMarkedDates] = useState({});
   const [data, setData] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
- 
+  const perfil = "primerUsuari"
+  const [screenLoaded, setScreenLoaded] = useState(false);
+
   useEffect(() => {
     const fetchReserves = async () => {
       try {
-        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil='+props.perfil ,{
+        const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}` ,{
             headers: {
                 'Content-Type': 'application/json', 
           }});
@@ -46,7 +48,7 @@ const CustomCalendar = (props) => {
     }
   };
   fetchReserves();
-  }, []);
+  }, [screenLoaded]);
 
     return (
       <Calendar

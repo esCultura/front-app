@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const LikeButton =  ( ) => {
+const LikeButton =  ( props ) => {
     const [liked, setLiked] = useState(0);
     const [likes, setLikes] = useState(0);
     const likeValue = liked ? -1 : 1;
-    const perfil = "primerUsuari";
-    const esdeveniment = 20230315095;
+    const perfil = "primerUsuari"
+    const esdeveniment = props.codi;
     
    useEffect(() => {
     const fetchLikes = async () => {
@@ -18,7 +18,7 @@ const LikeButton =  ( ) => {
         }    
         const data = await response.json();
         setLikes(data.length);
-        if (data.length ==  0) setId(0);
+        //if (data.length ==  0) setId(0);
 
         const response2 = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?perfil=${perfil}&esdeveniment=${esdeveniment}` );
         if (!response2.ok) {
