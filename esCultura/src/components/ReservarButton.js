@@ -13,7 +13,7 @@ export default function Reservar (props){
 
         const fetchReserves = async () => {
             try {
-              const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}`, {
+              const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}&esdeveniment=${esd}`, {
                       headers: {
                     'Content-Type': 'application/json', 
                       }});
@@ -25,13 +25,14 @@ export default function Reservar (props){
          
               setData(data);
 
-              
-              if ((data[0].esdeveniment) == esd) {
-                  setReservat(true);
-                  
-           
+
+              for (let i = 0; i < data.length; i++) {
+                  if (data[i].esdeveniment === esd) {
+                    setReservat(true);
+                  }
               }
-              else setReservat(false);
+              //if (data.length === 0)  setReservat(false);
+              //else setReservat(false);
         
           } catch (error) {
             console.error(error);
@@ -67,7 +68,7 @@ const eliminarReserva = async () => {
     
      
     try {
-    const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}&esdeveniment=${props.codi}`,  {
+    const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}&esdeveniment=${esd}`,  {
     method: 'DELETE',
     mode:'no-cors', 
     headers: {
