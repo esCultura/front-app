@@ -14,7 +14,9 @@ export default function InfoCompleta (props) {
     }
 
     return (
-        <Modal visible={props.visible} animationType="slide">
+        <Modal visible={props.visible} animationType="slide"
+            onRequestClose={ props.back }
+        >
             <View style={{height: '100%'}}>
                 <TouchableOpacity onPress={props.back} style={styles.back}>
                     <XCircleFill color="white" width={145} height={145} />

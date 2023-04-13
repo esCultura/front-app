@@ -17,7 +17,7 @@ export default function Esdeveniment (props) {
     return (
         <>
             <TouchableOpacity style={styles.card} onPress={() => setModalVisible(true)}>
-                <Image source={{uri: props.source}} style={styles.image}/>
+                <Image source={{uri: imgURL}} style={styles.image}/>
                 <Text style={styles.type}>{type}</Text>
                 
                 <View style={styles.card_info}>
