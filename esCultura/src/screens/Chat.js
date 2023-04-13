@@ -1,9 +1,9 @@
 import { Text } from "react-native";
 import Screen from "../components/Screen";
-import Login from "./Login";
+import SingUp from "./SingUp";
 
 export default function Chat(props) {
     return (
-        <Login></Login>
+        <SingUp></SingUp>
     );
 }

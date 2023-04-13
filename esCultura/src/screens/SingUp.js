@@ -20,16 +20,26 @@ export default function Login() {
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.icona}/>
             </View>
             <TextInput style={styles.inputUser} placeholder="Username" placeholderTextColor="#FFFFFF"  />
+            <TextInput style={styles.inputPass} placeholder="E-mail" placeholderTextColor="#FFFFFF" />
             <TextInput style={styles.inputPass} placeholder="Password" placeholderTextColor="#FFFFFF" />
+
             <Pressable 
-                title="Login" 
+                title="singIn" 
                 onPress={() => setModalVisible(true)}
-                style={styles.btnLogin} 
+                style={styles.btnSingUp} 
             >
-                <Text style={styles.loginText}>Login</Text>
+                <Text style={styles.singUpText}>Create Account</Text>
             </Pressable>
             <View style={styles.spacerView}></View>
-            <Text style={styles.createAcountText}>Create Account</Text>
+            
+            <Text style={styles.createAcountText}>Or Sing up with</Text>
+            <Pressable 
+                title="login"
+                onPress={() => setModalVisible(true)}
+                style={styles.btnExternSingUp} 
+            >
+                <Image source={require('../../assets/icona-escultura.png')} style={styles.iconaGoogle}/>
+            </Pressable>
         </LinearGradient>
         
     );
@@ -58,7 +68,7 @@ const styles = StyleSheet.create({
     },
     inputPass: {
         height: 40,
-        marginTop: 30,
+        marginTop: 20,
         marginHorizontal: 20,
         paddingHorizontal: 10,
         borderRadius: 10,
@@ -66,8 +76,8 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         color: 'white',
     },
-    btnLogin: {
-        marginTop: '35%',
+    btnSingUp: {
+        marginTop: '20%',
         marginBottom: 30,
         marginLeft: '30%',
         marginRight: '30%',
@@ -78,7 +88,7 @@ const styles = StyleSheet.create({
         padding: 7,
         alignItems: 'center',
     },
-    loginText: {
+    singUpText: {
         color: 'white',
         fontWeight: 'bold',
     },
@@ -95,5 +105,18 @@ const styles = StyleSheet.create({
         marginLeft: '35%',
         marginTop: 10,
     },
+    btnExternSingUp: {
+        width: 30,
+        maringTop: 10,
+        padding: 5,
+        marginLeft: '45%',
+        alignItems: 'center',
+        backgroundColor: 'blue',
+    },
+    iconaGoogle: {
+        height: 30,
+        width: 17,
+        resizeMode: 'contain',
+    }
     
 });
