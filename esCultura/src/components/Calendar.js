@@ -11,10 +11,13 @@ const CustomCalendar = (props) => {
   const [data, setData] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
   const perfil = "primerUsuari"
-  const [screenLoaded, setScreenLoaded] = useState(false);
 
   useEffect(() => {
+    //setnewMarkedDates({...newMarkedDates});
+    console.log("hola6");
+    console.log(newMarkedDates);
     const fetchReserves = async () => {
+
       try {
         const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}` ,{
             headers: {
@@ -24,19 +27,27 @@ const CustomCalendar = (props) => {
           throw new Error('Error al obtenir les assistencies');
         }    
         const data = await response.json();
-        console.log(data);
+        console.log("hola0");
+         setnewMarkedDates({});
+        console.log(newMarkedDates);
+
+
+        console.log(data.length);
         for (let i = 0; i < data.length; i++) {
           const assistencies = data[i].esdeveniment;
           const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
             headers: {
                 'Content-Type': 'application/json', 
           }});
-          if (!response.ok) {
+          if (!responseDates.ok) {
             throw new Error('Error al obtenir el esdeveniment');
           }
           const dates = await responseDates.json();
           const date = dates[0].dataFi.slice(0,10);
-          newMarkedDates[date] = { marked: true };
+            newMarkedDates[date] = {
+              marked: true
+            };
+        
           console.log("hola1")
           console.log(newMarkedDates);
         }
@@ -48,7 +59,7 @@ const CustomCalendar = (props) => {
     }
   };
   fetchReserves();
-  }, [screenLoaded]);
+  }, [props.screenLoaded]);
 
     return (
       <Calendar
