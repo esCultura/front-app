@@ -8,7 +8,7 @@ const bgcolor = '#3BDE4B';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
 export default function InfoCompleta (props) {
-
+    console.log(props.desc);
 
     const mesinfo = async () => {
         await Linking.openURL(props.source);

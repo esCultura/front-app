@@ -10,6 +10,7 @@ const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
   const [newMarkedDates, setnewMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedReserva, setSelectedReserva] = useState(null);
   const perfil = "primerUsuari"
 
   useEffect(() => {
@@ -44,8 +45,20 @@ const CustomCalendar = (props) => {
           /*nextMarkedDates[date] = {
               marked: true  
           };*/
-          console.log(data[i].id);
-          const reserva = {key: data[i].id, color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
+
+          const reserva = {key: data[i].id, color: 'purple', selectedDotColor: 'blue', selected: true, marked: true,
+                    info: {
+                      source: "http://agenda.cultura.gencat.cat"+dates[0].imatges_list[0],
+                      desc: dates[0].descripcio.replaceAll("&nbsp;", "\n"),
+                      title: dates[0].nom,
+                      date: dates[0].dataFi.slice(0,10),
+                      location: dates[0].espai,
+                      type: dates[0].tematiques,
+                      preu: dates[0].entrades,
+                      codi: dates[0].codi,
+                    
+                    }        
+          };
            if (nextMarkedDates[date]) {
              nextMarkedDates[date].dots.push(reserva);
           } else {
@@ -106,6 +119,8 @@ const CustomCalendar = (props) => {
         onDayPress={day => {
           setSelected(day.dateString)
           if (newMarkedDates.hasOwnProperty(day.dateString)) {
+            const reserva = newMarkedDates[day.dateString].dots[0];
+            setSelectedReserva(reserva);
             setModalVisible(true);
           } else {
             alert('No hi ha reserves per la data');
@@ -120,13 +135,14 @@ const CustomCalendar = (props) => {
       <InfoCompleta 
                 visible={modalVisible} 
                 back={() => setModalVisible(false)}
-                type={["musical"]}
-                title="{props.title}"
-                preu="{props.preu}"
-                complet = "{props.desc}"
-                date = "props.date"
-                location = "{props.location}"
-                source= "{props.source}"
+                type={selectedReserva.info.type} 
+                desc="hola"
+                source={selectedReserva.info.source}
+                title={selectedReserva.info.title}
+                preu={selectedReserva.info.preu}
+                date = {selectedReserva.info.date}
+                location = {selectedReserva.info.location}
+                codi = {selectedReserva.info.codi}
             />
     )}
     </>
