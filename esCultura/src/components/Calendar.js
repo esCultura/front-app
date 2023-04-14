@@ -13,11 +13,7 @@ const CustomCalendar = (props) => {
   const perfil = "primerUsuari"
 
   useEffect(() => {
-    //setnewMarkedDates({...newMarkedDates});
-    console.log("hola6");
-    console.log(newMarkedDates);
     const fetchReserves = async () => {
-
       try {
         const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}` ,{
             headers: {
@@ -27,11 +23,12 @@ const CustomCalendar = (props) => {
           throw new Error('Error al obtenir les assistencies');
         }    
         const data = await response.json();
-        console.log("hola0");
-         setnewMarkedDates({});
-        console.log(newMarkedDates);
 
+        const prevMarkedDates = { ...newMarkedDates };
 
+        const nextMarkedDates = {};
+
+        console.log("hola7");
         console.log(data.length);
         for (let i = 0; i < data.length; i++) {
           const assistencies = data[i].esdeveniment;
@@ -42,18 +39,28 @@ const CustomCalendar = (props) => {
           if (!responseDates.ok) {
             throw new Error('Error al obtenir el esdeveniment');
           }
-          const dates = await responseDates.json();
+          const dates = await responseDates.json();      
           const date = dates[0].dataFi.slice(0,10);
-            newMarkedDates[date] = {
+          console.log("hola0");
+          console.log(date);
+          nextMarkedDates[date] = {
               marked: true
-            };
+          };
         
           console.log("hola1")
           console.log(newMarkedDates);
         }
-        setnewMarkedDates(newMarkedDates); 
+
+        Object.keys(prevMarkedDates).forEach(date => {
+          if (!(date in nextMarkedDates)) {
+            delete prevMarkedDates[date];
+          }
+        });
+        const mergedMarkedDates = { ...prevMarkedDates, ...nextMarkedDates };
+
+        setnewMarkedDates(mergedMarkedDates); 
         console.log("hola2")
-        console.log(newMarkedDates);
+        console.log(mergedMarkedDates);
     } catch (error) {
       console.error(error);
     }
