@@ -10,8 +10,6 @@ const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
   const [newMarkedDates, setnewMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [data, setData] = useState('');
-  const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
   const perfil = "primerUsuari"
 
   useEffect(() => {
@@ -27,9 +25,7 @@ const CustomCalendar = (props) => {
         const data = await response.json();
 
         const prevMarkedDates = { ...newMarkedDates };
-
         const nextMarkedDates = {};
-
         console.log("hola7");
         console.log(data.length);
         for (let i = 0; i < data.length; i++) {
@@ -45,12 +41,18 @@ const CustomCalendar = (props) => {
           const date = dates[0].dataFi.slice(0,10);
           console.log("hola0");
           console.log(date);
-          nextMarkedDates[date] = {
-              marked: true
-          };
-        
-          console.log("hola1")
-          console.log(newMarkedDates);
+          /*nextMarkedDates[date] = {
+              marked: true  
+          };*/
+          console.log(data[i].id);
+          const reserva = {key: data[i].id, color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
+           if (nextMarkedDates[date]) {
+             nextMarkedDates[date].dots.push(reserva);
+          } else {
+             nextMarkedDates[date] = {
+              dots: [reserva]
+            };
+          }
         }
 
         Object.keys(prevMarkedDates).forEach(date => {
@@ -111,7 +113,7 @@ const CustomCalendar = (props) => {
         }}
 
         markedDates={newMarkedDates}
-        //markingType={'multi-dot'}
+        markingType={'multi-dot'}
         firstDay= {1} 
       />
       {modalVisible && (
