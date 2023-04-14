@@ -9,6 +9,7 @@ import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
 export default function InfoCompleta (props) {
 
+
     const mesinfo = async () => {
         await Linking.openURL(props.source);
     }

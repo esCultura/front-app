@@ -3,11 +3,13 @@ import {Calendar, LocaleConfig, markedDates} from 'react-native-calendars';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View } from 'react-native';
+import InfoCompleta from "./InfoCompleta";
 
 
 const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
   const [newMarkedDates, setnewMarkedDates] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState('');
   const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
   const perfil = "primerUsuari"
@@ -69,6 +71,7 @@ const CustomCalendar = (props) => {
   }, [props.screenLoaded]);
 
     return (
+      <>
       <Calendar
       showArrows={true}
       renderArrow={direction => (
@@ -101,7 +104,7 @@ const CustomCalendar = (props) => {
         onDayPress={day => {
           setSelected(day.dateString)
           if (newMarkedDates.hasOwnProperty(day.dateString)) {
-            alert("hi ha una reserva");
+            setModalVisible(true);
           } else {
             alert('No hi ha reserves per la data');
           };
@@ -109,15 +112,22 @@ const CustomCalendar = (props) => {
 
         markedDates={newMarkedDates}
         //markingType={'multi-dot'}
-        
-       /*markedDates={{
-              '2023-03-26': {dots: [reserva], marked:true, selected:false, activeOpacity: 0},
-              //'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
-          //[selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
-            "2023-05-17": {marked: true},
-        }}*/
         firstDay= {1} 
       />
+      {modalVisible && (
+      <InfoCompleta 
+                visible={modalVisible} 
+                back={() => setModalVisible(false)}
+                type={["musical"]}
+                title="{props.title}"
+                preu="{props.preu}"
+                complet = "{props.desc}"
+                date = "props.date"
+                location = "{props.location}"
+                source= "{props.source}"
+            />
+    )}
+    </>
   );
 };
 
