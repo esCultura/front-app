@@ -11,6 +11,7 @@ const CustomCalendar = (props) => {
   const [newMarkedDates, setnewMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedReserva, setSelectedReserva] = useState(null);
+  const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
   const perfil = "primerUsuari"
 
   useEffect(() => {
@@ -83,7 +84,12 @@ const CustomCalendar = (props) => {
     }
   };
   fetchReserves();
-  }, [props.screenLoaded]);
+  }, [screenLoaded, props.screenLoaded]);
+
+  const handleClose = () => {
+    console.log('holaaaa')
+    fetchReserves();
+  }
 
     return (
       <>
@@ -134,15 +140,20 @@ const CustomCalendar = (props) => {
       {modalVisible && (
       <InfoCompleta 
                 visible={modalVisible} 
-                back={() => setModalVisible(false)}
+                back={() =>  {
+                  setModalVisible(false),
+                  setScreenLoaded(!screenLoaded);
+                }
+                }
                 type={selectedReserva.info.type} 
-                desc="hola"
+                complet={selectedReserva.info.desc}
                 source={selectedReserva.info.source}
                 title={selectedReserva.info.title}
                 preu={selectedReserva.info.preu}
                 date = {selectedReserva.info.date}
                 location = {selectedReserva.info.location}
                 codi = {selectedReserva.info.codi}
+               
             />
     )}
     </>

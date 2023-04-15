@@ -70,7 +70,7 @@ export default function App() {
                     tabPress: handleTabPress,
                   }}
                 >
-                {() => <Agenda updated={updated} />}
+                {() => <Agenda updated={updated} handleUpdate={handleTabPress} />}
             </Tab.Screen>
          
         </Tab.Navigator>
