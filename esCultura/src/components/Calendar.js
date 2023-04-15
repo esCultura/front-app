@@ -4,15 +4,41 @@ import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View } from 'react-native';
 import InfoCompleta from "./InfoCompleta";
+import Esdeveniment from './Esdeveniment';
 
 
 const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
   const [newMarkedDates, setnewMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [selectedReserva, setSelectedReserva] = useState(null);
+  const [esdeveniments, setEsdeveniments] = useState([]);
   const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
   const perfil = "primerUsuari"
+
+  const getColorReserva = (tematica) => {
+    switch (tematica) {
+      case 'Musica': 
+        return 'red';
+      case 'Teatre': 
+        return 'blue';
+      case 'Cine': 
+        return 'green';
+      case 'Espectacles':
+        return 'yellow';
+      case 'infantil':
+       return 'orange';  
+      case 'Arts visuals':
+        return 'green';
+      case 'Divulgació':
+        return 'grey';
+      case 'Tradicional i popular':
+        return 'pink';
+      default: 
+        return 'purple';
+    }
+  }
 
   useEffect(() => {
     const fetchReserves = async () => {
@@ -43,11 +69,9 @@ const CustomCalendar = (props) => {
           const date = dates[0].dataFi.slice(0,10);
           console.log("hola0");
           console.log(date);
-          /*nextMarkedDates[date] = {
-              marked: true  
-          };*/
+          console.log(dates[0].tematiques[0]);
 
-          const reserva = {key: data[i].id, color: 'purple', selectedDotColor: 'blue', selected: true, marked: true,
+          const reserva = {key: data[i].id, color: getColorReserva(dates[0].tematiques[0]), selectedDotColor: 'blue', selected: true, marked: true,
                     info: {
                       source: "http://agenda.cultura.gencat.cat"+dates[0].imatges_list[0],
                       desc: dates[0].descripcio.replaceAll("&nbsp;", "\n"),
@@ -86,11 +110,6 @@ const CustomCalendar = (props) => {
   fetchReserves();
   }, [screenLoaded, props.screenLoaded]);
 
-  const handleClose = () => {
-    console.log('holaaaa')
-    fetchReserves();
-  }
-
     return (
       <>
       <Calendar
@@ -125,9 +144,26 @@ const CustomCalendar = (props) => {
         onDayPress={day => {
           setSelected(day.dateString)
           if (newMarkedDates.hasOwnProperty(day.dateString)) {
-            const reserva = newMarkedDates[day.dateString].dots[0];
-            setSelectedReserva(reserva);
-            setModalVisible(true);
+            if (newMarkedDates[day.dateString].dots.length > 1) {
+              console.log('adeu')
+              const reserves = [];
+                for (let j = 0; j < newMarkedDates[day.dateString].dots.length; ++j) {
+                  const reserva = newMarkedDates[day.dateString].dots[j];
+                  console.log(reserva);
+                  reserves.push(reserva);
+                  //setEsdeveniments(reserva);
+                  //setVisible(true);
+                }
+                setEsdeveniments(reserves);
+                setVisible(true);
+                console.log(esdeveniments.length);
+            }
+            else {
+              const reserva = newMarkedDates[day.dateString].dots[0];
+              setSelectedReserva(reserva);
+              setModalVisible(true);
+            
+            }
           } else {
             alert('No hi ha reserves per la data');
           };
@@ -143,7 +179,7 @@ const CustomCalendar = (props) => {
                 back={() =>  {
                   setModalVisible(false),
                   setScreenLoaded(!screenLoaded);
-                }
+                  }
                 }
                 type={selectedReserva.info.type} 
                 complet={selectedReserva.info.desc}
@@ -153,9 +189,23 @@ const CustomCalendar = (props) => {
                 date = {selectedReserva.info.date}
                 location = {selectedReserva.info.location}
                 codi = {selectedReserva.info.codi}
-               
             />
     )}
+    {visible && esdeveniments.map((selectedReserva) => (
+      <Esdeveniment 
+                key ={selectedReserva.info.codi}
+                
+                type={selectedReserva.info.type} 
+                complet={selectedReserva.info.desc}
+                source={selectedReserva.info.source}
+                title={selectedReserva.info.title}
+                preu={selectedReserva.info.preu}
+                date = {selectedReserva.info.date}
+                location = {selectedReserva.info.location}
+                codi = {selectedReserva.info.codi}
+            />
+      
+    ))}
     </>
   );
 };
