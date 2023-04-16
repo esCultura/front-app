@@ -2,6 +2,8 @@ import { Text, StyleSheet, View , TextInput,Image,TouchableOpacity} from "react-
 import Screen from "../components/Screen";
 import Search from 'react-native-bootstrap-icons/icons/search';
 import Plus from 'react-native-bootstrap-icons/icons/plus';
+import NewXat from "../components/NewXatButton";
+import Xat from "../components/XatComp";
 
 export default function Chat(props) {
     
@@ -14,19 +16,9 @@ export default function Chat(props) {
                 <Search  color={'black'}  style={styles.icono}></Search>
                 
             </View>
-           <TouchableOpacity style={styles.plus}>
-            <Text style={styles.icono_plus}>+</Text>
-           
-           </TouchableOpacity>
+           <NewXat></NewXat>
            </View>
-            <View style={styles.info_xat} >
-                <Image 
-                    style={styles.foto}
-                    source={{
-                        uri:'https://reactnative.dev/img/tiny_logo.png'
-                    }}/>
-                <Text style={styles.nom}>PATATA</Text>
-            </View>
+           <Xat></Xat>
             <Text>CHAT</Text>
         </Screen>
     );
@@ -47,15 +39,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderWidth: 0.5,
         borderColor: '#000',
-        height: 50,
+        height: 45,
         borderRadius: 13,
         margin: 12,
-        marginVertical:20,
+        marginVertical:10,
         width:'75%',
         flex:1
     },
     input:{
-        height: 50,
+        height: 45,
         margin: 12,
         //borderWidth: 1,
         padding: 10,
@@ -67,19 +59,7 @@ const styles = StyleSheet.create({
         fontSize:50
         
     },
-    plus:{
-        marginRight:20,
-        width:50,
-        height:50,
-        borderRadius:13,
-        backgroundColor:"#DCDCDC"
-    },
-    icono_plus:{
-       fontSize:30,
-       marginLeft:16.5,
-       marginVertical:3.5,
-       
-    },
+
     info_xat: {
         width: '100%',
         height: 85,
