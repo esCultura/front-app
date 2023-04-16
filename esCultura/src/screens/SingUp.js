@@ -5,8 +5,44 @@ import {LinearGradient} from 'expo-linear-gradient';
 export default function Login() {
 
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
+
+    function loginWithGoole() {
+        console.log("create with google");
+        /*
+        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
+            .then(res => res.json())
+            .then(data => {
+                setEventsData(data);
+            })
+            .catch(console.error)
+        */
+    }
+
+    function login() {
+        console.log("create");
+        /*
+        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
+            .then(res => res.json())
+            .then(data => {
+                setEventsData(data);
+            })
+            .catch(console.error)
+        */
+    }
+
+    function handleTextChangeUsername(value) {
+        setUsername(value);
+    }
+    function handleTextChangeEmail(value) {
+        setEmail(value);
+    }
+    function handleTextChangePassword(value) {
+        setPassword(value);
+    }
 
     return (
         
@@ -19,13 +55,30 @@ export default function Login() {
             <View style={styles.iconaView}>
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.icona}/>
             </View>
-            <TextInput style={styles.inputUser} placeholder="Username" placeholderTextColor="#FFFFFF"  />
-            <TextInput style={styles.inputPass} placeholder="E-mail" placeholderTextColor="#FFFFFF" />
-            <TextInput style={styles.inputPass} placeholder="Password" placeholderTextColor="#FFFFFF" />
+            <TextInput style={styles.inputUser} 
+                placeholder="Username" 
+                placeholderTextColor="#FFFFFF" 
+                value={username}
+                onChangeText={handleTextChangeUsername}
+            />
+            <TextInput style={styles.inputPass} 
+                placeholder="E-mail" 
+                placeholderTextColor="#FFFFFF"
+                value={email}
+                onChangeText={handleTextChangeEmail}
+
+            />
+            <TextInput style={styles.inputPass}
+                placeholder="Password" 
+                placeholderTextColor="#FFFFFF" 
+                value={password}
+                onChangeText={handleTextChangePassword}
+                secureTextEntry={true}
+            />
 
             <Pressable 
                 title="singIn" 
-                onPress={() => setModalVisible(true)}
+                onPress={() => login()}
                 style={styles.btnSingUp} 
             >
                 <Text style={styles.singUpText}>Create Account</Text>
@@ -35,7 +88,7 @@ export default function Login() {
             <Text style={styles.createAcountText}>Or Sing up with</Text>
             <Pressable 
                 title="login"
-                onPress={() => setModalVisible(true)}
+                onPress={() => loginWithGoole()}
                 style={styles.btnExternSingUp} 
             >
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.iconaGoogle}/>

@@ -6,10 +6,41 @@ export default function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
+
+    function login() {
+        console.log("login");
+        /*
+        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
+            .then(res => res.json())
+            .then(data => {
+                setEventsData(data);
+            })
+            .catch(console.error)
+        */
+    }
+
+    function loginWithGoogle() {
+        console.log("login with google");
+        /*
+        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
+            .then(res => res.json())
+            .then(data => {
+                setEventsData(data);
+            })
+            .catch(console.error)
+        */
+    }
+
+    function handleTextChangePassword(value) {
+        setPassword(value);
+    }
+    function handleTextChangeUsername(value) {
+        setUsername(value);
+    }
 
     return (
-        
         <LinearGradient 
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }} 
@@ -19,14 +50,33 @@ export default function Login() {
             <View style={styles.iconaView}>
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.icona}/>
             </View>
-            <TextInput style={styles.inputUser} placeholder="Username" placeholderTextColor="#FFFFFF"  />
-            <TextInput style={styles.inputPass} placeholder="Password" placeholderTextColor="#FFFFFF" />
+            <TextInput style={styles.inputUser} 
+                placeholder="Username" 
+                placeholderTextColor="#FFFFFF"  
+                value={username}
+                onChangeText={handleTextChangeUsername}
+            />
+            <TextInput style={styles.inputPass} 
+                placeholder="Password" 
+                placeholderTextColor="#FFFFFF" 
+                value={password}
+                onChangeText={handleTextChangePassword}
+                secureTextEntry={true}
+            />
             <Pressable 
                 title="Login" 
-                onPress={() => setModalVisible(true)}
+                onPress={() => login()}
                 style={styles.btnLogin} 
             >
                 <Text style={styles.loginText}>Login</Text>
+            </Pressable>
+            <Text style={styles.loginWith}>Or Login with</Text>
+            <Pressable 
+                title="login"
+                onPress={() => loginWithGoogle()}
+                style={styles.btnExternLogin} 
+            >
+                <Image source={require('../../assets/icona-escultura.png')} style={styles.iconaGoogle}/>
             </Pressable>
             <View style={styles.spacerView}></View>
             <Text style={styles.createAcountText}>Create Account</Text>
@@ -68,7 +118,6 @@ const styles = StyleSheet.create({
     },
     btnLogin: {
         marginTop: '35%',
-        marginBottom: 30,
         marginLeft: '30%',
         marginRight: '30%',
         height: 40,
@@ -81,6 +130,27 @@ const styles = StyleSheet.create({
     loginText: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    loginWith: {
+        color: 'white',
+        fontWeight: 'bold',
+        marginLeft: '35%',
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    btnExternLogin: {
+        width: 30,
+        maringTop: 10,
+        marginBottom: 10,
+        padding: 5,
+        marginLeft: '45%',
+        alignItems: 'center',
+        backgroundColor: 'blue',
+    },
+    iconaGoogle: {
+        height: 30,
+        width: 17,
+        resizeMode: 'contain',
     },
     spacerView: {
         backgroundColor: 'white',
