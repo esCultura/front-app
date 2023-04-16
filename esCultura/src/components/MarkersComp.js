@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {Marker} from 'react-native-maps';
 
-export default function MarkersMap({queryFilter}) {
+export default function MarkersMap({queryFilter}, props) {
     let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
-
+    console.log('esdeveniments/?latitud=' + props.latitud + '& longitud=' + props.longitud + '&limit=150 &'+queryFilter);
     function componentDidMount() {
-      fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
+      fetch(host+'esdeveniments/?latitud=' + props.latitud + '& longitud=' + props.longitud + '&limit=150 &'+queryFilter)
         .then(res => res.json())
         .then(data => {
           setEventsData(data);
