@@ -2,46 +2,53 @@ import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native
 import React, { useState} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
 
-export default function Login() {
+export default function SingUp() {
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [data, setData] = useState('');
     let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
 
     function loginWithGoole() {
         console.log("create with google");
-        /*
-        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
-            .then(res => res.json())
-            .then(data => {
-                setEventsData(data);
-            })
-            .catch(console.error)
-        */
     }
 
-    function login() {
+    function singUp() {
         console.log("create");
-        /*
-        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
+        
+        fetch(host+'usuaris/sing_up/perfils/', {
+            method: "POST",
+            /*
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            */
+            body: JSON.stringify({email: "a@gmail.com", username: ["prova1"], password: ["1234"], password2: ["1234"]}),
+        })
             .then(res => res.json())
             .then(data => {
-                setEventsData(data);
+                setData(data);
+                console.log("singUP: ", data);
             })
             .catch(console.error)
-        */
     }
 
     function handleTextChangeUsername(value) {
         setUsername(value);
+        console.log("username: ", username);
     }
     function handleTextChangeEmail(value) {
         setEmail(value);
     }
     function handleTextChangePassword(value) {
         setPassword(value);
+        console.log("password: ", password);
     }
 
     return (
@@ -77,8 +84,8 @@ export default function Login() {
             />
 
             <Pressable 
-                title="singIn" 
-                onPress={() => login()}
+                title="singUp" 
+                onPress={() => singUp()}
                 style={styles.btnSingUp} 
             >
                 <Text style={styles.singUpText}>Create Account</Text>

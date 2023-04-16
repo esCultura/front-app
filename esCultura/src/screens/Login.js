@@ -6,31 +6,36 @@ export default function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [data, setData] = useState('');
     let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
 
     function login() {
         console.log("login");
-        /*
-        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
+        
+        fetch(host+'usuaris/login/perfils/',  {   
+            method: "POST",
+            /*
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            */
+            body: ({password: ["1234"], username: ["prova1"]}),
+        })
             .then(res => res.json())
             .then(data => {
-                setEventsData(data);
+                setData(data);
+                console.log("login: ", data);
             })
             .catch(console.error)
-        */
     }
 
     function loginWithGoogle() {
         console.log("login with google");
-        /*
-        fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
-            .then(res => res.json())
-            .then(data => {
-                setEventsData(data);
-            })
-            .catch(console.error)
-        */
     }
 
     function handleTextChangePassword(value) {
