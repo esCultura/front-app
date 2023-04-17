@@ -1,6 +1,7 @@
 import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native";
 import React, { useState} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
+import * as Keychain from 'react-native-keychain';
 
 export default function SingUp() {
 
@@ -33,9 +34,12 @@ export default function SingUp() {
             body: JSON.stringify({password: password, password2: password, username: username, email: email}),
         })
             .then(res => res.json())
-            .then(data => {
+            .then(async data => {
                 setData(data);
                 console.log("singUP: ", data);
+                if (data.created) {
+                    await Keychain.setGenericPassword(username, password);
+                }
             })
             .catch(console.error)
     }
