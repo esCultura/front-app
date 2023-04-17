@@ -51,7 +51,7 @@ export default function Login() {
         <LinearGradient 
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }} 
-            colors={["#00FFFF", "#2FDD60"]} 
+            colors={["#00FFFF", "#2eca5a"]} 
             style={{flex: 1}}>
 
             <View style={styles.iconaView}>
@@ -83,7 +83,7 @@ export default function Login() {
                 onPress={() => loginWithGoogle()}
                 style={styles.btnExternLogin} 
             >
-                <Image source={require('../../assets/icona-escultura.png')} style={styles.iconaGoogle}/>
+                <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
             <View style={styles.spacerView}></View>
             <Text style={styles.createAcountText}>Create Account</Text>
@@ -125,9 +125,10 @@ const styles = StyleSheet.create({
     },
     btnLogin: {
         marginTop: '35%',
-        marginLeft: '30%',
-        marginRight: '30%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         height: 40,
+        width: 150,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: 'white',
@@ -141,7 +142,8 @@ const styles = StyleSheet.create({
     loginWith: {
         color: 'white',
         fontWeight: 'bold',
-        marginLeft: '35%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         marginTop: 10,
         marginBottom: 10,
     },
@@ -149,10 +151,13 @@ const styles = StyleSheet.create({
         width: 30,
         maringTop: 10,
         marginBottom: 10,
+        borderRadius: 10,
+        width: 50,
         padding: 5,
-        marginLeft: '45%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         alignItems: 'center',
-        backgroundColor: 'blue',
+        backgroundColor: '#f7f7f7',
     },
     iconaGoogle: {
         height: 30,
@@ -162,14 +167,15 @@ const styles = StyleSheet.create({
     spacerView: {
         backgroundColor: 'white',
         height: 2,
-        marginLeft: '10%',
-        marginRight: '10%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         width: '80%',
     },
     createAcountText: {
         color: 'white',
         fontWeight: 'bold',
-        marginLeft: '35%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         marginTop: 10,
     },
     
