@@ -6,14 +6,14 @@ export default function Reservar (props){
     
     const [reservat, setReservat] = useState(false);
     let [info, setData] = useState('');
-    const perfil = "primerUsuari"
+    const user = 3;
     const esd = props.codi;
     
       useEffect(() => {
 
         const fetchReserves = async () => {
             try {
-              const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}&esdeveniment=${esd}`, {
+              const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?user=${user}&esdeveniment=${esd}`, {
                       headers: {
                     'Content-Type': 'application/json', 
                       }});
@@ -51,7 +51,7 @@ export default function Reservar (props){
           'Content-Type': 'application/json', 
         },
         body: JSON.stringify({ 
-          perfil: perfil,
+          perfil: user,
           esdeveniment: esd,
         }),
       });
@@ -68,7 +68,7 @@ const eliminarReserva = async () => {
     
      
     try {
-    const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}&esdeveniment=${esd}`,  {
+    const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?user=${user}&esdeveniment=${esd}`,  {
     method: 'DELETE',
     mode:'no-cors', 
     headers: {

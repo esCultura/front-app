@@ -11,7 +11,6 @@ const type_colors   = ['#3BDE4B', '#3BDE4B', '#3BDE4B', '#3BDE4B'];
 
 export default function Esdeveniment (props) {
     const [modalVisible, setModalVisible] = useState(false);
-
     let type = props.type[0]
 
     return (
@@ -37,7 +36,8 @@ export default function Esdeveniment (props) {
                 title={props.title}
                 preu={props.preu}
                 complet = {props.desc}
-                date = {props.date}
+                dateIni = {props.dateIni}
+                dateFi = {props.dateFi}
                 location = {props.location}
                 source= {props.source}
                 codi = {props.codi}

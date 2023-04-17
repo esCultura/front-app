@@ -9,7 +9,6 @@ import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
 export default function InfoCompleta (props) {
 
-
     const mesinfo = async () => {
         await Linking.openURL(props.source);
     }
@@ -34,7 +33,7 @@ export default function InfoCompleta (props) {
                             }
                         </ScrollView>
                         <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text>
+                        <Text style={styles.info}>🗓️ {props.dateIni} 📌 {props.location}</Text>
                     </View>
                     <View style={{maxHeight: 390}}>
                         <ScrollView>
@@ -44,7 +43,7 @@ export default function InfoCompleta (props) {
                     <View style={styles.botInfo}>
                         {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
                         <View style={{flexDirection: 'row', gap: 10}}>
-                            <Text ><Reservar codi={props.codi}></Reservar></Text>
+                            <Text ><Reservar codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
                             <TouchableOpacity style={styles.button} onPress={mesinfo}>
                                 <Text style={{color: 'white', fontSize: 18}}>Més Informació</Text>
                             </TouchableOpacity>

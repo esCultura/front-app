@@ -6,7 +6,7 @@ const LikeButton =  ( props ) => {
     const [liked, setLiked] = useState(0);
     const [likes, setLikes] = useState(0);
     const likeValue = liked ? -1 : 1;
-    const perfil = "primerUsuari"
+    const user = 3
     const esdeveniment = props.codi;
     
    useEffect(() => {
@@ -20,7 +20,7 @@ const LikeButton =  ( props ) => {
         setLikes(data.length);
         //if (data.length ==  0) setId(0);
 
-        const response2 = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?perfil=${perfil}&esdeveniment=${esdeveniment}` );
+        const response2 = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?user=${user}&esdeveniment=${esdeveniment}` );
         if (!response2.ok) {
           throw new Error('Error al obtener el like');
         }    
@@ -43,7 +43,7 @@ const LikeButton =  ( props ) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          perfil: perfil,
+          perfil: user,
           esdeveniment: esdeveniment,
         }),
       });
@@ -61,7 +61,7 @@ const LikeButton =  ( props ) => {
   
   const handleUnlike = async () => {
     try {
-      const response = await fetch(`http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?perfil=${perfil}&esdeveniment=${esdeveniment}`, {
+      const response = await fetch(`http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?perfil=${user}&esdeveniment=${esdeveniment}`, {
         method: 'DELETE',
       });
   
