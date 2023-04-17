@@ -18,18 +18,19 @@ export default function SingUp() {
     function singUp() {
         console.log("create");
         
-        fetch(host+'usuaris/sing_up/perfils/', {
+        fetch(host+'usuaris/sign_up/perfils/', {
             method: "POST",
             /*
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
             */
-            body: JSON.stringify({email: "a@gmail.com", username: ["prova1"], password: ["1234"], password2: ["1234"]}),
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": "application/json",
+            },
+            
+            body: JSON.stringify({password: password, password2: password, username: username, email: email}),
         })
             .then(res => res.json())
             .then(data => {
@@ -45,6 +46,7 @@ export default function SingUp() {
     }
     function handleTextChangeEmail(value) {
         setEmail(value);
+        console.log("password: ", email);
     }
     function handleTextChangePassword(value) {
         setPassword(value);

@@ -19,12 +19,14 @@ export default function Login() {
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
+            */
             headers: {
+                'Accept': 'application/json',
                 "Content-Type": "application/json",
                 // 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            */
-            body: ({password: ["1234"], username: ["prova1"]}),
+            
+            body: JSON.stringify({password: password, username: username}),
         })
             .then(res => res.json())
             .then(data => {
