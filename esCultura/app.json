@@ -13,7 +13,8 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(esCultura) to use your location.",
           "isAndroidBackgroundLocationEnabled": "Allow $(esCultura) to use your location."
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "splash": {
       "image": "./assets/splash.png",
