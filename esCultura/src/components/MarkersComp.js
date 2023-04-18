@@ -5,24 +5,9 @@ import {simpleFetch} from '../utils/utilFunctions';
 export default function MarkersMap({queryFilter}) {
 
     function componentDidMount() {
-      let endPoint;
-      if (queryFilter) {
-        endPoint = 'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter;
-      }
-      else {
-        endPoint = 'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150';
-      }
-      simpleFetch(endPoint, "GET", "").then((data) => console.log(data))
-      let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
+      let endPoint = 'esdeveniments/';
       
-      /*
-      fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
-        .then(res => res.json())
-        .then(data => {
-          setEventsData(data);
-        })
-        .catch(console.error)
-      */
+      simpleFetch(endPoint, "GET", "").then((data) => setEventsData(data))
     }
     
     useEffect( ()=>{

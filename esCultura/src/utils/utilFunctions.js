@@ -1,4 +1,4 @@
-let token = null;
+let token = '4399aea952484e30ad0208cd72bf64a083c9b8c4';
 
 export function setToken(value) {
     token = value;
@@ -15,10 +15,11 @@ export async function simpleFetch(endPoint, method, bodyData) {
     if (method === "GET" || method === "HEAD") {
         result = await fetch(host+endPoint,  {   
             method: method,
+            mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json",
-                'Authorization': 'Basic '+ token, 
+                'Authorization': 'Token '+ token, 
             },
         })
     }
