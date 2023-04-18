@@ -23,7 +23,10 @@ export default function Esdeveniment (props) {
                     {/* <Text style={styles.like}><LikeButton></LikeButton></Text> */}
                     <Text style={styles.title}>{props.title}</Text>
                     {/* <Text style={styles.brief}>{props.brief}</Text> */}
-                    <Text style={styles.info}>🗓️ {props.date}</Text>
+                    <View  style={{display: 'flex',  flexDirection: 'row', alignItems: 'center', whiteSpace: 'nowrap'}} >
+                    <Text style={styles.info}>🗓️ {props.dateIni} </Text> 
+                    {props.dateIni != props.dateFi && <Text> fins {props.dateFi} </Text>}
+                    </View> 
                     <Text style={styles.info}>📌 {props.location}</Text>
                     {/* <Text style><Reservar ></Reservar></Text> */}
                 </View>

@@ -33,7 +33,7 @@ export default function InfoCompleta (props) {
                             }
                         </ScrollView>
                         <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.info}>🗓️ {props.dateIni} fins {props.dateFi} 📌 {props.location}</Text>
+                        <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
                     </View>
                     <View style={{maxHeight: 390}}>
                         <ScrollView>
