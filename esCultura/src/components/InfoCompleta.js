@@ -4,9 +4,12 @@ import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
+
 const bgcolor = '#3BDE4B';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
+  
+  
 export default function InfoCompleta (props) {
 
     const mesinfo = async () => {

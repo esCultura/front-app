@@ -21,8 +21,6 @@ export default function App() {
     const [updated, setUpdated] = useState(false);
 
     const handleTabPress = () => {
-        console.log('Tab pressed - updating "updated" value');
-        console.log(updated);
         setUpdated(!updated);
       };
 

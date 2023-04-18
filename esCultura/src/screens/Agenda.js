@@ -9,9 +9,7 @@ export default function Agenda(updated, handleTabPress) {
   const [screenLoaded, setScreenLoaded] = useState(true);
 
   useEffect(() => {
-    console.log('Agenda updated');
     setScreenLoaded(!screenLoaded);
-    console.log(updated);
   }, [updated]);
 
     return (

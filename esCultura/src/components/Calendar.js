@@ -2,9 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Calendar, LocaleConfig, markedDates} from 'react-native-calendars';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View } from 'react-native';
+import { Text, View, Modal, TouchableOpacity } from 'react-native';
 import InfoCompleta from "./InfoCompleta";
 import Esdeveniment from './Esdeveniment';
+
+import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
+
 
 
 const CustomCalendar = (props) => {
@@ -17,30 +20,33 @@ const CustomCalendar = (props) => {
   const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
   const user = 3
 
-  const getColorReserva = (tematica) => {
-    switch (tematica) {
-      case 'Musica': 
-        return 'red';
-      case 'Teatre': 
-        return 'blue';
-      case 'Cine': 
-        return 'green';
-      case 'Espectacles':
-        return 'yellow';
-      case 'infantil':
-       return 'orange';  
-      case 'Arts visuals':
-        return 'green';
-      case 'Divulgació':
-        return 'grey';
-      case 'Tradicional i popular':
-        return 'pink';
-      default: 
-        return 'purple';
-    }
-  }
+ 
 
   useEffect(() => {
+
+    const getColorReserva = (tematica) => {
+      switch (tematica) {
+        case 'Musica': 
+          return 'red';
+        case 'Teatre': 
+          return 'blue';
+        case 'Cine': 
+          return 'green';
+        case 'Espectacles':
+          return 'yellow';
+        case 'infantil':
+         return 'orange';  
+        case 'Arts visuals':
+          return 'green';
+        case 'Divulgació':
+          return 'grey';
+        case 'Tradicional i popular':
+          return 'pink';
+        default: 
+          return 'purple';
+      }
+    }
+    
     const fetchReserves = async () => {
       try {
         const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?user=${user}` ,{
@@ -51,21 +57,11 @@ const CustomCalendar = (props) => {
           throw new Error('Error al obtenir les assistencies');
         }    
         const data = await response.json();
-
         const prevMarkedDates = { ...newMarkedDates };
         const nextMarkedDates = {};
-        console.log("hola7");
-        console.log(data.length);
         for (let i = 0; i < data.length; i++) {
           const assistencies = data[i].esdeveniment;
-          console.log("hauria de ser 25/4");
-          console.log(data[i].data);
           const date = data[i].data.slice(0,10);
-          console.log("hola0");
-          console.log(date);
-          console.log(data[i].id);
-        
-          
           const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
             headers: {
                 'Content-Type': 'application/json', 
@@ -107,8 +103,6 @@ const CustomCalendar = (props) => {
         const mergedMarkedDates = { ...prevMarkedDates, ...nextMarkedDates };
 
         setnewMarkedDates(mergedMarkedDates); 
-        console.log("hola2")
-        console.log(mergedMarkedDates);
     } catch (error) {
       console.error(error);
     }
@@ -151,7 +145,6 @@ const CustomCalendar = (props) => {
           setSelected(day.dateString)
           if (newMarkedDates.hasOwnProperty(day.dateString)) {
             if (newMarkedDates[day.dateString].dots.length > 1) {
-              console.log('adeu')
               const reserves = [];
                 for (let j = 0; j < newMarkedDates[day.dateString].dots.length; ++j) {
                   const reserva = newMarkedDates[day.dateString].dots[j];
@@ -159,19 +152,14 @@ const CustomCalendar = (props) => {
                 }
                 setEsdeveniments(reserves);
                 setLlistaVisible(true);
-                
-                console.log("esdev");
-                console.log(esdeveniments.length);
             }
             else {
               const reserva = newMarkedDates[day.dateString].dots[0];
               setSelectedReserva(reserva);
               setModalVisible(true);
-            
+              console.log(reserva.info.source)
             }
-          } else {
-            alert('No hi ha reserves per la data');
-          };
+          } 
         }}
 
         markedDates={newMarkedDates}
@@ -197,26 +185,31 @@ const CustomCalendar = (props) => {
                 codi = {selectedReserva.info.codi}
             />
     )}
-    {llistaVisible && (
-      <View style={styles.llistat}>
-        { esdeveniments.map((esd) => (
-          console.log(esd),
-          console.log("funciona"),
-          <Esdeveniment 
-                key ={esd.info.codi}
-                //back={() => setLlistaVisible(false)}
-                type={["musical"]}
-                complet={esd.info.descripcio}
-               
-                title={esd.info.nom}
-                preu={esd.info.entrades}
-                date = {esd.info.dataFi}
-                location = {esd.info.espai}
-                codi = {esd.info.codi}
-            />
-        ))}
-      </View>
-    )}
+    <Modal visible={llistaVisible } animationType="slide">
+        
+            <TouchableOpacity onPress={() => setLlistaVisible(false)} style={styles.back}>
+                  <XCircleFill color="red" width={145} height={145} />
+            </TouchableOpacity>
+            <View style={styles.llistat}>
+            {
+            esdeveniments.map((esd) => (
+            <Esdeveniment 
+                  key ={esd.info.codi}
+                  back={() => setLlistaVisible(false)}
+                  type={esd.info.type}
+                  desc={esd.info.desc}
+                  title={esd.info.title}
+                  preu={esd.info.preu}
+                  dateFi = {esd.info.dateFi}
+                  dateIni = {esd.info.dateIni}
+                  location = {esd.info.location}
+                  codi = {esd.info.codi}
+                  source = {esd.info.source}
+              />
+           ))}
+        </View>
+      </Modal>
+    
     </>
   );
 };
@@ -267,6 +260,15 @@ const styles = StyleSheet.create({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-      }
+          paddingTop: 20,
+      },
+      back: {
+        zIndex: 1,
+        position: 'absolute',
+        top: 6,
+        left: 6,
+        width: 16,
+        height: 16,
+    }
   });
 export default CustomCalendar;
