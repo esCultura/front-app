@@ -2,8 +2,7 @@ import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native
 import React, { useState} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Keychain from 'react-native-keychain';
-import { GoogleSignin, GoogleSigninButton  } from '@react-native-google-signin/google-signin';
-//https://www.npmjs.com/package/@react-native-google-signin/google-signin
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 export default function SingUp() {
 
@@ -11,8 +10,38 @@ export default function SingUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [data, setData] = useState('');
+
     let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
+    useEffect(() => {
+      GoogleSignin.configure({
+        scopes: ['email'], // what API you want to access on behalf of the user, default is email and profile
+        webClientId:
+          '418977770929-g9ou7r9eva1u78a3anassxxxxxxx.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+        offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+      });
+    }, []);
+
+    async function signIn () {
+        try {
+          await GoogleSignin.hasPlayServices();
+          const {accessToken, idToken} = await GoogleSignin.signIn();
+          setloggedIn(true);
+        } catch (error) {
+          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+            alert('Cancel');
+          } else if (error.code === statusCodes.IN_PROGRESS) {
+            alert('Signin in progress');
+            // operation (f.e. sign in) is in progress already
+          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            alert('PLAY_SERVICES_NOT_AVAILABLE');
+            // play services not available or outdated
+          } else {
+            // some other error happened
+          }
+        }
+      };
 
     function loginWithGoole() {
         console.log("create with google");
@@ -108,13 +137,14 @@ export default function SingUp() {
             >
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
+            
             <GoogleSigninButton
-                style={{ width: 192, height: 48 }}
+                style={{width: 192, height: 48}}
                 size={GoogleSigninButton.Size.Wide}
                 color={GoogleSigninButton.Color.Dark}
-                onPress={this._signIn}
-                disabled={this.state.isSigninInProgress}
-            />;
+                onPress={signIn()}
+            />
+
         </LinearGradient>
         
     );
