@@ -8,16 +8,16 @@ import Xat from "../components/XatComp";
 
 export default function Chat(props) {
     const [data,setData]=useState('')
-    const [id,setId]=useState('')
-    const [usuaris, setUsuaris] = useState([])
+    const [usuaris, setUsuaris] = useState('')
+    const [xats, setXats] = useState('')
     var users =[]
-    
+
     useEffect(() => {
 
         const fetchXats = async () => {
             
             try {
-              const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/xats/`, {
+              const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/xats/', {
                       headers: {
                     'Content-Type': 'application/json', 
                       }});
@@ -26,23 +26,18 @@ export default function Chat(props) {
               }    
               
               const data = await response.json();
-              setData(data);
-              console.log(data)
+              setXats(data);
+              console.log(xats)
+              //console.log(data)
 
-              /*for (let i = 0; i < data.length; i++) {
+              for (let i = 0; i < data.length; i++) {
                 
                 for(let j= 0; j<data[i].participants.length; ++j){
-                    console.log('j')
-                    console.log(j)
-                    console.log(data[i].participants[j])
+                 
                     if (data[i].participants[j] != 2) {
-                        setId(data[i].participants[j]);
-                        console.log('id')
-                        console.log(id)
-                        console.log('http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/'+id)
-                       
+
                             try {
-                              const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/'+id, {
+                              const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/'+data[i].participants[j], {
                                       headers: {
                                     'Content-Type': 'application/json', 
                                       }});
@@ -51,29 +46,17 @@ export default function Chat(props) {
                               }    
                               
                               const usus = await response.json();
-                              console.log(usus)
-                              console.log('aaaaaaaaaaaa')
-                              //console.log(usus[0].username)
-                              users.push(usus[0])
-                              console.log('users')
-                              console.log(users)
-                              setUsuaris(users);
-                              console.log(usuaris)
-                    
+                            
+                              setUsuaris(prevUsuaris =>([...prevUsuaris, ...usus]))
+                              //users.push(usus)
+                             
                           } catch (error) {
                             console.error(error);
                           }
                         }
-
-                      
-                      
                 }
-                  
               }
-              //console.log(usuaris)
-              //if (data.length === 0)  setReservat(false);
-              //else setReservat(false);
-        */
+        
           } catch (error) {
             console.error(error);
           }
@@ -96,20 +79,19 @@ export default function Chat(props) {
            <View>
             
 {
-        users.map((usu) => {
+        usuaris?.map((usu) => {
             return (
+                
                 <View>
+                    <Text>patatat</Text>
                     <Xat username={usu.username}></Xat>
                     <Text>{usu}</Text>
+                    <Text>cacatua</Text>
            
             </View>);})
     }
     </View>
-           
-           
-           
-           <Xat username="patata"></Xat>
-            <Text>CHAT</Text>
+       
         </Screen>
     );
 }

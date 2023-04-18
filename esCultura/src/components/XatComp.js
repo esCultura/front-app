@@ -16,8 +16,7 @@ export default function Xat (props){
     };
     function handleTextChange(value) {
         setTextMissatge(value);
-        
-        
+                
     }
     
     function veureXat(){
@@ -30,7 +29,7 @@ export default function Xat (props){
     const fetchMissatges = async (id) => {
         
         try {
-          const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/xats/1/missatges/`, {
+          const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/xats/1/missatges/', {
                   headers: {
                 'Content-Type': 'application/json', 
                   }});
@@ -163,9 +162,6 @@ const styles = StyleSheet.create({
             marginVertical:10,
             //position: 'absolute',
             left: 0 ,
-            
-            
-            
             //borderColor:'green',
             //borderWidth: 4,
         },
@@ -230,7 +226,7 @@ const styles = StyleSheet.create({
             
         },
         textextern:{
-            backgroundColor: '#fff',
+            backgroundColor: '#d3d3d3',
             borderWidth: 0.5,
             borderColor: '#000',
             height: 45,

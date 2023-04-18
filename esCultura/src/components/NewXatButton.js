@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
+import People from 'react-native-bootstrap-icons/icons/people-fill' 
 import Xat from "../components/XatComp";
+import NewGrup from "./GrupXatButton";
 
 
 export default function NewXat (props){
@@ -52,7 +54,8 @@ export default function NewXat (props){
           'Content-Type': 'application/json', 
         },
         body: JSON.stringify({ 
-          participants: ['nora','pduran']
+          nom: '',
+          participants: []
           
         }),
       });
@@ -60,7 +63,7 @@ export default function NewXat (props){
         throw new Error('Error al enviar solicitud');
       }  
 
-    setReservat(true);
+    
     } catch (error) {
       console.error(error);
     }
@@ -78,7 +81,7 @@ export default function NewXat (props){
     
     return(
         <View>
-        <TouchableOpacity style={styles.plus} onPress ={crearXat}/*{() => setModalVisible(true)}*/>
+        <TouchableOpacity style={styles.plus} onPress ={() => setModalVisible(true)}>
             <Text style={styles.icono_plus}>+</Text>
         </TouchableOpacity>
          
@@ -86,6 +89,11 @@ export default function NewXat (props){
             <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
                 <ArrowLeftShort color="black"></ArrowLeftShort>
             </TouchableOpacity>
+            <View>
+                <TouchableOpacity onPress={crearXat}>
+                    <NewGrup></NewGrup>
+                </TouchableOpacity>
+            </View>
             
                 
             
@@ -122,7 +130,8 @@ const styles = StyleSheet.create({
     back:{
         margin:20,
         marginVertical:20
-    }
+    },
+    
 
    
 })
