@@ -2,6 +2,8 @@ import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native
 import React, { useState} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Keychain from 'react-native-keychain';
+import { GoogleSignin, GoogleSigninButton  } from '@react-native-google-signin/google-signin';
+//https://www.npmjs.com/package/@react-native-google-signin/google-signin
 
 export default function SingUp() {
 
@@ -106,6 +108,13 @@ export default function SingUp() {
             >
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
+            <GoogleSigninButton
+                style={{ width: 192, height: 48 }}
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={this._signIn}
+                disabled={this.state.isSigninInProgress}
+            />;
         </LinearGradient>
         
     );
