@@ -33,7 +33,7 @@ export default function InfoCompleta (props) {
                             }
                         </ScrollView>
                         <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.info}>🗓️ {props.dateIni} 📌 {props.location}</Text>
+                        <Text style={styles.info}>🗓️ {props.dateIni} fins {props.dateFi} 📌 {props.location}</Text>
                     </View>
                     <View style={{maxHeight: 390}}>
                         <ScrollView>
@@ -43,10 +43,14 @@ export default function InfoCompleta (props) {
                     <View style={styles.botInfo}>
                         {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
                         <View style={{flexDirection: 'row', gap: 10}}>
+                            <View >
                             <Text ><Reservar codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
+                            </View>
+                            <View style={{width: '50%'}}>
                             <TouchableOpacity style={styles.button} onPress={mesinfo}>
-                                <Text style={{color: 'white', fontSize: 18}}>Més Informació</Text>
+                                <Text style={{color: 'white', fontSize: 18, textAlign: 'center',}}>Més Informació</Text>
                             </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>

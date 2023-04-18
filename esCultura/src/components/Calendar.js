@@ -58,6 +58,14 @@ const CustomCalendar = (props) => {
         console.log(data.length);
         for (let i = 0; i < data.length; i++) {
           const assistencies = data[i].esdeveniment;
+          console.log("hauria de ser 25/4");
+          console.log(data[i].data);
+          const date = data[i].data.slice(0,10);
+          console.log("hola0");
+          console.log(date);
+          console.log(data[i].id);
+        
+          
           const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
             headers: {
                 'Content-Type': 'application/json', 
@@ -66,17 +74,15 @@ const CustomCalendar = (props) => {
             throw new Error('Error al obtenir el esdeveniment');
           }
           const dates = await responseDates.json();      
-          const date = dates[0].dataFi.slice(0,10);
-          console.log("hola0");
-          console.log(date);
-          console.log(data[i].id);
+          
 
           const reserva = {key: data[i].id, color: getColorReserva(dates[0].tematiques[0]), selectedDotColor: 'blue', selected: true, marked: true,
                     info: {
                       source: "http://agenda.cultura.gencat.cat"+dates[0].imatges_list[0],
                       desc: dates[0].descripcio.replaceAll("&nbsp;", "\n"),
                       title: dates[0].nom,
-                      date: dates[0].dataFi.slice(0,10),
+                      dateIni: dates[0].dataIni.slice(0,10),
+                      dateFi: dates[0].dataFi.slice(0,10),
                       location: dates[0].espai,
                       type: dates[0].tematiques,
                       preu: dates[0].entrades,
@@ -185,7 +191,8 @@ const CustomCalendar = (props) => {
                 source={selectedReserva.info.source}
                 title={selectedReserva.info.title}
                 preu={selectedReserva.info.preu}
-                date = {selectedReserva.info.date}
+                dateFi = {selectedReserva.info.dateFi}
+                dateIni = {selectedReserva.info.dateIni}
                 location = {selectedReserva.info.location}
                 codi = {selectedReserva.info.codi}
             />
