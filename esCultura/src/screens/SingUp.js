@@ -1,49 +1,72 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native";
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Keychain from 'react-native-keychain';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+
+// tuturial que he seguit
+//https://www.youtube.com/watch?v=MBMWiTsqnck&ab_channel=CodewithBeto
+//ALERTA per poder fer login de forma correcta cal fer prebuild de l'app
+
+//GOOGLE credentials
+    //web: 770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com
+    //iOS: 770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com
+    //Android: 770757510426-cklpthldhp6u7iurthc8mfjmlr2kueuv.apps.googleusercontent.com
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function SingUp() {
+
+    const [accessToken, setAccessToken] = useState(null);
+    const [request, response, promtAsync] = Google.useIdTokenAuthRequest({
+        clientId: "770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com",
+        iosClientId: "770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com",
+        androidClientId: "770757510426-cklpthldhp6u7iurthc8mfjmlr2kueuv.apps.googleusercontent.com"
+    });
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [data, setData] = useState('');
 
-    let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
+    const host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
-    useEffect(() => {
-      GoogleSignin.configure({
-        scopes: ['email'], // what API you want to access on behalf of the user, default is email and profile
-        webClientId:
-          '418977770929-g9ou7r9eva1u78a3anassxxxxxxx.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-        offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-      });
-    }, []);
-
-    async function signIn () {
-        try {
-          await GoogleSignin.hasPlayServices();
-          const {accessToken, idToken} = await GoogleSignin.signIn();
-          setloggedIn(true);
-        } catch (error) {
-          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            // user cancelled the login flow
-            alert('Cancel');
-          } else if (error.code === statusCodes.IN_PROGRESS) {
-            alert('Signin in progress');
-            // operation (f.e. sign in) is in progress already
-          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            alert('PLAY_SERVICES_NOT_AVAILABLE');
-            // play services not available or outdated
-          } else {
-            // some other error happened
-          }
+    useEffect( ()=>{
+        if (response?.type === "sucess") {
+            setAccessToken(response.authentication.accessToken);
+            accessToken && fetchUserInfo();
         }
-      };
+    }, [response, accessToken])
+
+    async function fetchUserInfo() {
+        let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+            header: {
+                Authoritzation: `Bearer ${accessToken}`
+            }    
+        });
+        const userInfo = await response.json();
+        console.log("userInof: ", userInfo);
+    }
+
 
     function loginWithGoole() {
+        promtAsync();
         console.log("create with google");
     }
 
@@ -138,12 +161,6 @@ export default function SingUp() {
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
             
-            <GoogleSigninButton
-                style={{width: 192, height: 48}}
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={signIn()}
-            />
 
         </LinearGradient>
         
