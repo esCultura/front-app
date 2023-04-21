@@ -24,10 +24,6 @@ import * as Google from 'expo-auth-session/providers/google';
 //https://www.youtube.com/watch?v=MBMWiTsqnck&ab_channel=CodewithBeto
 //ALERTA per poder fer login de forma correcta cal fer prebuild de l'app
 
-//GOOGLE credentials
-    //web: 770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com
-    //iOS: 770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com
-    //Android: 770757510426-cklpthldhp6u7iurthc8mfjmlr2kueuv.apps.googleusercontent.com
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -50,20 +46,8 @@ export default function SingUp() {
     useEffect( ()=>{
         if (response?.type === "sucess") {
             setAccessToken(response.authentication.accessToken);
-            accessToken && fetchUserInfo();
         }
     }, [response, accessToken])
-
-    async function fetchUserInfo() {
-        let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-            header: {
-                Authoritzation: `Bearer ${accessToken}`
-            }    
-        });
-        const userInfo = await response.json();
-        console.log("userInof: ", userInfo);
-    }
-
 
     function loginWithGoole() {
         promtAsync();

@@ -13,7 +13,8 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(esCultura) to use your location.",
           "isAndroidBackgroundLocationEnabled": "Allow $(esCultura) to use your location."
         }
-      ]
+      ],
+      ["@react-native-google-signin/google-signin"] 
     ],
     "splash": {
       "image": "./assets/splash.png",
@@ -38,5 +39,6 @@
       "favicon": "./assets/favicon.png"
     },
     "scheme": "yourscheme"
+
   }
 }
