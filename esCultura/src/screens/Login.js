@@ -1,19 +1,10 @@
 import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native";
 import React, { useState} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
-import {
-    GoogleSignin,
-    statusCodes,
-  } from '@react-native-google-signin/google-signin';
-
+//https://www.npmjs.com/package/react-native-keychain
 
 export default function Login() {
 
-    GoogleSignin.configure({
-        webClientId: "770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com",
-        iosClientId: "770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com",
-        androidClientId: "770757510426-cklpthldhp6u7iurthc8mfjmlr2kueuv.apps.googleusercontent.com"    
-    });
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -47,24 +38,9 @@ export default function Login() {
             .catch(console.error)
     }
 
-    async function loginWithGoogle() {
+    function loginWithGoogle() {
         console.log("login amb google");
-        try {
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
-            console.log("userInfo: ", userInfo);
-        } 
-        catch (error) {
-            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            console.log("user cancelled the login flow");
-            } else if (error.code === statusCodes.IN_PROGRESS) {
-            console.log("operation (e.g. sign in) is in progress already");
-            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            console.log("play services not available or outdated");
-            } else {
-            console.log("some other error happened");
-            }
-        }
+        
     }
 
     function handleTextChangePassword(value) {

@@ -1,18 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native";
 import React, { useState, useEffect} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -44,8 +29,30 @@ export default function SingUp() {
     const host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
     useEffect( ()=>{
-        if (response?.type === "sucess") {
-            setAccessToken(response.authentication.accessToken);
+        console.log("google response: ", response?.type);
+        if (response?.type === "success") {
+            console.log("response auth: ", response.authentication);
+            setAccessToken(response.params.id_token);
+            
+            fetch(host+'usuaris/sign_in/google-oauth2', {
+                method: "POST",
+                mode: "no-cors",
+                /*
+                cache: "no-cache",
+                credentials: "same-origin",
+                */
+                headers: {
+                    'Accept': 'application/json',
+                    "Content-Type": "application/json",
+                },
+                
+                body: JSON.stringify({access_token: accessToken}),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(console.error)
         }
     }, [response, accessToken])
 
