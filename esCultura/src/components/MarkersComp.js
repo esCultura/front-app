@@ -1,16 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {Marker} from 'react-native-maps';
+import {simpleFetch} from '../utils/utilFunctions';
 
 export default function MarkersMap({queryFilter}) {
-    let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
     function componentDidMount() {
-      fetch(host+'esdeveniments/?latitud=41.389324&longitud=2.113703&limit=150'+'&'+queryFilter)
-        .then(res => res.json())
-        .then(data => {
-          setEventsData(data);
-        })
-        .catch(console.error)
+      let endPoint = 'esdeveniments/';
+      
+      simpleFetch(endPoint, "GET", "").then((data) => setEventsData(data))
     }
     
     useEffect( ()=>{

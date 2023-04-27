@@ -6,9 +6,21 @@ import FilterLeft from 'react-native-bootstrap-icons/icons/filter-left';
 import CalendarEvent from 'react-native-bootstrap-icons/icons/calendar-event';
 import ArrowDown from 'react-native-bootstrap-icons/icons/arrow-down';
 
-export default function SearchFilter({onVariableChange}, isList) {
+import * as Localitzation from 'expo-localization';
+import {I18n} from 'i18n-js';
+import {en, cat, es} from '../utils/translateLabels';
 
-    const [eventsData, setEventsData] = useState([]);
+export default function SearchFilter({onVariableChange}, isList) {
+    
+    //split l'ideoma per defecta que te el mobil
+    let ideoma = Localitzation.locale;
+    ideoma = ideoma.split('-')[0];
+    let i18n = new I18n();
+    i18n.fallbacks = 'true';
+    i18n.translations = {en, cat, es};
+    i18n.locale = 'cat';
+    console.log("locale: ", ideoma);
+
     const [endPoint, setEndPoint] = useState('');
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -152,6 +164,14 @@ export default function SearchFilter({onVariableChange}, isList) {
             >
                 <FilterLeft name="search" color={'black'} size={30} />
             </Pressable>
+            <TextInput 
+                value={textSearch}
+                onBlur={saveFilter}
+                onChangeText={handleTextChange}
+                placeholder={i18n.t('search')}
+                placeholderTextColor={'#666'}
+            >
+            </TextInput>
 
             <Modal visible={modalVisible} animationType="slide">
                 <View>
@@ -268,14 +288,7 @@ export default function SearchFilter({onVariableChange}, isList) {
                 </View>
             </Modal>
 
-            <TextInput 
-                value={textSearch}
-                onBlur={saveFilter}
-                onChangeText={handleTextChange}
-                placeholder={'Search'}
-                placeholderTextColor={'#666'}
-            >
-            </TextInput>
+            
         </View>
     );
   }
