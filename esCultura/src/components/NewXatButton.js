@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList} from "react-native";
-import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
-import People from 'react-native-bootstrap-icons/icons/people-fill' 
+import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput} from "react-native";
+import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' ;
+import Search from 'react-native-bootstrap-icons/icons/search';
+
 import Xat from "../components/XatComp";
 import NewGrup from "./GrupXatButton";
+import {simpleFetch} from '../utils/utilFunctions';
 
 
 export default function NewXat (props){
@@ -13,61 +15,15 @@ export default function NewXat (props){
     
     useEffect(() => {
 
-        const fetchUsuaris = async () => {
-            try {
-              const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/`, {
-                      headers: {
-                    'Content-Type': 'application/json', 
-                      }});
-              if (!response.ok) {
-                throw new Error('Error al obtener usuaris');
-              }    
-              
-              const data = await response.json();
-              
-              setData(data);
-              //setUsuaris(data);
-
-              /*for (let i = 0; i < data.length; i++) {
-                  if (data[i].username != props.username) {
-                    setUsuaris(usuaris.push(data[i]))
-                  }
-              }*/
-              //console.log(usuaris)
-              //if (data.length === 0)  setReservat(false);
-              //else setReservat(false);
-        
-          } catch (error) {
-            console.error(error);
-          }
-        }
-      fetchUsuaris();
       }, []);
     
       const crearXat = async () => {   
-        
-        try {
-        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/xats/', {
-        method: 'POST',
-        
-        headers: {
-          'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify({ 
-          nom: '',
-          participants: []
-          
-        }),
-      });
-      if (!response.ok) {
-        throw new Error('Error al enviar solicitud');
-      }  
-
-    
-    } catch (error) {
-      console.error(error);
-    }
+        /*let endPoint = 'xats/';
+            simpleFetch(endPoint, "POST", {participant_id:1,paricipant_id:2}).then((data) => setData(data))
+            console.log("crearXat")
+            console.log(data)*/
 }
+
     
 /*<View>
 {
@@ -89,6 +45,13 @@ export default function NewXat (props){
             <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
                 <ArrowLeftShort color="black"></ArrowLeftShort>
             </TouchableOpacity>
+            <View style={styles.barra}>
+            <View style={styles.search}>
+                <TextInput style={styles.input} placeholder={'Usuaris'}/>
+                <Search  color={'black'}  style={styles.icono}></Search>
+                
+            </View>
+            </View>
             <View>
                 <TouchableOpacity onPress={crearXat}>
                     <NewGrup></NewGrup>
@@ -98,7 +61,7 @@ export default function NewXat (props){
                 
             
             <View>
-                <Xat username ="patata"></Xat>
+             
             </View>
             
             
@@ -130,6 +93,38 @@ const styles = StyleSheet.create({
     back:{
         margin:20,
         marginVertical:20
+    },
+    barra:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    search:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 0.5,
+        borderColor: '#000',
+        height: 45,
+        borderRadius: 13,
+        margin: 12,
+        marginVertical:10,
+        width:'75%',
+        flex:1
+    },
+    input:{
+        height: 45,
+        margin: 12,
+        //borderWidth: 1,
+        padding: 10,
+        borderRadius:13,
+        flex:1,
+    },
+    icono:{
+        marginRight:20,
+        fontSize:50
+        
     },
     
 

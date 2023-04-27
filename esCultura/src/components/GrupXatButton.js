@@ -13,8 +13,8 @@ export default function NewGrup (props){
     return(
         <View style={styles.grup} onPress={() => setModalVisible(true)}>
             
-            <People color="black"></People>
-            <Text>Nou Grup</Text>
+            <People color="black" style={styles.icono}></People>
+            <Text styles={styles.titol}>Nou Grup</Text>
             
         <Modal visible={modalVisible}>
             
@@ -22,3 +22,33 @@ export default function NewGrup (props){
         </View>
     )
 }
+
+
+const styles = StyleSheet.create({
+
+    grup:{
+        marginRight:20,
+        width:'95%',
+        height:60,
+        borderRadius:13,
+        backgroundColor:"#DCDCDC",
+        display:'flex',
+        flexDirection: 'row',
+        margin: 12,
+        
+    },
+    icono:{
+        width:60,
+        height:60,
+        borderRadius:50,
+        marginLeft:10,
+        marginVertical:12,
+    },
+    titol:{
+
+        marginLeft:50
+    }
+    
+
+   
+})

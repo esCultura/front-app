@@ -5,16 +5,32 @@ import Search from 'react-native-bootstrap-icons/icons/search';
 import Plus from 'react-native-bootstrap-icons/icons/plus';
 import NewXat from "../components/NewXatButton";
 import Xat from "../components/XatComp";
+import {simpleFetch} from '../utils/utilFunctions';
 
 export default function Chat(props) {
     const [data,setData]=useState('')
-    const [usuaris, setUsuaris] = useState('')
-    const [xats, setXats] = useState('')
+    const [usuaris, setUsuaris] = useState([])
+    const [xats, setXats] = useState([])
     var users =[]
 
     useEffect(() => {
 
         const fetchXats = async () => {
+            let endPoint = 'xats/';
+            simpleFetch(endPoint, "GET", "").then((data) => setXats(data))
+            console.log("fetchXats")
+            console.log(xats)
+           /* 
+            for(var i =0; i< xats.length; ++i){
+                for(var j= 0; j< xats[i].participants.length; ++j){
+                   if(xats[i].participants[j] != 2){
+                    let endPoint = 'usuaris/perfils/'+xats[i].participants[j];
+                simpleFetch(endPoint, "GET", "").then((data) => setUsuaris(data))
+                console.log(usuaris)
+                   }
+                }
+                
+            }
             
             try {
               const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/xats/', {
@@ -59,11 +75,16 @@ export default function Chat(props) {
         
           } catch (error) {
             console.error(error);
-          }
+          }*/
         }
       fetchXats();
       }, []);
     
+      
+      
+      
+       
+      
      
     return (
         <Screen >
@@ -74,22 +95,24 @@ export default function Chat(props) {
                 
             </View>
            <NewXat></NewXat>
-           </View>
            
+           </View>
            <View>
-            
-{
-        usuaris?.map((usu) => {
+           
+           {
+        xats.map((usu) => {
             return (
                 
                 <View>
                     <Text>patatat</Text>
-                    <Xat username={usu.username}></Xat>
-                    <Text>{usu}</Text>
+                    <Xat  key={usu.id} id={usu.id}></Xat>
+                    <Text>{usu.id}</Text>
                     <Text>cacatua</Text>
            
             </View>);})
     }
+           
+
     </View>
        
         </Screen>
@@ -150,7 +173,7 @@ const styles = StyleSheet.create({
         
         //borderColor:'green',
         //borderWidth: 4,
-    },
+    }, 
     nom:{
         position: 'absolute',
         right: 230,
