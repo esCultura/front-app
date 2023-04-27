@@ -74,7 +74,7 @@ export default function SearchFilter({onVariableChange}, isList) {
 
         //query per les tematiques
         if (tematiquesArry().length != 0) {
-            let tematicQuery = 'tematiques_nom_in=';
+            let tematicQuery = 'tematiques__nom__in=';
             tematiquesArry().forEach((value, index) => {
                 if (index === 0) {
                     tematicQuery+=value;

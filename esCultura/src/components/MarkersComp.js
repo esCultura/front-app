@@ -5,7 +5,12 @@ import {simpleFetch} from '../utils/utilFunctions';
 export default function MarkersMap({queryFilter}) {
 
     function componentDidMount() {
-      let endPoint = 'esdeveniments/';
+      let endPoint =  "esdeveniments/?limit=5";
+      console.log("query: ", queryFilter);
+      if (queryFilter != "") {
+        endPoint = "esdeveniments/?"+ queryFilter +"&limit=5" ;
+      }
+      console.log("endpoint: ", endPoint);
       
       simpleFetch(endPoint, "GET", "").then((data) => setEventsData(data))
     }
