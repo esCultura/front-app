@@ -18,10 +18,10 @@ export default function NewXat (props){
       }, []);
     
       const crearXat = async () => {   
-        /*let endPoint = 'xats/';
-            simpleFetch(endPoint, "POST", {participant_id:1,paricipant_id:2}).then((data) => setData(data))
+        let endPoint = 'xats/';
+            simpleFetch(endPoint, "POST", {paricipant_id:1, paricipant_id:2}).then((data) => setData(data))
             console.log("crearXat")
-            console.log(data)*/
+            console.log(data)
 }
 
     
