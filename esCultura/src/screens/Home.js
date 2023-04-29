@@ -4,6 +4,7 @@ import { StatusBar } from "react-native";
 import React, { useState, useEffect } from 'react';
 import Screen from "../components/Screen";
 import InfoCompleta from "../components/InfoCompleta";
+import Login from "./Login";
 
 export default function Home(props) {
     
@@ -33,19 +34,8 @@ export default function Home(props) {
   }
 
   return (
-    <Screen>
-      <Esdeveniment
-          type={["musical"]}
-          title="Billy Elliot, el musical"
-          brief="Tant de bo el tornin a fer!" 
-          date="LOLASU" 
-          location="In your mind mdfk" 
-          codi = "20230315095"
-          source="https://www.atrapalo.com/houdinis/wp-content/uploads/2021/06/billyelliot-cartel.jpg" /> 
-      <StatusBar style="auto" />
-    </Screen>
-
-);
+    <Login></Login>
+  );
 };
 
 
