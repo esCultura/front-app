@@ -4,6 +4,7 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet } from 'react-native';
 import Esdeveniment from '../components/Esdeveniment';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
+import { simpleFetch } from "../utils/utilFunctions";
 
 
 export default function Chat(props) {
@@ -11,50 +12,40 @@ export default function Chat(props) {
     const user = 3;
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
+    const [infoPerfil, setInfoPerfil] = useState([]);
 
         const fetchPreferits = async () => {
-          try {
-            const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?user=${user}` ,{
-                headers: {
-                    'Content-Type': 'application/json', 
-              }});
-            if (!response.ok) {
-              throw new Error('Error al obtenir els interessos');
-            }    
-            const data = await response.json();
-            console.log("linia25 chat");
-            console.log(data);
+            let endPoint = 'interessos/esdeveniments/?perfil=3';
+            const data = await simpleFetch(endPoint, "GET", "");
             const reserves = [];
             for (let i = 0; i < data.length; i++) {
               const assistencies = data[i].esdeveniment;
-              const response2 = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
-                headers: {
-                    'Content-Type': 'application/json', 
-              }});
-              if (!response2.ok) {
-                throw new Error('Error al obtenir el esdeveniment');
-              }
-              const esd = await response2.json();
-              console.log("esd", esd);
-              console.log("data", esd[0].dataFi);
-              console.log("temes", esd[0].tematiques);
+              endPoint = 'esdeveniments?codi='+assistencies;
+              const esd = await simpleFetch(endPoint, "GET", "");
               reserves.push(esd);
             }
             console.log("reserves", reserves);
-            setEsdeveniments(reserves);   
-              
-        } catch (error) {
-          console.error(error);
-        }
+            setEsdeveniments(reserves); 
       };
+
+   useEffect(() => {
+      const fetchPerfil = async () => {
+          let endPoint = 'usuaris/perfils?user=3';
+          const data = await simpleFetch(endPoint, "GET", "")
+          console.log("datos", data[2]);
+          setInfoPerfil(data[2]);
+      }
+
+      fetchPerfil();
+  }, []);
 
 
     
 
     return (
         <Screen>
-
             <Text> Foto perfil + nom + atributs </Text>
+            <Text> {infoPerfil.imatge} + {infoPerfil.username} + {infoPerfil.email} </Text>
 
             <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true); fetchPreferits() }}>
                 <Text > LlistaPreferits </Text>
