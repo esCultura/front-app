@@ -1,5 +1,5 @@
 import Screen from "../components/Screen";
-import { Text, View, Modal, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, View, Modal, TouchableOpacity } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { StyleSheet } from 'react-native';
 import Esdeveniment from '../components/Esdeveniment';
@@ -13,6 +13,9 @@ export default function Chat(props) {
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [infoPerfil, setInfoPerfil] = useState([]);
+    const [screenLoaded, setScreenLoaded] = useState(false);
+
+    useEffect(() => {
 
         const fetchPreferits = async () => {
             let endPoint = 'interessos/esdeveniments/?perfil=3';
@@ -28,7 +31,7 @@ export default function Chat(props) {
             setEsdeveniments(reserves); 
       };
 
-   useEffect(() => {
+  
       const fetchPerfil = async () => {
           let endPoint = 'usuaris/perfils?user=3';
           const data = await simpleFetch(endPoint, "GET", "")
@@ -37,41 +40,39 @@ export default function Chat(props) {
       }
 
       fetchPerfil();
-  }, []);
-
-
-    
+      fetchPreferits();
+  }, [screenLoaded]);
 
     return (
         <Screen>
             <Text> Foto perfil + nom + atributs </Text>
             <Text> {infoPerfil.imatge} + {infoPerfil.username} + {infoPerfil.email} </Text>
 
-            <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true); fetchPreferits() }}>
+            <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true); }}>
                 <Text > LlistaPreferits </Text>
             </TouchableOpacity>
 
             <Text> Trofeus </Text>
 
-
-            <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true); fetchPreferits() }}>
+            <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true);  }}>
                 <Text > Logout </Text>
             </TouchableOpacity>
-
-            
-
 
             <Modal visible={llistaVisible } animationType="slide">
         
                 <TouchableOpacity onPress={() => setLlistaVisible(false)} style={styles.back}>
                     <XCircleFill color="red" width={145} height={145} />
                 </TouchableOpacity>
-                <View style={styles.llistat}>
+                <ScrollView  contentContainerStyle={styles.llistat}>
                 {
                 esdeveniments.map(esd => (
                 <Esdeveniment 
                     key ={esd[0].codi}
-                    back={() => setLlistaVisible(false)}
+                    back={() =>  {
+                      setLlistaVisible(false),
+                      setScreenLoaded(!screenLoaded);
+                      }
+                    }
                     type={esd[0].tematiques.map(tema => tema.nom)}
                     desc={esd[0].descripcio}
                     title={esd[0].nom}
@@ -83,7 +84,7 @@ export default function Chat(props) {
                     source = {"http://agenda.cultura.gencat.cat"+ esd[0].imatges_list[0]}
                             />
                     ))}
-                    </View>
+                    </ScrollView>
                 </Modal>
 
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { simpleFetch } from "../utils/utilFunctions";
 
 const LikeButton =  ( props ) => {
     const [liked, setLiked] = useState(0);
@@ -11,69 +12,31 @@ const LikeButton =  ( props ) => {
     
    useEffect(() => {
     const fetchLikes = async () => {
-      try {
-        const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?esdeveniment=${esdeveniment}` );
-        if (!response.ok) {
-          throw new Error('Error al obtener el número de likes');
-        }    
-        const data = await response.json();
+        let endPoint = `interessos/esdeveniments/?esdeveniment=${esdeveniment}`;
+        const data = await simpleFetch(endPoint, "GET", "")
         setLikes(data.length);
-        //if (data.length ==  0) setId(0);
-
-        const response2 = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?user=${user}&esdeveniment=${esdeveniment}` );
-        if (!response2.ok) {
-          throw new Error('Error al obtener el like');
-        }    
-        const data2 = await response2.json();
+        
+        let endPoint2 = `interessos/esdeveniments/?user=${user}&esdeveniment=${esdeveniment}`;
+        const data2 = await simpleFetch(endPoint2, "GET", "")
         if (data2.length === 0)  setLiked(false);
         else    setLiked(true);
-
-    } catch (error) {
-      console.error(error);
-    }
   };
   fetchLikes();
   }, []);
 
   const handleLike = async () => {
-    try {
-      const response = await fetch('http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          perfil: user,
-          esdeveniment: esdeveniment,
-        }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error al enviar solicitud');
-      }
-  
-      setLikes((prevLikes) => prevLikes + likeValue);
-      setLiked(true);
-    } catch (error) {
-      console.error(error);
-    }
+    let endPoint = 'interessos/esdeveniments/';
+        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esdeveniment})
+        setLikes((prevLikes) => prevLikes + likeValue);
+        setLiked(true);
   };
   
   const handleUnlike = async () => {
-    try {
-      const response = await fetch(`http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/interessos/esdeveniments/?perfil=${user}&esdeveniment=${esdeveniment}`, {
-        method: 'DELETE',
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error al enviar solicitud1');
-      }
-  
-      setLikes((prevLikes) => prevLikes + likeValue);
-      setLiked(false);
-    } catch (error) {
-      console.error(error);
-    }
+    let endPoint = `interessos/esdeveniments/?perfil=${user}&esdeveniment=${esdeveniment}`;
+        const data = await simpleFetch(endPoint, "DELETE", "")
+        setLikes((prevLikes) => prevLikes + likeValue);
+        setLiked(false);
+
   };
   
   const handlePress = () => {

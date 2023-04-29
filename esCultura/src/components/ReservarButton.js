@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet , TouchableOpacity} from "react-native";
 import { ScrollView} from "react-native";
+import { simpleFetch } from "../utils/utilFunctions";
 
 export default function Reservar (props){
     const [fechaIni, setFechaIni] = useState(props.dataIni);
@@ -249,7 +250,7 @@ alignItems: 'center',
         margin: 5,
       },
       fechaSeleccionada: {
-        backgroundColor: "blue",
+        backgroundColor: "green",
       },
       fechaButtonText: {
         color: "black",

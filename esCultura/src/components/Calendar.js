@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View, Modal, TouchableOpacity } from 'react-native';
 import InfoCompleta from "./InfoCompleta";
 import Esdeveniment from './Esdeveniment';
+import { simpleFetch } from "../utils/utilFunctions";
 
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
@@ -81,7 +82,7 @@ const CustomCalendar = (props) => {
                       dateIni: dates[0].dataIni.slice(0,10),
                       dateFi: dates[0].dataFi.slice(0,10),
                       location: dates[0].espai,
-                      type: dates[0].tematiques,
+                      type: dates[0].tematiques.map(tema => tema.nom),
                       preu: dates[0].entrades,
                       codi: dates[0].codi,
                     
