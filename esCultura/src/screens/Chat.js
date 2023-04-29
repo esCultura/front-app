@@ -100,16 +100,12 @@ export default function Chat(props) {
            <View>
            
            {
-        xats.map((usu) => {
+            xats.map((usu) => {
             return (
-                
+
                 <View>
-                    <Text>patatat</Text>
                     <Xat  key={usu.id} id={usu.id}></Xat>
-                    <Text>{usu.id}</Text>
-                    <Text>cacatua</Text>
-           
-            </View>);})
+                </View>);})
     }
            
 

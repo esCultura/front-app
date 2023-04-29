@@ -34,7 +34,9 @@ export default function Home(props) {
   }
 
   return (
-    <Login></Login>
+    <Text></Text>
+    
+    //<Login></Login>
   );
 };
 
