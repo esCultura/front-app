@@ -57,6 +57,7 @@ const CustomCalendar = (props) => {
           throw new Error('Error al obtenir les assistencies');
         }    
         const data = await response.json();
+        console.log(data);
         const prevMarkedDates = { ...newMarkedDates };
         const nextMarkedDates = {};
         for (let i = 0; i < data.length; i++) {
