@@ -12,17 +12,6 @@ import {en, cat, es} from '../utils/translateLabels';
 
 export default function SearchFilter({onVariableChange}, isList) {
     
-    //split l'ideoma per defecta que te el mobil
-    let ideoma = Localitzation.locale;
-    ideoma = ideoma.split('-')[0];
-    let i18n = new I18n();
-    i18n.fallbacks = 'true';
-    i18n.translations = {en, cat, es};
-    i18n.locale = 'cat';
-    console.log("locale: ", ideoma);
-
-    const [endPoint, setEndPoint] = useState('');
-
     const [modalVisible, setModalVisible] = useState(false);
     const [slider1, setSlider1] = useState(0);
 
@@ -40,21 +29,19 @@ export default function SearchFilter({onVariableChange}, isList) {
     const [checkDansa, setCheckDansa] = useState(false);
     const [checkInfantil, setCheckInfantil] = useState(false);
     
-
     const [textSearch, setTextSearch] = useState('');
 
-    function emitVariable() {
-        onVariableChange(endPoint);
-    };
+    //split l'ideoma per defecta que te el mobil aixo a d'anar en el translate o a 
+    //utils per possar l'ideoma per defecta 
+    let ideoma = Localitzation.locale;
+    ideoma = ideoma.split('-')[0];
 
-    /**
-     * Catche the value of the TextInput
-     * @param {*} value 
-     */
-    function handleTextChange(value) {
-        setTextSearch(value);
-        console.log("Fer fetch de: ", value);
-    }
+
+    //fer alguna forma per tal de poder simplificar les 4 linea en una sola
+    let i18n = new I18n();
+    i18n.fallbacks = 'true';
+    i18n.translations = {en, cat, es};
+    i18n.locale = 'cat';
 
     /**
      * Crea la query que sera enviada al component para
@@ -65,7 +52,6 @@ export default function SearchFilter({onVariableChange}, isList) {
         let parmaArr = [];
 
         setModalVisible(false);
-        console.log("filter saved");
 
         //search text
         if (textSearch != '') {
@@ -105,9 +91,8 @@ export default function SearchFilter({onVariableChange}, isList) {
                 endpointQuery+='&'+value;
             }
         })
-        // console.log("Final endpoint Query: ", endpointQuery);
-        setEndPoint(endpointQuery);
-        emitVariable();
+        onVariableChange(endpointQuery);
+
     }
 
     /**
@@ -167,7 +152,7 @@ export default function SearchFilter({onVariableChange}, isList) {
             <TextInput 
                 value={textSearch}
                 onBlur={saveFilter}
-                onChangeText={handleTextChange}
+                onChangeText={setTextSearch}
                 placeholder={i18n.t('search')}
                 placeholderTextColor={'#666'}
             >
