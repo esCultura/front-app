@@ -127,6 +127,16 @@ else if(reservat){
         </TouchableOpacity>
     </View>)
 }
+else if(!reservat & fechaFi===fechaIni){
+    return(<View style={styles.container}> 
+       <TouchableOpacity style = {styles.button} onPress={crearReserva} >
+        <View>
+            <Text style = {styles.buttonText} > Reservar</Text>
+        </View>
+    </TouchableOpacity>
+    </View>)
+}
+
 else{
     
 return(  

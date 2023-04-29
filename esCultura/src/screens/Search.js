@@ -18,6 +18,9 @@ export default function Search(props) {
         fetch(url+`?limit=15&offset=${offset.current}`, { method: "GET" })
             .then(data => data.json())
             .then(obj => {
+                console.log("data", obj[1].dataIni)
+                console.log("lloc", obj[2].espai);
+                console.log(obj[2])
                 setEsdeveniments(obj)
             })
             .catch(err => console.error(err));
@@ -59,7 +62,7 @@ export default function Search(props) {
                     esdeveniments.map((esd) => {
                         return (<Esdeveniment key={esd.codi} title={esd.nom}
                             source={"http://agenda.cultura.gencat.cat"+esd.imatges_list[0]} desc={esd.descripcio.replaceAll("&nbsp;", "\n")}
-                            dateIni={esd.dataIni.slice(0,10)} dateFi={esd.dataFi.slice(0,10)} location={esd.espai} type={esd.tematiques} preu={esd.entrades} codi={esd.codi}/>)})
+                            dateIni={esd.dataIni.slice(0,10)} dateFi={esd.dataFi.slice(0,10)} location={esd.espai} type={esd.tematiques.map(tema => tema.nom)} preu={esd.entrades} codi={esd.codi}/>)})
                 }
             </ScrollView>
         </Screen>

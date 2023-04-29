@@ -35,8 +35,12 @@ export default function Chat(props) {
                 throw new Error('Error al obtenir el esdeveniment');
               }
               const esd = await response2.json();
-              reserves.push(esd[0]);
+              console.log("esd", esd);
+              console.log("data", esd[0].dataFi);
+              console.log("temes", esd[0].tematiques);
+              reserves.push(esd);
             }
+            console.log("reserves", reserves);
             setEsdeveniments(reserves);   
               
         } catch (error) {
@@ -73,19 +77,19 @@ export default function Chat(props) {
                 </TouchableOpacity>
                 <View style={styles.llistat}>
                 {
-                esdeveniments.map((esd) => (
+                esdeveniments.map(esd => (
                 <Esdeveniment 
-                    key ={esd.codi}
+                    key ={esd[0].codi}
                     back={() => setLlistaVisible(false)}
-                    type={esd.tematiques}
-                    desc={esd.descripcio}
-                    title={esd.nom}
-                    preu={esd.entrades}
-                    dateFi = {esd.dataFi.slice(0,10)}
-                    dateIni = {esd.dataIni.slice(0,10)}
-                    location = {esd.espai}
-                    codi = {esd.codi}
-                    source = {"http://agenda.cultura.gencat.cat"+ esd.imatges_list[0]}
+                    type={esd[0].tematiques.map(tema => tema.nom)}
+                    desc={esd[0].descripcio}
+                    title={esd[0].nom}
+                    preu={esd[0].entrades}
+                    dateFi = {esd[0].dataFi.slice(0,10)}
+                    dateIni = {esd[0].dataIni.slice(0,10)}
+                    location = {esd[0].espai}
+                    codi = {esd[0].codi}
+                    source = {"http://agenda.cultura.gencat.cat"+ esd[0].imatges_list[0]}
                             />
                     ))}
                     </View>
