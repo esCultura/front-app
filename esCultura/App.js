@@ -14,7 +14,17 @@ import ChatIcon from 'react-native-bootstrap-icons/icons/chat-fill';
 import MapIcon from 'react-native-bootstrap-icons/icons/geo-alt-fill';
 import CalendarIcon from 'react-native-bootstrap-icons/icons/calendar3';
 
+import * as Localitzation from 'expo-localization';
+import {setLanguage} from './src/utils/utilFunctions';
+
 const Tab = createBottomTabNavigator();
+
+//split l'ideoma per defecta que te el mobil aixo a d'anar en el translate o a 
+//utils per possar l'ideoma per defecta 
+let ideoma = Localitzation.locale;
+ideoma = ideoma.split('-')[0];
+console.log("ideoma per default del mobil: ", ideoma);
+setLanguage(ideoma);
 
 export default function App() {
   return (
