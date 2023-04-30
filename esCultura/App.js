@@ -41,13 +41,19 @@ export default function App() {
                 ),
                 headerShown: false,
             }} />
-            <Tab.Screen name="Chat" component={Chat} options={{
+            <Tab.Screen name="Chat" options={{
                 tabBarLabel: '',
                 tabBarIcon: ({ color, size }) => (
                     <ChatIcon name="search" color={color} size={size} />
                 ),
                 headerShown: false,
-            }}/>
+            }}
+            listeners={{
+                tabPress: handleTabPress,
+              }}
+            >
+            {() => <Chat updated={updated} handleUpdate={handleTabPress} />}
+            </Tab.Screen>
             <Tab.Screen name="Map" component={Map} options={{
                 tabBarLabel: '',
                 tabBarIcon: ({ color, size }) => (

@@ -12,7 +12,6 @@ const type_colors   = ['#3BDE4B', '#3BDE4B', '#3BDE4B', '#3BDE4B'];
 export default function Esdeveniment (props) {
     const [modalVisible, setModalVisible] = useState(false);
     let type = props.type[0]
-
     return (
         <>
             <TouchableOpacity style={styles.card} onPress={() => setModalVisible(true)}>
@@ -34,7 +33,10 @@ export default function Esdeveniment (props) {
 
             <InfoCompleta 
                 visible={modalVisible} 
-                back={() => setModalVisible(false)}
+                back={() => {setModalVisible(false),
+                    props.back()
+                }
+                }
                 type={props.type}
                 title={props.title}
                 preu={props.preu}

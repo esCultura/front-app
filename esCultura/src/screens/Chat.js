@@ -7,13 +7,16 @@ import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
 
 
-export default function Chat(props) {
+export default function Chat(updated) {
+    const handleInfoCompletaClose = () => {
+        setScreenLoaded(!screenLoaded);
+      };
 
     const user = 3;
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [infoPerfil, setInfoPerfil] = useState([]);
-    const [screenLoaded, setScreenLoaded] = useState(false);
+    const [screenLoaded, setScreenLoaded] = useState(updated);
 
     useEffect(() => {
 
@@ -41,7 +44,7 @@ export default function Chat(props) {
 
       fetchPerfil();
       fetchPreferits();
-  }, [screenLoaded]);
+  }, [screenLoaded, updated]);
 
     return (
         <Screen>
@@ -54,13 +57,13 @@ export default function Chat(props) {
 
             <Text> Trofeus </Text>
 
-            <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true);  }}>
+            <TouchableOpacity style={styles.button}>
                 <Text > Logout </Text>
             </TouchableOpacity>
 
             <Modal visible={llistaVisible } animationType="slide">
         
-                <TouchableOpacity onPress={() => setLlistaVisible(false)} style={styles.back}>
+                <TouchableOpacity onPress={() => {setLlistaVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
                     <XCircleFill color="red" width={145} height={145} />
                 </TouchableOpacity>
                 <ScrollView  contentContainerStyle={styles.llistat}>
@@ -68,11 +71,7 @@ export default function Chat(props) {
                 esdeveniments.map(esd => (
                 <Esdeveniment 
                     key ={esd[0].codi}
-                    back={() =>  {
-                      setLlistaVisible(false),
-                      setScreenLoaded(!screenLoaded);
-                      }
-                    }
+                    back={() => handleInfoCompletaClose()}
                     type={esd[0].tematiques.map(tema => tema.nom)}
                     desc={esd[0].descripcio}
                     title={esd[0].nom}
