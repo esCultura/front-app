@@ -14,7 +14,9 @@
           "isAndroidBackgroundLocationEnabled": "Allow $(esCultura) to use your location."
         }
       ],
-      ["@react-native-google-signin/google-signin"] 
+      [
+        "@react-native-google-signin/google-signin"
+      ]
     ],
     "splash": {
       "image": "./assets/splash.png",
@@ -33,12 +35,21 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#2FDD60"
       },
-      "package": "com.anonymous.esCultura"
+      "package": "com.anonymous.esCultura",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.ACCESS_BACKGROUND_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "esCultura"
-
+    "extra": {
+      "eas": {
+        "projectId": "eed79a48-3f24-4273-bdbc-71a34b4448de"
+      }
+    }
   }
 }

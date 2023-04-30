@@ -14,7 +14,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 export default function SingUp() {
 
-    const [accessToken, setAccessToken] = useState(null);
+    const [accessToken, setAccessToken] = useState('null');
     const [request, response, promtAsync] = Google.useIdTokenAuthRequest({
         clientId: "770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com",
         iosClientId: "770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com",
