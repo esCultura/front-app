@@ -12,7 +12,7 @@ export default function Screen(props) {
                     <View style={[styles.stripe, {top: 90, left: -20}]}></View>
                 </>
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.icona} />
-                <TouchableOpacity style={styles.perfil}>
+                <TouchableOpacity style={styles.perfil} onPress={()=>props.navigation.navigate("Settings")}>
                     <Image source={require('../../assets/profile-base-icon.png')} style={styles.perfilimg} />
                 </TouchableOpacity>
             </View>
