@@ -17,7 +17,15 @@ export default function Reservar (props){
 
       useEffect(() => {
         const fetchReserves = async () => {
-            try {
+              let endPoint = `assistencies/?user=${user}&esdeveniment=${esd}`;
+          const data = await simpleFetch(endPoint, "GET", "")
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].esdeveniment === esd) {
+              setReservat(true);
+            }
+        }         
+          
+          /*try {
               const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?user=${user}&esdeveniment=${esd}`, {
                       headers: {
                     'Content-Type': 'application/json', 
@@ -33,7 +41,7 @@ export default function Reservar (props){
               }
           } catch (error) {
             console.error(error);
-          }
+          }*/
         }
 
         const hoy = new Date();
@@ -61,8 +69,17 @@ export default function Reservar (props){
       fetchReserves();
       }, []);
     
-    const crearReserva = async () => {          
-        try {       
+    const crearReserva = async () => {      
+      let endPoint = 'assistencies/';
+      if (fechaIni == fechaFi) {
+        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaFi});
+      }
+      else {
+        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaSeleccionada});
+      }
+      setReservat(true);
+
+      /*  try {       
           const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/', {
           method: 'POST',
           mode:'no-cors', 
@@ -82,7 +99,7 @@ export default function Reservar (props){
     setReservat(true);
     } catch (error) {
       console.error(error);
-    }
+    }*/
 }
   
 
@@ -92,8 +109,12 @@ export default function Reservar (props){
   };
 
 
-  const eliminarReserva = async () => {    
-      try {
+  const eliminarReserva = async () => { 
+    let endPoint = `assistencies/?perfil=${user}&esdeveniment=${esd}`;
+        const data = await simpleFetch(endPoint, "DELETE", "")
+        setReservat(false);
+
+      /*try {
       const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${user}&esdeveniment=${esd}`,  {
       method: 'DELETE',
       mode:'no-cors', 
@@ -108,7 +129,7 @@ export default function Reservar (props){
   setReservat(false);
   } catch (error) {
     console.error(error);
-  }
+  }*/
 }
 
 if (acabat){

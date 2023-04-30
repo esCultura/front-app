@@ -1,11 +1,11 @@
 import Screen from "../components/Screen";
 import { Text, ScrollView, View, Modal, TouchableOpacity } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image, Platform } from 'react-native';
 import Esdeveniment from '../components/Esdeveniment';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
-
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Chat(updated) {
     const handleInfoCompletaClose = () => {
@@ -17,6 +17,8 @@ export default function Chat(updated) {
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [infoPerfil, setInfoPerfil] = useState([]);
     const [screenLoaded, setScreenLoaded] = useState(updated);
+    const [imageUri, setImageUri] = useState(null);
+    const [trofeus, setTrofeus] = useState(null);
 
     useEffect(() => {
 
@@ -32,6 +34,15 @@ export default function Chat(updated) {
             }
             console.log("reserves", reserves);
             setEsdeveniments(reserves); 
+
+        /*const fetchTrofeus = async () => {
+            let endPoint = 'usuaris/perfils?user=3/estadistiques';
+            const response = await simpleFetch(endPoint, "GET", "");
+            if (response.length > 5) setTrofeus(bronce);
+            if (response.length > 10) setTrofeus(plata);
+            if (response.length > 15) setTrofeus(or);
+            
+        }*/
       };
 
   
@@ -40,16 +51,48 @@ export default function Chat(updated) {
           const data = await simpleFetch(endPoint, "GET", "")
           console.log("datos", data[2]);
           setInfoPerfil(data[2]);
+          setImageUri(data[2].imatge);
       }
 
       fetchPerfil();
       fetchPreferits();
   }, [screenLoaded, updated]);
 
+  const editFoto = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImageUri(result.uri);
+      onImatgeChange(result.uri);
+    }
+  };
+
+  const onImatgeChange = async (newImage) => {
+        let endPoint = 'usuaris/perfils?user=3'
+        const response = await simpleFetch(endPoint, "PUT", { imatge:newImage.uri });
+    }
+
     return (
         <Screen>
-            <Text> Foto perfil + nom + atributs </Text>
-            <Text> {infoPerfil.imatge} + {infoPerfil.username} + {infoPerfil.email} </Text>
+            <Image
+                source={
+                    imageUri
+                    ? { uri: imageUri }
+                    : require('../../assets/profile-base-icon.png')
+                }
+                style={styles.imatgePerfil}
+            />
+            <TouchableOpacity style={styles.button} onPress={editFoto}>
+                { <Text> ediar foto </Text> }
+            </TouchableOpacity>
+            
+            <Text> Username: {infoPerfil.username} </Text>
+            <Text> Email: {infoPerfil.email} </Text>
 
             <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true); }}>
                 <Text > LlistaPreferits </Text>
@@ -97,27 +140,33 @@ export default function Chat(updated) {
 const styles = StyleSheet.create({
     button: {
         backgroundColor: 'green',
-    padding:10,
-    borderRadius: 5,
-    shadowOffset: { width: 2 , height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    width: 130,
-    justifyContent: 'center', 
-    alignItems: 'center',
+        padding:10,
+        borderRadius: 5,
+        shadowOffset: { width: 2 , height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        width: 130,
+        justifyContent: 'center', 
+        alignItems: 'center',
     },
-      llistat: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: 20,
-        },
-        back: {
-            zIndex: 1,
-            position: 'absolute',
-            top: 6,
-            left: 6,
-            width: 16,
-            height: 16,
-        }
+    llistat: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 20,
+    },
+    back: {
+        zIndex: 1,
+        position: 'absolute',
+        top: 6,
+        left: 6,
+        width: 16,
+        height: 16,
+    },
+    imatgePerfil: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginTop: 20,
+    }
 });
