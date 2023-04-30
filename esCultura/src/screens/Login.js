@@ -1,33 +1,66 @@
 import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native";
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 //https://www.npmjs.com/package/react-native-keychain
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
 
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [accessToken, setAccessToken] = useState(null);
+    const [request, response, promtAsync] = Google.useIdTokenAuthRequest({
+        clientId: "770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com",
+        iosClientId: "770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com",
+        androidClientId: "770757510426-cklpthldhp6u7iurthc8mfjmlr2kueuv.apps.googleusercontent.com"
+    });
     const [data, setData] = useState('');
     let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
+    useEffect( ()=>{
+        console.log("google response: ", response?.type);
+        if (response?.type === "success") {
+            console.log("response params: ", response.params);
+            console.log("response auth: ", response.authentication);
+            setAccessToken(response.authentication);
+            
+            fetch(host+'usuaris/sign_in/google-oauth2', {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    "Content-Type": "application/json",
+                },
+                
+                body: JSON.stringify({access_token: accessToken}),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(console.error)
+            
+        }
+    }, [response, accessToken])
+
+
+    function loginWithGoogle() {
+        promtAsync();
+        console.log("login amb google");
+    }
 
     function login() {
         console.log("login");
         
         fetch(host+'usuaris/login/perfils/',  {   
             method: "POST",
-            /*
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            */
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            
             body: JSON.stringify({password: password, username: username}),
         })
             .then(res => res.json())
@@ -36,11 +69,6 @@ export default function Login() {
                 console.log("login: ", data);
             })
             .catch(console.error)
-    }
-
-    function loginWithGoogle() {
-        console.log("login amb google");
-        
     }
 
     function handleTextChangePassword(value) {

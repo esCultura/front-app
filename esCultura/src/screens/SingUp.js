@@ -31,16 +31,12 @@ export default function SingUp() {
     useEffect( ()=>{
         console.log("google response: ", response?.type);
         if (response?.type === "success") {
+            console.log("response params: ", response.params);
             console.log("response auth: ", response.authentication);
-            setAccessToken(response.params.id_token);
+            setAccessToken(response.authentication);
             
             fetch(host+'usuaris/sign_in/google-oauth2', {
                 method: "POST",
-                mode: "no-cors",
-                /*
-                cache: "no-cache",
-                credentials: "same-origin",
-                */
                 headers: {
                     'Accept': 'application/json',
                     "Content-Type": "application/json",
@@ -53,6 +49,7 @@ export default function SingUp() {
                     console.log(data);
                 })
                 .catch(console.error)
+            
         }
     }, [response, accessToken])
 
@@ -66,16 +63,10 @@ export default function SingUp() {
         
         fetch(host+'usuaris/sign_up/perfils/', {
             method: "POST",
-            /*
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            */
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json",
             },
-            
             body: JSON.stringify({password: password, password2: password, username: username, email: email}),
         })
             .then(res => res.json())
@@ -151,6 +142,7 @@ export default function SingUp() {
             >
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
+            <Text>{accessToken}</Text>
             
 
         </LinearGradient>
