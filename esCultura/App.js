@@ -17,8 +17,10 @@ export default function App() {
   return (
     <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false, animation: 'slide_from_right'}}>
-            <Stack.Screen name="Base" component={Base} />
-            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Group>
+              <Stack.Screen name="Base" component={Base} />
+              <Stack.Screen name="Settings" component={Settings} />
+            </Stack.Group>
         </Stack.Navigator>
     </NavigationContainer>
   );

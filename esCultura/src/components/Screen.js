@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Screen(props) {
+export default function Screen({ navigation, children }) {
     return (
         <SafeAreaView style={{backgroundColor: "#2FDD60", flex: 1}}>
             <View style={styles.topbar}>
@@ -12,12 +12,12 @@ export default function Screen(props) {
                     <View style={[styles.stripe, {top: 90, left: -20}]}></View>
                 </>
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.icona} />
-                <TouchableOpacity style={styles.perfil} onPress={()=>props.navigation.navigate("Settings")}>
+                <TouchableOpacity style={styles.perfil} onPress={()=>navigation.navigate("Settings")}>
                     <Image source={require('../../assets/profile-base-icon.png')} style={styles.perfilimg} />
                 </TouchableOpacity>
             </View>
             <View style={styles.container}>
-                {props.children}
+                {children}
             </View>
         </SafeAreaView>
     );

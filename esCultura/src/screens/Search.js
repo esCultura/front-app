@@ -45,7 +45,7 @@ export default function Search(props) {
     };
 
     return (
-        <Screen>
+        <Screen navigation={props.navigation}>
             <ScrollView 
             onScroll={({nativeEvent}) => {
                 if (isCloseToBottom(nativeEvent)) {

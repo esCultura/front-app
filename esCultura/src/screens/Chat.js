@@ -3,7 +3,7 @@ import Screen from "../components/Screen";
 
 export default function Chat(props) {
     return (
-        <Screen>
+        <Screen navigation={props.navigation}>
             <Text>CHAT</Text>
         </Screen>
     );
