@@ -5,7 +5,6 @@
 let language = 'cat';
 
 export function setLanguage(newLanguage) {
-    console.log("newLanguage: ", newLanguage);
     language = newLanguage;
 }
 

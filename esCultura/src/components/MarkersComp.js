@@ -2,22 +2,19 @@ import React, {useState, useEffect} from 'react';
 import {Marker} from 'react-native-maps';
 import {simpleFetch} from '../utils/utilFunctions';
 
-export default function MarkersMap({queryFilter}, props) {
-    console.log('esdeveniments/?latitud=' + props.latitud + '& longitud=' + props.longitud + '&limit=150 &'+queryFilter);
+export default function MarkersMap({queryFilter, longitudeDivice, latitudeDivice}) {
     function componentDidMount() {
-      let endPoint =  "esdeveniments/?latitud=" + props.latitud + "& longitud=" + props.longitud + "&limit=5";
+      let endPoint =  "esdeveniments/?latitud=" + latitudeDivice +"&longitud=" + longitudeDivice + "&limit=30";
       console.log("query: ", queryFilter);
       if (queryFilter != "") {
-        endPoint = "esdeveniments/?latitud=" + props.latitud + "& longitud=" + props.longitud + "&"+ queryFilter +"&limit=5" ;
+        endPoint = "esdeveniments/?latitud=" + latitudeDivice +"&longitud=" + longitudeDivice + "&"+ queryFilter +"&limit=30" ;
       }
-      console.log("endpoint: ", endPoint);
-      
       simpleFetch(endPoint, "GET", "").then((data) => setEventsData(data))
     }
     
     useEffect( ()=>{
       componentDidMount();
-    }, [queryFilter])
+    }, [queryFilter, longitudeDivice, latitudeDivice])
 
     const [eventsData, setEventsData] = useState([]);
 

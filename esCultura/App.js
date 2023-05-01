@@ -23,7 +23,6 @@ const Tab = createBottomTabNavigator();
 //utils per possar l'ideoma per defecta 
 let ideoma = Localitzation.locale;
 ideoma = ideoma.split('-')[0];
-console.log("ideoma per default del mobil: ", ideoma);
 setLanguage(ideoma);
 
 export default function App() {

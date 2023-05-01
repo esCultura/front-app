@@ -5,7 +5,6 @@ import {setLanguage, getLanguage} from '../utils/utilFunctions';
 
 export default function TranslateSelector( ) {
     const [selectedValue, setSelectedValue] = useState( getLanguage() );
-    
 
     function onChange(value) {
         setSelectedValue(value);

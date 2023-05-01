@@ -50,9 +50,10 @@ export default function MapComp() {
         <MapView style={styles.map}
           region={region}
         >
-          <MarkersMap queryFilter={dataEvent}
-            longitude = {longitudeDivice}
-            latitude = {latitudeDivice}
+          <MarkersMap 
+            queryFilter={dataEvent}
+            longitudeDivice = {longitudeDivice}
+            latitudeDivice = {latitudeDivice}
           ></MarkersMap>
           <Marker
             coordinate={{ 
