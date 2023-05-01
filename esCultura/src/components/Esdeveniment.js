@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import LikeButton from "./LikeButton";
-import Reservar from "./ReservarButton";
 import InfoCompleta from "./InfoCompleta";
 
 let typecolor = '#3BDE4B';
@@ -12,7 +10,7 @@ const type_colors   = ['#3BDE4B', '#3BDE4B', '#3BDE4B', '#3BDE4B'];
 export default function Esdeveniment (props) {
     const [modalVisible, setModalVisible] = useState(false);
 
-    let type = props.type[0]
+    let type = props.type[0].nom;
 
     return (
         <>
