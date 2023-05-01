@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Image} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' ;
 import Search from 'react-native-bootstrap-icons/icons/search';
 
@@ -12,28 +12,48 @@ export default function NewXat (props){
     const [modalVisible, setModalVisible] = useState(false);
     const [usuaris, setUsuaris] =useState([]);
     const [data,setData]=useState('')
+    const [existents, setExisteixXat] = useState([])
+
     
     useEffect(() => {
-
+        const fetchUsuaris = async () => {   
+            let endPoint = 'usuaris/perfils';
+                simpleFetch(endPoint, "GET", "").then((data) => setUsuaris(data))
+                console.log("fetchUsus")
+                console.log(usuaris)
+    }
+    fetchUsuaris()
+    existeixXat()
+   
       }, []);
     
-      const crearXat = async () => {   
+      /*const crearXat = async () => {   
         let endPoint = 'xats/';
-            simpleFetch(endPoint, "POST", {participant_id:[1,2]}).then((data) => setData(data))
+            simpleFetch(endPoint, "POST", {participant_id:1, participant_id:6}).then((data) => setData(data))
             console.log("crearXat")
             console.log(data)
-}
+}*/
+
+        function existeixXat (){
+             let exis =[]
+            if(props.xats != 0){
+            let array_xats = props.xats
+            console.log('piiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii',array_xats)
+            array_xats.forEach(item =>{
+                if(item.participants.length == 2){
+                    item.participants.forEach(it=>{
+                        if(it.user != 6) exis.push(it.user);
+                    })
+                }
+            }
+                
+            )
+            exis.push(6)
+            setExisteixXat(exis)
+        }}
 
     
-/*<View>
-{
-        usuaris.map((usu) => {
-            return (
-                <View>
-            <Xat username={usu.username} source={usu.imatge}/>
-            </View>);})
-    }
-    </View>*/
+
     
     return(
         <View>
@@ -53,11 +73,27 @@ export default function NewXat (props){
             </View>
             </View>
             <View>
-                <TouchableOpacity onPress={crearXat}>
+                <TouchableOpacity >
                     <NewGrup></NewGrup>
                 </TouchableOpacity>
             </View>
-            
+            <View>
+            {
+            usuaris.map((usu) => {
+                if(existents.indexOf(usu.user) == -1){
+                return (
+                    <View>
+                        <TouchableOpacity  key={usu.user} style={styles.info_xat} >
+                            <Image 
+                                style={styles.foto}
+                                source={usu.imatge}
+                                />
+                            <Text style={styles.nom}>{usu.username}</Text>
+                        </TouchableOpacity>
+                </View>)}
+                ;})
+            }
+    </View>
                 
             
             <View>
@@ -125,6 +161,31 @@ const styles = StyleSheet.create({
         marginRight:20,
         fontSize:50
         
+    },
+    info_xat: {
+        width: '100%',
+        height: 70,
+        overflow: 'hidden',
+        marginVertical: 10,
+        borderColor: 'black',
+        borderWidth: 1,
+        backgroundColor:'#DCDCDC'
+    },
+   foto: {
+        width:50,
+        height:50,
+        borderRadius:50,
+        marginLeft:10,
+        marginVertical:10,
+    },
+    nom:{
+        position: 'absolute',
+        left:80,
+        top: 10,
+        alignSelf: 'flex-start',
+        fontSize: 20,
+        fontStyle: "normal",
+        fontWeight: 'bold'
     },
     
 

@@ -11,15 +11,18 @@ export default function Chat(props) {
     const [data,setData]=useState('')
     const [usuaris, setUsuaris] = useState([])
     const [xats, setXats] = useState([])
+    const [idUser,setIdUser] = useState([]);
     var users =[]
+    
+    
 
     useEffect(() => {
 
         const fetchXats = async () => {
             let endPoint = 'xats/';
             simpleFetch(endPoint, "GET", "").then((data) => setXats(data))
-            console.log("fetchXats")
-            console.log(xats)
+            //console.log("fetchXats")
+            //console.log(xats)
            /* 
             for(var i =0; i< xats.length; ++i){
                 for(var j= 0; j< xats[i].participants.length; ++j){
@@ -77,14 +80,21 @@ export default function Chat(props) {
             console.error(error);
           }*/
         }
+        const getUserId = async () => { 
+        
+            let endPoint = 'usuaris/perfils/jo';
+            simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
+
+    }
       fetchXats();
+      getUserId();
       }, []);
     
       
       
       
        
-      
+      //<NewXat xats={xats}></NewXat>
      
     return (
         <Screen >
@@ -94,17 +104,17 @@ export default function Chat(props) {
                 <Search  color={'black'}  style={styles.icono}></Search>
                 
             </View>
-           <NewXat></NewXat>
+           
            
            </View>
            <View>
            
            {
-            xats.map((usu) => {
+            xats.map((xat) => {
             return (
 
                 <View>
-                    <Xat  key={usu.id} id={usu.id}></Xat>
+                    <Xat user={idUser} key={xat.id} part={xat.participants} id={xat.id} miss={xat.ultim_missatge}></Xat>
                 </View>);})
     }
            

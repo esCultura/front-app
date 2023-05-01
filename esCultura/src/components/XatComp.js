@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput,Image, ScrollView} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import ArrowRightShort from 'react-native-bootstrap-icons/icons/arrow-right-short' 
 import {simpleFetch} from '../utils/utilFunctions';
+import InfoXat from "./InfoXatComp";
 
 
 export default function Xat (props){
@@ -11,62 +12,72 @@ export default function Xat (props){
     const [missatges,setMissatges]=useState([]);
     const [textMissatge, setTextMissatge] = useState('');
     const [data,setData] = useState('');
-    const [id,setId] = useState(props.id);
+    const [ultim_mis, setUltimMiss] = useState('');
+    const scrollViewRef = useRef();
+   
+    const [nom, setNom]=useState('');
     
     function imatgePerfil(props) {
         if(props.imatge != null){
             setUrlImatge(props.imatge);
         }
     };
+    
     function handleTextChange(value) {
         setTextMissatge(value);
                 
     }
+    function nomXat(){
+        let array = props.part
+        if(array != 0){
+        array.forEach(item =>{
+            
+            if(array.length > 2){
+                setNom("Grup")
+            }
+            else{
+                if(item.user != props.user.user) setNom(item.username);
+            }
+
+        })}
+    }
+    function ultimMissatge(){
+        if(props.miss != null){
+            setUltimMiss(props.miss.text)
+        }
+    }
+    
     
     function veureXat(){
-        
         setModalVisible(true);
-        
-        
     }
+  
     useEffect(() => {
-    const fetchMissatges = async () => {
-        //console.log(id)
         
-        //let endPoint = 'xats/'+id+'/missatges/';
-        //simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data))
-        //console.log('fetchmissatges')
-        //console.log(missatges)
+        
+    const fetchMissatges = async () => {
+        
+        let endPoint = 'xats/'+props.id+'/missatges/';
+        simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data))
+        /*console.log('fetchmissatges')
+        console.log(missatges)*/
        
     }
+    
     fetchMissatges();
+    nomXat();
+    ultimMissatge()
       }, []);
-    const enviarMissatge = async (id) => { 
-        //console.log('aaaaaa')
-        //let endPoint = 'xats/'+id+'/missatges/';
-        //simpleFetch(endPoint, "POST", {text:textMissatge,xat:id,creador:2}).then((data) => setData(data))
-        //console.log(xats)  
-       // console.log(textMissatge)
+    /*const enviarMissatge = async () => { 
+        console.log('aaaaaa')
+        let endPoint = 'xats/'+props.id+'/missatges/';
+        simpleFetch(endPoint, "POST", {text:textMissatge,xat:props.id,creador:props.user}).then((data) => setData(data))
+        console.log(xats)  
+        console.log(textMissatge)
        
-}
+}*/
 
-/*<View>
-                {
-                    missatges?.map((miss) => {
-                        
-                        if(miss.creador == 2){
-                            return (
-                            <View style={styles.textpropi}>  
-                                <Text key={miss.id} style={styles.textMiss}> {miss.text}</Text>
-                            </View>) 
-                        }
-                        else{
-                        return (
-                        <View style={styles.textextern}>
-                            <Text key={miss.id} style={styles.textMiss}> {miss.text}</Text>
-                        </View>);}})
-                }
-                </View>  */
+
     
     return(
         <View>
@@ -75,8 +86,8 @@ export default function Xat (props){
                     style={styles.foto}
                     source={urlImatge}
                     />
-                <Text style={styles.nom}>{props.id}</Text>
-                <Text style={styles.ultim_miss}>Bon dia</Text>
+                <Text style={styles.nom}>{nom}</Text>
+                <Text style={styles.ultim_miss}>{ultim_mis}</Text>
             </TouchableOpacity>
             
             <Modal visible={modalVisible} >
@@ -87,27 +98,42 @@ export default function Xat (props){
                     <Image
                     style={styles.fot}
                     source={urlImatge}/>
-                    <Text >{props.id}</Text>
+                    <Text >{nom}</Text>
+                    <InfoXat></InfoXat>
                 </View>
-                <View>
+                
+                <View style={styles.scroll}>
+                <ScrollView ref={scrollViewRef}
+                            onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
+                {
+                    missatges?.map((miss) => {
+                        if(miss.creador.user == props.user.user){
+                            return (
                             <View style={styles.textpropi}>  
-                                <Text  style={styles.textMiss}> Hola</Text>
-                                <Text style={styles.hora}> 12:50</Text>
-                            </View>
-                            <View style={styles.textextern}>  
-                                <Text  style={styles.textMiss}> Adeu</Text>
-                                <Text style={styles.hora}> 13:30</Text>
-                            </View>
+                                <Text key={miss.id} style={styles.textMiss}> {miss.text}</Text>
+                                <Text key={miss.id} style={styles.hora}> {miss.data}</Text>
+                            </View>) 
+                        }
+                        else{
+                        return (
+                            
+                        <View style={styles.textextern}>
+                            <Text key={miss.id} style={styles.textMiss}> {miss.text}</Text>
+                            <Text key={miss.id} style={styles.hora}> 13:30</Text>
+                        </View>);}})
+                }
+                </ScrollView>
                 </View>
-               
                 <View style={styles.missatge}>
                 <TextInput style={styles.input} placeholder={'Missatge'} value={textMissatge} onChangeText={handleTextChange}/>
                 
-                <TouchableOpacity style={styles.icono} onPress={enviarMissatge(props.id)}>
+                <TouchableOpacity style={styles.icono} >
                         <ArrowRightShort color="black"></ArrowRightShort>
                 </TouchableOpacity>
                 
+                
                 </View>
+                
          </Modal>
          </View>
     )
@@ -122,6 +148,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center', 
+    },
+    scroll:{
+        
+        marginBottom:125,
     },
 
         info_xat: {
@@ -201,7 +231,7 @@ const styles = StyleSheet.create({
             margin: 12,
             marginVertical:10,
             width:'95%',
-            //flex:1
+            //
             position:'absolute',
             bottom:0,
         },
@@ -218,7 +248,8 @@ const styles = StyleSheet.create({
             borderRadius: 13,
             margin: 12,
             marginVertical:10,
-            width:'50%',
+            minWidth:'50%',
+            //width:'50%',
             right:0,
             textAlign:'right',
             alignSelf:'flex-end'
@@ -233,7 +264,8 @@ const styles = StyleSheet.create({
             borderRadius: 13,
             margin: 12,
             marginVertical:10,
-            width:'50%',
+            minWidth:'50%',
+            //width:'50%',
             
         },
         hora:{
