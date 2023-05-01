@@ -11,7 +11,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Base from './src/screens/Base';
 import Settings from './src/screens/Settings';
 
+import * as Localitzation from 'expo-localization';
+import {setLanguage} from './src/utils/utilFunctions';
+
 const Stack = createNativeStackNavigator();
+
+//split l'ideoma per defecta que te el mobil aixo a d'anar en el translate o a 
+//utils per possar l'ideoma per defecta 
+let ideoma = Localitzation.locale;
+ideoma = ideoma.split('-')[0];
+console.log("ideoma per default del mobil: ", ideoma);
+setLanguage(ideoma);
 
 export default function App() {
   return (

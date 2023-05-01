@@ -6,9 +6,9 @@ import FilterLeft from 'react-native-bootstrap-icons/icons/filter-left';
 import CalendarEvent from 'react-native-bootstrap-icons/icons/calendar-event';
 import ArrowDown from 'react-native-bootstrap-icons/icons/arrow-down';
 
-import * as Localitzation from 'expo-localization';
 import {I18n} from 'i18n-js';
 import {en, cat, es} from '../utils/translateLabels';
+import {getLanguage} from '../utils/utilFunctions';
 
 export default function SearchFilter({onVariableChange}, isList) {
     
@@ -31,17 +31,16 @@ export default function SearchFilter({onVariableChange}, isList) {
     
     const [textSearch, setTextSearch] = useState('');
 
-    //split l'ideoma per defecta que te el mobil aixo a d'anar en el translate o a 
-    //utils per possar l'ideoma per defecta 
-    let ideoma = Localitzation.locale;
-    ideoma = ideoma.split('-')[0];
-
-
+    
     //fer alguna forma per tal de poder simplificar les 4 linea en una sola
     let i18n = new I18n();
     i18n.fallbacks = 'true';
     i18n.translations = {en, cat, es};
-    i18n.locale = 'cat';
+
+    useEffect(() => {
+        i18n.locale = getLanguage();
+        console.log("showing filter");
+      }, []);
 
     /**
      * Crea la query que sera enviada al component para
