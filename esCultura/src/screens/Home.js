@@ -6,8 +6,6 @@ import Screen from "../components/Screen";
 import InfoCompleta from "../components/InfoCompleta";
 
 export default function Home(props) {
-    
-
   const [showDetails, setShowDetails] = useState(true);
   const [llista, setLlista] = useState(0);
 
@@ -33,7 +31,7 @@ export default function Home(props) {
   }
 
   return (
-    <Screen>
+    <Screen navigation={props.navigation}>
       <Esdeveniment
           type={["musical"]}
           title="Billy Elliot, el musical"

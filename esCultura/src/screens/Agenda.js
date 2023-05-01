@@ -6,7 +6,7 @@ import Screen from "../components/Screen.js";
 
 export default function Agenda(props) {
     return (
-      <Screen>
+      <Screen navigation={props.navigation}>
         <CustomCalendar perfil="primerUsuari" />
       </Screen>
   );

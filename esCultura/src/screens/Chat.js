@@ -4,7 +4,7 @@ import TranslateSelector from "../components/TranslateSelector";
 
 export default function Chat(props) {
     return (
-        <Screen>
+        <Screen navigation={props.navigation}>
             <View style={styles.margin}>
                 <TranslateSelector></TranslateSelector>
             </View>
