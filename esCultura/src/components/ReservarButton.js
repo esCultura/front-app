@@ -11,7 +11,7 @@ export default function Reservar (props){
     const [fechasVisibles, setFechasVisibles] = useState([]); 
     const [reservat, setReservat] = useState(false);
     const [acabat, setAcabat] = useState(false);
-    const user = 3;
+    const user = 6;
     const esd = props.codi;
     const [fechas, setFechas] = useState([]);
 

@@ -6,24 +6,28 @@ import Esdeveniment from '../components/Esdeveniment';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
 import * as ImagePicker from 'expo-image-picker';
+import ProfileForm  from '../components/ProfileForm'; 
 
 export default function Chat(updated) {
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
       };
-
-    const user = 3;
+    const props = 6;
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [infoPerfil, setInfoPerfil] = useState([]);
     const [screenLoaded, setScreenLoaded] = useState(updated);
+    const [formVisible, setFormVisible] = useState(false);
     const [imageUri, setImageUri] = useState(null);
     const [trofeus, setTrofeus] = useState(null);
+    const [seguits, setSeguits] = useState(null);
+    const [seguidors, setSeguidors] = useState(null);
+    
 
     useEffect(() => {
 
         const fetchPreferits = async () => {
-            let endPoint = 'interessos/esdeveniments/?perfil=3';
+            let endPoint = `interessos/esdeveniments/?perfil=${props}`;
             const data = await simpleFetch(endPoint, "GET", "");
             const reserves = [];
             for (let i = 0; i < data.length; i++) {
@@ -35,28 +39,36 @@ export default function Chat(updated) {
             console.log("reserves", reserves);
             setEsdeveniments(reserves); 
 
-        /*const fetchTrofeus = async () => {
-            let endPoint = 'usuaris/perfils?user=3/estadistiques';
-            const response = await simpleFetch(endPoint, "GET", "");
-            if (response.length > 5) setTrofeus(bronce);
-            if (response.length > 10) setTrofeus(plata);
-            if (response.length > 15) setTrofeus(or);
-            
-        }*/
-      };
+        }
 
   
       const fetchPerfil = async () => {
-          let endPoint = 'usuaris/perfils?user=3';
+          let endPoint = `usuaris/perfils/${props}`;
           const data = await simpleFetch(endPoint, "GET", "")
-          console.log("datos", data[2]);
-          setInfoPerfil(data[2]);
-          setImageUri(data[2].imatge);
+          console.log("datos", data);
+          setInfoPerfil(data);
+          setSeguits(data.estadistiques.seguits);
+          setSeguidors(data.estadistiques.seguidors);
+          console.log("info", infoPerfil.email);
+          console.log("info", seguidors);
+
+          
+          //setImageUri(data.imatge);r
+
+         /* if (response.estadistiques > 5) setTrofeus(bronce);
+            if (response.length > 10) setTrofeus(plata);
+            if (response.length > 15) setTrofeus(or);*/
       }
 
-      fetchPerfil();
       fetchPreferits();
+      fetchPerfil();
   }, [screenLoaded, updated]);
+
+
+  const handleSaveProfile = (newProfile) => {
+    setInfoPerfil(newProfile);
+    setFormVisible(false);
+  }
 
   const editFoto = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -66,19 +78,31 @@ export default function Chat(updated) {
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setImageUri(result.uri);
-      onImatgeChange(result.uri);
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+      console.log("foto", result.assets[0].uri);
+      onImatgeChange(result.assets[0].uri);
     }
   };
 
   const onImatgeChange = async (newImage) => {
-        let endPoint = 'usuaris/perfils?user=3'
-        const response = await simpleFetch(endPoint, "PUT", { imatge:newImage.uri });
+        let endPoint = `usuaris/perfils/${props}`;
+
+          const formData = new FormData();
+            formData.append('imatge', {
+                uri: newImage,
+                type: 'image/jpeg', // o el tipo de imagen que sea
+                name: 'image.jpg', 
+            });
+
+
+        const response = await simpleFetch(endPoint, "PUT", { imatge:"formData"});
     }
 
     return (
         <Screen>
+         <View style={styles.container} > 
+            <View style={styles.leftContainer}> 
             <Image
                 source={
                     imageUri
@@ -87,22 +111,52 @@ export default function Chat(updated) {
                 }
                 style={styles.imatgePerfil}
             />
-            <TouchableOpacity style={styles.button} onPress={editFoto}>
+            <TouchableOpacity style={styles.FotoButton} onPress={editFoto}>
                 { <Text> ediar foto </Text> }
             </TouchableOpacity>
+
+            </View>
+
+            <View style={styles.rightContainer} >
+                <TouchableOpacity >
+                    <Text >  {seguits} Seguits </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity >
+                    <Text >  {seguidors} Seguidors </Text>
+                </TouchableOpacity>
+            </View>
+            </View>
             
             <Text> Username: {infoPerfil.username} </Text>
             <Text> Email: {infoPerfil.email} </Text>
 
-            <TouchableOpacity style={styles.button} onPress={() => {setLlistaVisible(true); }}>
+            <TouchableOpacity style={styles.PreferitsButton} onPress={() => {setLlistaVisible(true); }}>
                 <Text > LlistaPreferits </Text>
             </TouchableOpacity>
 
-            <Text> Trofeus </Text>
+            <Text> Escultures </Text>
 
-            <TouchableOpacity style={styles.button}>
+            
+
+            <View style={styles.bottomContainer}>
+            <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
+                <Text > Edit </Text>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity style={styles.logoutButton}>
                 <Text > Logout </Text>
             </TouchableOpacity>
+                
+            </View>
+
+            <Modal visible={formVisible} animationType="slide">
+            <TouchableOpacity onPress={() => {setFormVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
+                    <XCircleFill color="red" width={145} height={145} />
+                </TouchableOpacity>
+                <ProfileForm infoPerfil={infoPerfil} onSave={handleSaveProfile}/>
+            </Modal>
 
             <Modal visible={llistaVisible } animationType="slide">
         
@@ -138,8 +192,46 @@ export default function Chat(updated) {
 }
 
 const styles = StyleSheet.create({
-    button: {
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+      },
+    FotoButton: {
         backgroundColor: 'green',
+        padding:10,
+        borderRadius: 5,
+        shadowOffset: { width: 2 , height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        width: 130,
+        justifyContent: 'center', 
+        alignItems: 'center',
+    },
+    PreferitsButton: {
+        backgroundColor: '#FF8BE1',
+        padding:10,
+        borderRadius: 5,
+        shadowOffset: { width: 2 , height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        width: 130,
+        justifyContent: 'center', 
+        alignItems: 'center',
+    },
+    editButton: {
+        backgroundColor: 'green',
+        padding:10,
+        borderRadius: 5,
+        shadowOffset: { width: 2 , height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        width: 130,
+        justifyContent: 'center', 
+        alignItems: 'center',
+    },
+    logoutButton: {
+        backgroundColor: '#26B7FF',
         padding:10,
         borderRadius: 5,
         shadowOffset: { width: 2 , height: 2 },
@@ -168,5 +260,30 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 50,
         marginTop: 20,
-    }
+    },
+    leftContainer: {
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        paddingHorizontal: 20,
+      },
+      rightContainer: {
+        flex: 1,
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        //spaddingHorizontal: 20,
+      },
+      statsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+      },
+      bottomContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 30,
+      },
 });

@@ -7,7 +7,7 @@ const LikeButton =  ( props ) => {
     const [liked, setLiked] = useState(0);
     const [likes, setLikes] = useState(0);
     const likeValue = liked ? -1 : 1;
-    const user = 3
+    const user = 6
     const esdeveniment = props.codi;
     
    useEffect(() => {

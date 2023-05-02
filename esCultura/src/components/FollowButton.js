@@ -11,7 +11,7 @@ const FollowButton =  ( props ) => {
     
    useEffect(() => {
     const fetchFollows = async () => {
-        let endPoint = `interessos/esdeveniments/?esdeveniment=${esdeveniment}`;
+        let endPoint = `seguiments/`;
         const data = await simpleFetch(endPoint, "GET", "")
         
         let endPoint2 = `interessos/esdeveniments/?user=${user}&esdeveniment=${esdeveniment}`;
