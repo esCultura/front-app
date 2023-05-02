@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -11,6 +12,7 @@ import SingUp from './src/screens/SingUp';
 
 import * as Localitzation from 'expo-localization';
 import {setLanguage} from './src/utils/utilFunctions';
+import {AsyncStorage} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +24,25 @@ setLanguage(ideoma);
 
 export default function App() {
   //isSignedIn
-  let isSignedIn = false;
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect( ()=>{
+    _retrieveData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('isSignedIn');
+        if (value !== null) {
+          setIsSignedIn(value);
+          console.log(value);
+        }
+      } catch (error) {
+        console.log("error AsyncStorage: ", error);
+      }
+    };
+  }, [isSignedIn])
+
+  const onLogin = (value) => {
+    setIsSignedIn(value);
+  }
 
   return (
     <NavigationContainer>
