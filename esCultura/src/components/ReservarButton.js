@@ -24,24 +24,6 @@ export default function Reservar (props){
               setReservat(true);
             }
         }         
-          
-          /*try {
-              const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?user=${user}&esdeveniment=${esd}`, {
-                      headers: {
-                    'Content-Type': 'application/json', 
-                      }});
-              if (!response.ok) {
-                throw new Error('Error al obtener el likes2');
-              }    
-              const data = await response.json();
-              for (let i = 0; i < data.length; i++) {
-                  if (data[i].esdeveniment === esd) {
-                    setReservat(true);
-                  }
-              }
-          } catch (error) {
-            console.error(error);
-          }*/
         }
 
         const hoy = new Date();
@@ -78,28 +60,6 @@ export default function Reservar (props){
         const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaSeleccionada});
       }
       setReservat(true);
-
-      /*  try {       
-          const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/', {
-          method: 'POST',
-          mode:'no-cors', 
-          headers: {
-            'Content-Type': 'application/json', 
-          },
-          body: JSON.stringify({ 
-            perfil: user,
-            esdeveniment: esd,
-            data: fechaSeleccionada,
-          }),
-        });
-      if (!response.ok) {
-        throw new Error('Error al enviar solicitud1');
-      }  
-
-    setReservat(true);
-    } catch (error) {
-      console.error(error);
-    }*/
 }
   
 
@@ -113,23 +73,6 @@ export default function Reservar (props){
     let endPoint = `assistencies/?perfil=${user}&esdeveniment=${esd}`;
         const data = await simpleFetch(endPoint, "DELETE", "")
         setReservat(false);
-
-      /*try {
-      const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${user}&esdeveniment=${esd}`,  {
-      method: 'DELETE',
-      mode:'no-cors', 
-      headers: {
-        'Content-Type': 'application/json', 
-      },
-  
-    });
-    if (!response.ok) {
-      throw new Error('Error al enviar solicitud');
-    }  
-  setReservat(false);
-  } catch (error) {
-    console.error(error);
-  }*/
 }
 
 if (acabat){
