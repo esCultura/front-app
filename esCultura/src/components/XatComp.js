@@ -99,7 +99,7 @@ export default function Xat (props){
                     style={styles.fot}
                     source={urlImatge}/>
                     <Text >{nom}</Text>
-                    <InfoXat></InfoXat>
+                    <InfoXat participants={props.part}></InfoXat>
                 </View>
                 
                 <View style={styles.scroll}>
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
             height: 45,
             borderRadius: 13,
             margin: 12,
-            marginVertical:10,
+            marginVertical:10, 
             minWidth:'50%',
             //width:'50%',
             
