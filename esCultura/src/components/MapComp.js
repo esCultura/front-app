@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, TextInput} from 'react-native';
-import MapView from 'react-native-maps';
-//import Geolocation from 'react-native-geolocation-service';
+import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import MarkersMap from './MarkersComp';
 import SearchFilter from './SearchFilter';
@@ -9,7 +8,8 @@ import SearchFilter from './SearchFilter';
 export default function MapComp() {
 
   const [dataEvent, setDataEvent] = useState('');
-  const [location, setLocation] = useState(null);
+  const [latitudeDivice, setLatitude] = useState(41.389324);
+  const [longitudeDivice, setLongitude] = useState(2.113703);
   const [region, setRegion] = useState({
     latitude: 41.389324,
     longitude: 2.113703,
@@ -27,7 +27,8 @@ export default function MapComp() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      setLatitude(location.coords.latitude);
+      setLongitude(location.coords.longitude);
       setRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -49,7 +50,19 @@ export default function MapComp() {
         <MapView style={styles.map}
           region={region}
         >
-          <MarkersMap queryFilter={dataEvent}></MarkersMap>
+          <MarkersMap 
+            queryFilter={dataEvent}
+            longitudeDivice = {longitudeDivice}
+            latitudeDivice = {latitudeDivice}
+          ></MarkersMap>
+          <Marker
+            coordinate={{ 
+              latitude: latitudeDivice ? latitudeDivice : 0, 
+              longitude: longitudeDivice ? longitudeDivice : 0
+            }}
+            image={require('../../assets/blue-mark.png')}
+          />
+          
         </MapView>
       </View>
     );
@@ -65,5 +78,5 @@ export default function MapComp() {
       position: 'absolute',
       top: 0,
       left: 0
-    }
+    } 
   });

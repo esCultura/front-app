@@ -12,7 +12,7 @@ import * as Google from 'expo-auth-session/providers/google';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function SingUp() {
+export default function SingUp({navigation}) {
 
     const [accessToken, setAccessToken] = useState('null');
     const [request, response, promtAsync] = Google.useIdTokenAuthRequest({
@@ -143,6 +143,12 @@ export default function SingUp() {
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
             <Text>{accessToken}</Text>
+            <Pressable 
+                title="login"
+                onPress={()=>navigation.navigate("Login")}
+            >
+                <Text style={styles.createAcountText}>Login</Text>                
+            </Pressable>
             
 
         </LinearGradient>

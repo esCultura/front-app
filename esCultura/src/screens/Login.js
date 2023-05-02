@@ -7,7 +7,7 @@ import * as Google from 'expo-auth-session/providers/google';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function Login() {
+export default function Login({navigation}) {
 
 
     const [username, setUsername] = useState('');
@@ -117,7 +117,12 @@ export default function Login() {
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
             <View style={styles.spacerView}></View>
-            <Text style={styles.createAcountText}>Create Account</Text>
+            <Pressable 
+                title="createAccount"
+                onPress={()=>navigation.navigate("SingUp")}
+            >
+                <Text style={styles.createAcountText}>Create Account</Text>                
+            </Pressable>
         </LinearGradient>
         
     );
