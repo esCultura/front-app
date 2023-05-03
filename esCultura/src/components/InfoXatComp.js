@@ -28,30 +28,31 @@ export default function InfoXat (props){
         usuarisParticipants();
           }, []);
           
-    /*const eliminarXat = async() =>{
-      console.log("eliminar xat")
+    const eliminarXat = async(prop) =>{
+      //console.log("eliminar xat",prop)
       let endpoint= "xats/"+ props.id+"/"
-      simpleFetch(endpoint,"DELETE",{id}).then((data)=> setData(data))
-      console.log("eliminar")  
-    }*/
+      simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
+      console.log("eliminar")
+      setModalVisible(false);
+      props.onChange(false)
+    }
     
     
     return(
         <View>
-             <TouchableOpacity  onPress={() => setModalVisible(true)} >
-             <Punts color="black" style={styles.icono}></Punts>
+            <TouchableOpacity  style={styles.punts}onPress={() => setModalVisible(true)} >
+                <Punts color="black" style={styles.icono}></Punts>
             </TouchableOpacity>
        
         <Modal visible={modalVisible}>
-            
             <View>
             <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
-                        <ArrowLeftShort color="black"></ArrowLeftShort>
-                    </TouchableOpacity>
+                <ArrowLeftShort color="black"></ArrowLeftShort>
+            </TouchableOpacity>
                 
             
             <View>
-                <TouchableOpacity style={styles.grup}>
+                <TouchableOpacity style={styles.grup} onPress={() =>eliminarXat(props.id)}>
                     <Text style={styles.textEl}>Eliminar Xat</Text>
                 </TouchableOpacity>
             </View>
@@ -77,8 +78,7 @@ export default function InfoXat (props){
                 ;})
             }
             </View>
-            
-            
+
             </Modal>    
         </View>
     )
@@ -99,6 +99,12 @@ const styles = StyleSheet.create({
         margin: 12,
         
     },
+    punts:{
+        position:'absolute',
+        right:0,
+        //alignItems:'right'
+        
+    },
     textEl:{
         alignSelf:"center",
         marginLeft: 10,
@@ -113,6 +119,8 @@ const styles = StyleSheet.create({
         fontSize:18
     },
     icono:{
+        position:'absolute',
+        right:0,
         width:60,
         height:60,
         borderRadius:50,

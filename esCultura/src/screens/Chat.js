@@ -12,12 +12,17 @@ export default function Chat(props) {
     const [usuaris, setUsuaris] = useState([])
     const [xats, setXats] = useState([])
     const [idUser,setIdUser] = useState([]);
+    const [update,setUpdate]= useState([]);
     var users =[]
-    
-    
-    
-    
+    useEffect(() => {
+        const getUserId = async () => { 
+            let endPoint = 'usuaris/perfils/jo';
+            console.log('CHAT')
+        await    simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
 
+    }
+    getUserId();
+    }, []);
     useEffect(() => {
 
         const fetchXats = async () => {
@@ -27,19 +32,16 @@ export default function Chat(props) {
             //console.log(xats)
             
         }
-        const getUserId = async () => { 
-            let endPoint = 'usuaris/perfils/jo';
-            console.log('CHAT')
-        await    simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
-
-    }
+        
       fetchXats();
-      getUserId();
-      //nomXat()
-      }, []);
+      
+      
+      }, [update]);
     
       
-      
+      function recarrega(){
+        setUpdate((prevState) =>!prevState)
+      }
       
        
       //<NewXat xats={xats}></NewXat>
@@ -53,7 +55,7 @@ export default function Chat(props) {
                 
             </View>
            
-           <NewXat user={idUser} xats={xats}></NewXat>
+           <NewXat user={idUser} xats={xats} canvia={recarrega}></NewXat>
            </View>
            <View>
            

@@ -46,6 +46,7 @@ export default function NewXat (props){
             console.log("crearXat")
             console.log(data)
         setModalVisible(false)
+        props.canvia()
         
 }
 

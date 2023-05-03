@@ -14,8 +14,9 @@ export default function Xat (props){
     const [data,setData] = useState('');
     const [ultim_mis, setUltimMiss] = useState('');
     const scrollViewRef = useRef();
-   
+    const [update, setUpdate]=useState(false)
     const [nom, setNom]=useState('');
+    const [canvia, setCanvi] =useState('')
     
     function imatgePerfil(props) {
         if(props.imatge != null){
@@ -32,28 +33,35 @@ export default function Xat (props){
             setUltimMiss(props.miss.text)
         }
     }
+    function getData(val){
+       setModalVisible(val)
+    }
     
     
     function veureXat(){
         setModalVisible(true);
     }
+    
+    useEffect(()=> {
+        nomXat()
+    })
   
     useEffect(() => {
         
-        
-    const fetchMissatges = async () => {  
+        console.log("RECAREEGA")
+        console.log(canvia)
+    /*const fetchMissatges = async () => {  
         let endPoint = 'xats/'+props.id+'/missatges/';
         console.log('XATCOMP')
         simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data))
-        /*console.log('fetchmissatges')
-        console.log(missatges)*/
+        //console.log('fetchmissatges')
+        //console.log(missatges)
        
-    }
+    }*/
     
-    fetchMissatges();
-    nomXat()
+    //fetchMissatges();
     ultimMissatge()
-      }, []);
+      }, [update]);
       
       function nomXat(){
          let array = props.part
@@ -76,7 +84,7 @@ export default function Xat (props){
         //console.log(xats)  
         console.log(textMissatge)
         setTextMissatge(' ')
-       
+        setUpdate((prevState) =>!prevState)
 }
 
 
@@ -100,8 +108,11 @@ export default function Xat (props){
                     <Image
                     style={styles.fot}
                     source={urlImatge}/>
-                    <Text >{nom}</Text>
-                    <InfoXat id={props.id}participants={props.part}></InfoXat>
+                    <View >
+                    <Text  styles={styles.nom}>{nom}</Text>
+                    </View>
+                    
+                    <InfoXat onChange={getData} id={props.id} participants={props.part}></InfoXat>
                 </View>
                 
                 <View style={styles.scroll}>
@@ -120,7 +131,7 @@ export default function Xat (props){
                         return (
                         <View key ={m}style={styles.textextern}>
                             <Text  style={styles.textMiss}> {miss.text}</Text>
-                            <Text  style={styles.hora}> 13:30</Text>
+                            <Text  style={styles.hora}> {miss.data}</Text>
                         </View>);}})
                 }
                 </ScrollView>
@@ -147,11 +158,10 @@ const styles = StyleSheet.create({
         backgroundColor:'#2FDD60',
         width:'100%',
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center', 
+
+        //alignItems: 'center', 
     },
     scroll:{
-        
         marginBottom:125,
     },
 
@@ -174,16 +184,22 @@ const styles = StyleSheet.create({
         },
         fot: {
             
-            left:150,
+            left:50,
             width:50,
             height:50,
             borderRadius:50,
-            //marginLeft:10,
+            justifyContent:'center',
             marginVertical:10,
-            //position: 'absolute',
-            left: 0 ,
+            //flex:1
+            
             //borderColor:'green',
             //borderWidth: 4,
+        },
+        a:{
+            textAlign: 'center',
+            justifyContent:'center',
+            color:'pink'
+            
         },
         nom:{
             position: 'absolute',
@@ -254,9 +270,7 @@ const styles = StyleSheet.create({
             right:0,
             textAlign:'right',
             alignSelf:'flex-end'
-           
-            
-            
+ 
         },
         textextern:{
             backgroundColor: '#d3d3d3',
