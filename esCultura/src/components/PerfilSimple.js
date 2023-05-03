@@ -2,18 +2,18 @@ import Screen from "../components/Screen";
 import { Text, ScrollView, View, Modal, TouchableOpacity } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Image, Platform } from 'react-native';
-import Esdeveniment from '../components/Esdeveniment';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
 import * as ImagePicker from 'expo-image-picker';
 import ProfileForm  from '../components/ProfileForm'; 
-import PerfilSimple  from '../components/PerfilSimple'; 
+import FollowButton  from '../components/FollowButton'; 
+import Esdeveniment  from '../components/Esdeveniment'; 
 
-export default function Chat(updated) {
+export default function PerfilSimple(props, updated) {
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
       };
-    const props = 6;
+    const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [infoPerfil, setInfoPerfil] = useState([]);
@@ -28,10 +28,19 @@ export default function Chat(updated) {
     const [perfilVisible, setPerfilVisible] = useState(false);
     const [perfil, setPerfil] = useState(null);
 
+    
+
     useEffect(() => {
+        const fetchJo = async () => {
+            let endPoint = `usuaris/perfils/jo`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            console.log("datos1", data);
+            setJo(data.user);
+            console.log("info0", jo);
+        }
 
         const fetchPreferits = async () => {
-            let endPoint = `interessos/esdeveniments/?perfil=${props}`;
+            let endPoint = `interessos/esdeveniments/?perfil=${props.id}`;
             const data = await simpleFetch(endPoint, "GET", "");
             const reserves = [];
             for (let i = 0; i < data.length; i++) {
@@ -46,16 +55,14 @@ export default function Chat(updated) {
         }
 
         const fetchPerfil = async () => {
-          let endPoint = `usuaris/perfils/${props}`;
+          let endPoint = `usuaris/perfils/${props.id}`;
           const data = await simpleFetch(endPoint, "GET", "")
           console.log("datos1", data);
           setInfoPerfil(data);
-          //setSeguits(data.estadistiques.seguits); == seguits.length
-          //setSeguidors(data.estadistiques.seguidors);
           console.log("info1", infoPerfil.email);
           console.log("info1", seguidors);
 
-          
+    
           //setImageUri(data.imatge);r
 
          /* if (response.estadistiques > 5) setTrofeus(bronce);
@@ -64,7 +71,7 @@ export default function Chat(updated) {
       }
 
       const fetchSeguits = async () => {
-        let endPoint = `seguiments?seguidor=${props}`;
+        let endPoint = `seguiments?seguidor=${props.id}`;
         const data = await simpleFetch(endPoint, "GET", "")
         console.log("datos2", data);
         const seg = []; 
@@ -75,23 +82,21 @@ export default function Chat(updated) {
       }
     
       const fetchSeguidors = async () => {
-        let endPoint = `seguiments?seguit=${props}`;
+        let endPoint = `seguiments?seguit=${props.id}`;
         const data = await simpleFetch(endPoint, "GET", "")
         const seg = []; 
         for (let j = 0; j < data.length; j++) seg.push(data[j].seguidor);
         setSeguidors(seg);
       }
 
+      fetchPreferits();
+      fetchJo();
       fetchSeguits();
       fetchSeguidors();
-      fetchPreferits();
       fetchPerfil();
   }, [screenLoaded, updated]);
 
-
- 
-
-  const editFoto = async () => {
+ const editFoto = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -120,8 +125,100 @@ export default function Chat(updated) {
         const response = await simpleFetch(endPoint, "PUT", { imatge:"formData"});
     }
 
+    if (jo != props.id) {
     return (
-        <Screen>
+        <>
+         <View style={styles.container} > 
+            <View style={styles.leftContainer}> 
+            <Image
+                source={
+                    imageUri
+                    ? { uri: imageUri }
+                    : require('../../assets/profile-base-icon.png')
+                }
+                style={styles.imatgePerfil}
+            />
+            </View>
+
+            <View style={styles.rightContainer} >
+                <TouchableOpacity onPress={() => {setSeguitsVisible(true) }}>
+                   <View> 
+                   <Text style={styles.num}>  {seguits.length}  </Text>
+                   <Text style={styles.text}> Seguits </Text>
+                   </View>
+                    
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => {setSeguidorsVisible(true) }}>
+                <View> 
+                <Text style={styles.num}>  {seguidors.length}  </Text>
+                   <Text style={styles.text}> Seguidors </Text>
+                   </View>
+                </TouchableOpacity>
+            </View>
+            </View>
+            
+            <View style={styles.followButton}>
+            <FollowButton> jo={jo} seguit={props.id} </FollowButton>
+            </View>
+            
+            <Text> Username: {infoPerfil.username} </Text>
+            <Text> Email: {infoPerfil.email} </Text>
+
+
+            <Text> Escultures </Text>
+
+
+            <Modal visible={seguitsVisible } animationType="slide">
+        
+                <TouchableOpacity onPress={() => {setSeguitsVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
+                    <XCircleFill color="red" width={145} height={145} />
+                </TouchableOpacity>
+                <ScrollView  contentContainerStyle={styles.llistat}>
+                {
+                seguits.map(s => 
+                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                    <Text> Usuari {s}  </Text>
+                    </TouchableOpacity>
+                )}
+                </ScrollView>
+
+            </Modal>
+
+            <Modal visible={seguidorsVisible } animationType="slide">
+
+                <TouchableOpacity onPress={() => {setSeguidorsVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
+                    <XCircleFill color="red" width={145} height={145} />
+                </TouchableOpacity>
+                <ScrollView  contentContainerStyle={styles.llistat}>
+                {
+                seguidors.map(s => 
+                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                    <Text> Usuari {s}  </Text>
+                    </TouchableOpacity>
+                )}
+                </ScrollView>
+
+            </Modal>
+
+            <Modal visible={perfilVisible } animationType="slide">
+        
+                <TouchableOpacity onPress={() => {setPerfilVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
+                    <XCircleFill color="red" width={145} height={145} />
+                </TouchableOpacity>
+                <PerfilSimple
+                    key ={perfil}
+                    id={perfil}
+                    updated={false}
+                 />
+            </Modal>
+        </>
+
+    );
+   }
+   else {
+    return (
+        <>
          <View style={styles.container} > 
             <View style={styles.leftContainer}> 
             <Image
@@ -135,16 +232,21 @@ export default function Chat(updated) {
             <TouchableOpacity style={styles.FotoButton} onPress={editFoto}>
                 { <Text> ediar foto </Text> }
             </TouchableOpacity>
-
             </View>
 
             <View style={styles.rightContainer} >
                 <TouchableOpacity onPress={() => {setSeguitsVisible(true) }}>
-                    <Text >  {seguits.length} Seguits </Text>
+                <View> 
+                   <Text style={styles.num}>  {seguits.length}  </Text>
+                   <Text style={styles.text}> Seguits </Text>
+                   </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {setSeguidorsVisible(true) }}>
-                    <Text >  {seguidors.length} Seguidors </Text>
+                <View> 
+                   <Text style={styles.num}>  {seguidors.length}  </Text>
+                   <Text style={styles.text}> Seguidors </Text>
+                   </View>
                 </TouchableOpacity>
             </View>
             </View>
@@ -157,8 +259,6 @@ export default function Chat(updated) {
             </TouchableOpacity>
 
             <Text> Escultures </Text>
-
-        
             <View style={styles.bottomContainer}>
             <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
                 <Text > Edit </Text>
@@ -179,8 +279,8 @@ export default function Chat(updated) {
                 <ScrollView  contentContainerStyle={styles.llistat}>
                 {
                 seguits.map(s => 
-                    <TouchableOpacity onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text> Usuari {s}  </Text>
+                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                    <Text style={styles.usuari}> Usuari {s}  </Text>
                     </TouchableOpacity>
                 )}
                 </ScrollView>
@@ -195,8 +295,8 @@ export default function Chat(updated) {
                 <ScrollView  contentContainerStyle={styles.llistat}>
                 {
                 seguidors.map(s => 
-                    <TouchableOpacity onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text> Usuari {s}  </Text>
+                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                    <Text style={styles.usuari}> Usuari {s}  </Text>
                     </TouchableOpacity>
                 )}
                 </ScrollView>
@@ -211,7 +311,7 @@ export default function Chat(updated) {
             </Modal>
 
             <Modal visible={llistaVisible } animationType="slide">
-        
+                
                 <TouchableOpacity onPress={() => {setLlistaVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
                     <XCircleFill color="red" width={145} height={145} />
                 </TouchableOpacity>
@@ -235,7 +335,6 @@ export default function Chat(updated) {
                     </ScrollView>
                 </Modal>
 
-
                 <Modal visible={perfilVisible } animationType="slide">
         
                 <TouchableOpacity onPress={() => {setPerfilVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
@@ -247,12 +346,11 @@ export default function Chat(updated) {
                     updated={false}
                  />
                 </Modal>
-
-        </Screen>
-        
+        </>
 
     );
-
+   }
+ 
 }
 
 const styles = StyleSheet.create({
@@ -294,6 +392,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center',
     },
+    followButton: {
+        justifyContent: 'flex-end', 
+        alignItems: 'flex-end',
+        paddingRight: 50,
+    },
     logoutButton: {
         backgroundColor: '#26B7FF',
         padding:10,
@@ -319,6 +422,25 @@ const styles = StyleSheet.create({
         width: 16,
         height: 16,
     },
+    listItem: {
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderBottomColor: '#ccc',
+        borderBottomWidth: 1,
+      },
+      usuari: {
+        fontSize: 16,
+      },
+      num: {
+        fontSize: 25,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+      },
+      text: {
+        fontSize: 15,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+      },
     imatgePerfil: {
         width: 100,
         height: 100,

@@ -19,7 +19,7 @@ const CustomCalendar = (props) => {
   const [selectedReserva, setSelectedReserva] = useState(null);
   const [esdeveniments, setEsdeveniments] = useState([]);
   const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
-  const user = 6
+  const user = props.perfil;
 
  
 

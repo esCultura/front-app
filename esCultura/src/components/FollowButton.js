@@ -6,30 +6,27 @@ import { simpleFetch } from "../utils/utilFunctions";
 const FollowButton =  ( props ) => {
     const [follow, setFollow] = useState(0);
     const followValue = follow ? -1 : 1;
-    const user = 3
-    const esdeveniment = props.codi;
+    const user = props.jo
+    const pers = props.seguit;
     
    useEffect(() => {
     const fetchFollows = async () => {
-        let endPoint = `seguiments/`;
+        let endPoint = `seguiments/?seguidor=${user}&seguit=${pers}`;
         const data = await simpleFetch(endPoint, "GET", "")
-        
-        let endPoint2 = `interessos/esdeveniments/?user=${user}&esdeveniment=${esdeveniment}`;
-        const data2 = await simpleFetch(endPoint2, "GET", "")
-        if (data2.length === 0)  setFollow(false);
+        if (data.length === 0)  setFollow(false);
         else    setFollow(true);
   };
   fetchFollows();
   }, []);
 
   const handleFollow = async () => {
-    let endPoint = 'interessos/esdeveniments/';
-        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esdeveniment})
+    let endPoint = 'seguiments/';
+        const data = await simpleFetch(endPoint, "POST", {seguidor: user, seguit:pers})
         setFollow(true);
   };
   
   const handleUnfollow = async () => {
-    let endPoint = `interessos/esdeveniments/?perfil=${user}&esdeveniment=${esdeveniment}`;
+    let endPoint = `seguiments/?seguidor=${user}&seguit=${pers}`;
         const data = await simpleFetch(endPoint, "DELETE", "")
         setFollow(false);
 
@@ -65,5 +62,34 @@ return(
 </View> 
   )}
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      flexGrow: 1,
+      backgroundColor: '#fff',
+      alignItems: "center",
+    justifyContent: "center",
+    maxHeight: 200,
+    },
+    button: {
+       backgroundColor: 'green',
+      padding:10,
+      borderRadius: 5,
+      shadowOffset: { width: 2 , height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      width: 110,
+      justifyContent: 'center', 
+      alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        textAlign: 'center',
+      },
+      disabledButton: {
+        opacity: 0.5,
+      },
+    });
 
   export default FollowButton;
