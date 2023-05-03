@@ -14,9 +14,7 @@ import ChatIcon from 'react-native-bootstrap-icons/icons/chat-fill';
 import MapIcon from 'react-native-bootstrap-icons/icons/geo-alt-fill';
 import CalendarIcon from 'react-native-bootstrap-icons/icons/calendar3';
 
-import * as Localitzation from 'expo-localization';
 import i18n from './src/utils/translateFunctions';
-import {useTranslation} from 'react-i18next';
 const initI18n = i18n;
 
 export default function App() {

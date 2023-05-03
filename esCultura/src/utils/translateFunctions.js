@@ -1,24 +1,36 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import {en, cat, es} from '../utils/translateLabels';
+import * as Localitzation from 'expo-localization';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-/*
 function setIniLang() {
-    const {i18n} = useTranslation();
-    console.log("agafar info local per si ja sha fet select d'ideoma enteriorment");
-    //split l'ideoma per defecta que te el mobil aixo a d'anar en el translate o a 
-    //utils per possar l'ideoma per defecta 
-    let ideoma = Localitzation.locale;
-    ideoma = ideoma.split('-')[0];
-    console.log("ideoma per default del mobil: ", ideoma);
-    //si hi ha info del ideoma selecionat guardada tmb s'ha de colocar
-    i18n.changeLanguage(ideoma);
+
+    let lang = "";
+
+    async function _retrieveData () {
+      try {
+        const value = await AsyncStorage.getItem('LAN');
+        if (value !== null) {
+          lang = value;
+        }
+      } catch (error) {
+        console.log("error en agafar dades locals, error: ", error);
+      }
+    };
+    _retrieveData ();
+
+    if (lang !== "") {   
+        let ideoma = Localitzation.locale;
+        ideoma = ideoma.split('-')[0];
+        lang = ideoma;
+    }
+    return lang;
 }
-*/
 
 i18n.use(initReactI18next).init({
     compatibilityJSON: 'v3',
-    lng: 'cat',
+    lng: setIniLang(),
     fallbackLng: 'cat',
     resources: {
         en: {

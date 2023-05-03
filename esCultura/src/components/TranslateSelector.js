@@ -2,18 +2,29 @@ import React, {useEffect, useState } from 'react';
 import { View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function TranslateSelector( ) {
   
     const { i18n } = useTranslation();
-    console.log("i18n lenguage selected: ", i18n.language);
     const [selectedValue, setSelectedValue] = useState( i18n.language );
+
+    async function _storeData() {
+      try {
+        await AsyncStorage.setItem(
+          'LAN',
+          selectedValue,
+        );
+      } catch (error) {
+        console.log("error to save in local store, error: ", error);
+      }
+    };
     
     function onChange(code) {
       setSelectedValue(code);
-      console.log("value selected: ",code);
       i18n.changeLanguage(code);
+      _storeData();
     };
 
     return (
