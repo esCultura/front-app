@@ -3,13 +3,12 @@ import React, { useState, useEffect} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import {AsyncStorage} from 'react-native';
-
-//https://www.npmjs.com/package/react-native-keychain
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function Login({navigation}, onLogin) {
+export default function Login({navigation, onLogin}) {
+
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -53,6 +52,7 @@ export default function Login({navigation}, onLogin) {
         console.log("login amb google");
     }
 
+
     function login() {
         console.log("login");
         
@@ -69,17 +69,7 @@ export default function Login({navigation}, onLogin) {
                 setData(data);
                 console.log("login: ", data);
                 console.log("token: ", data.token);
-                _storeData = async () => {
-                    try {
-                      await AsyncStorage.setItem(
-                        'isSignedIn',
-                        true,
-                      );
-                      onLogin(true);
-                    } catch (error) {
-                      console.log("AsyncStorage error: ", error);
-                    }
-                  };
+                onLogin(true);
             })
             .catch(console.error)
     }

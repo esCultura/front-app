@@ -12,7 +12,7 @@ import * as Google from 'expo-auth-session/providers/google';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function SingUp({navigation}) {
+export default function SingUp({navigation, onLogin}) {
 
     const [accessToken, setAccessToken] = useState('null');
     const [request, response, promtAsync] = Google.useIdTokenAuthRequest({
@@ -73,9 +73,12 @@ export default function SingUp({navigation}) {
             .then(async data => {
                 setData(data);
                 console.log("singUP: ", data);
+                /*
                 if (data.created) {
                     await Keychain.setGenericPassword(username, password);
                 }
+                */
+                onLogin(true);
             })
             .catch(console.error)
     }
