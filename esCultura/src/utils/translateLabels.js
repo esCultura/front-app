@@ -7,7 +7,7 @@ const es = {
 }
 
 const cat = {
-    search: "Buscar"
+    search: "Cerca"
 }
 
 export {en, cat, es};
