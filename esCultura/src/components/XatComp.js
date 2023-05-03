@@ -27,20 +27,6 @@ export default function Xat (props){
         setTextMissatge(value);
                 
     }
-    function nomXat(){
-        let array = props.part
-        if(array != 0){
-        array.forEach(item =>{
-            
-            if(array.length > 2){
-                setNom("Grup")
-            }
-            else{
-                if(item.user != props.user.user) setNom(item.username);
-            }
-
-        })}
-    }
     function ultimMissatge(){
         if(props.miss != null){
             setUltimMiss(props.miss.text)
@@ -55,9 +41,9 @@ export default function Xat (props){
     useEffect(() => {
         
         
-    const fetchMissatges = async () => {
-        
+    const fetchMissatges = async () => {  
         let endPoint = 'xats/'+props.id+'/missatges/';
+        console.log('XATCOMP')
         simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data))
         /*console.log('fetchmissatges')
         console.log(missatges)*/
@@ -65,17 +51,33 @@ export default function Xat (props){
     }
     
     fetchMissatges();
-    nomXat();
+    nomXat()
     ultimMissatge()
       }, []);
-    /*const enviarMissatge = async () => { 
-        console.log('aaaaaa')
+      
+      function nomXat(){
+         let array = props.part
+         if(array != 0){
+         array.forEach(item =>{
+             
+             if(array.length > 2){
+                 setNom("Grup esCultura")
+             }
+             else{
+                 if(item.user != 6) setNom(item.username);
+             }
+ 
+         })}
+     }
+    const enviarMissatge = async () => { 
         let endPoint = 'xats/'+props.id+'/missatges/';
-        simpleFetch(endPoint, "POST", {text:textMissatge,xat:props.id,creador:props.user}).then((data) => setData(data))
-        console.log(xats)  
+        console.log('XATCOMP')
+        simpleFetch(endPoint, "POST", {text:textMissatge,xat:props.id}).then((data) => setData(data))
+        //console.log(xats)  
         console.log(textMissatge)
+        setTextMissatge(' ')
        
-}*/
+}
 
 
     
@@ -99,27 +101,26 @@ export default function Xat (props){
                     style={styles.fot}
                     source={urlImatge}/>
                     <Text >{nom}</Text>
-                    <InfoXat participants={props.part}></InfoXat>
+                    <InfoXat id={props.id}participants={props.part}></InfoXat>
                 </View>
                 
                 <View style={styles.scroll}>
                 <ScrollView ref={scrollViewRef}
                             onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
                 {
-                    missatges?.map((miss) => {
+                    missatges?.map((miss,m) => {
                         if(miss.creador.user == props.user.user){
                             return (
-                            <View style={styles.textpropi}>  
-                                <Text key={miss.id} style={styles.textMiss}> {miss.text}</Text>
-                                <Text key={miss.id} style={styles.hora}> {miss.data}</Text>
+                            <View key= {m} style={styles.textpropi}>  
+                                <Text  style={styles.textMiss}> {miss.text}</Text>
+                                <Text style={styles.hora}> {miss.data}</Text>
                             </View>) 
                         }
                         else{
                         return (
-                            
-                        <View style={styles.textextern}>
-                            <Text key={miss.id} style={styles.textMiss}> {miss.text}</Text>
-                            <Text key={miss.id} style={styles.hora}> 13:30</Text>
+                        <View key ={m}style={styles.textextern}>
+                            <Text  style={styles.textMiss}> {miss.text}</Text>
+                            <Text  style={styles.hora}> 13:30</Text>
                         </View>);}})
                 }
                 </ScrollView>
@@ -127,7 +128,7 @@ export default function Xat (props){
                 <View style={styles.missatge}>
                 <TextInput style={styles.input} placeholder={'Missatge'} value={textMissatge} onChangeText={handleTextChange}/>
                 
-                <TouchableOpacity style={styles.icono} >
+                <TouchableOpacity style={styles.icono} onPress={enviarMissatge}>
                         <ArrowRightShort color="black"></ArrowRightShort>
                 </TouchableOpacity>
                 
@@ -158,9 +159,9 @@ const styles = StyleSheet.create({
             width: '100%',
             height: 70,
             overflow: 'hidden',
-            marginVertical: 10,
-            borderColor: 'black',
-            borderWidth: 1,
+            //marginVertical: 10,
+            borderColor: '#696969',
+            borderBottomWidth: 1,
             backgroundColor:'#DCDCDC'
         },
         foto: {
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
             backgroundColor: '#dbead5',
             borderWidth: 0.5,
             borderColor: '#000',
-            height: 45,
+            height: 48,
             borderRadius: 13,
             margin: 12,
             marginVertical:10,
@@ -253,6 +254,7 @@ const styles = StyleSheet.create({
             right:0,
             textAlign:'right',
             alignSelf:'flex-end'
+           
             
             
         },
@@ -260,23 +262,25 @@ const styles = StyleSheet.create({
             backgroundColor: '#d3d3d3',
             borderWidth: 0.5,
             borderColor: '#000',
-            height: 45,
+            height: 48,
             borderRadius: 13,
             margin: 12,
             marginVertical:10, 
+            textAlign:'left',
             minWidth:'50%',
+            alignSelf:'flex-start'
             //width:'50%',
             
         },
         hora:{
             position:'absolute',
-            top:22,
+            top:28,
             right:8,
-            fontSize:12
+            fontSize:11
             
         },
         textMiss:{
-            marginVertical:10,
+            marginVertical:12,
             marginLeft:5
         }
     })

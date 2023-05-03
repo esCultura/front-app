@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Image} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Image, Pressable} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' ;
 import Search from 'react-native-bootstrap-icons/icons/search';
 
-import Xat from "../components/XatComp";
 import NewGrup from "./GrupXatButton";
 import {simpleFetch} from '../utils/utilFunctions';
 
@@ -12,44 +11,60 @@ export default function NewXat (props){
     const [modalVisible, setModalVisible] = useState(false);
     const [usuaris, setUsuaris] =useState([]);
     const [data,setData]=useState('')
-    const [existents, setExisteixXat] = useState([])
+    const [existents, setExisteixXat] = useState([]);
+    const [urlImatge, setUrlImatge]=useState(require('../../assets/profile-base-icon.png'))
+    const [update, setUpdate]=useState(false)
+    
+    
+    function recarregar(){
+        setModalVisible(true)
+        setUpdate((prevState) =>!prevState)
+        
+    }
 
     
     useEffect(() => {
+        console.log("RECAREGAT_NEWXAT")
         const fetchUsuaris = async () => {   
             let endPoint = 'usuaris/perfils';
                 simpleFetch(endPoint, "GET", "").then((data) => setUsuaris(data))
-                console.log("fetchUsus")
+                console.log("fetchUsus_NEWCHAT")
                 console.log(usuaris)
     }
     fetchUsuaris()
     existeixXat()
    
-      }, []);
+      }, [update]);
     
-      /*const crearXat = async () => {   
+      const crearXat = async (prop) => {   
+        console.log("crear_xat",prop)
+        console.log('NEWXAT')
+        console.log(prop)
+        console.log(props.user.user)
         let endPoint = 'xats/';
-            simpleFetch(endPoint, "POST", {participant_id:1, participant_id:6}).then((data) => setData(data))
+            simpleFetch(endPoint, "POST", {participant_id:[prop,props.user.user] }).then((data) => setData(data))
             console.log("crearXat")
             console.log(data)
-}*/
+        setModalVisible(false)
+        
+}
 
         function existeixXat (){
-             let exis =[]
-            if(props.xats != 0){
+            console.log('NEWXAT_EXISTEIXXXX')
+            let exis =[]
+            if(props.xats != null){
             let array_xats = props.xats
-            console.log('piiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii',array_xats)
             array_xats.forEach(item =>{
                 if(item.participants.length == 2){
                     item.participants.forEach(it=>{
-                        if(it.user != 6) exis.push(it.user);
+                        if(it.user != props.user) exis.push(it.user);
                     })
                 }
-            }
-                
+            }    
             )
-            exis.push(6)
+            exis.push(props.user)
             setExisteixXat(exis)
+
         }}
 
     
@@ -57,7 +72,7 @@ export default function NewXat (props){
     
     return(
         <View>
-        <TouchableOpacity style={styles.plus} onPress ={() => setModalVisible(true)}>
+        <TouchableOpacity style={styles.plus} onPress ={recarregar}>
             <Text style={styles.icono_plus}>+</Text>
         </TouchableOpacity>
          
@@ -74,22 +89,22 @@ export default function NewXat (props){
             </View>
             <View>
                 <TouchableOpacity >
-                    <NewGrup></NewGrup>
+                    <NewGrup usuaris={usuaris} user={props.user}></NewGrup>
                 </TouchableOpacity>
             </View>
             <View>
             {
-            usuaris.map((usu) => {
+            usuaris.map((usu,i) => {
                 if(existents.indexOf(usu.user) == -1){
                 return (
-                    <View>
-                        <TouchableOpacity  key={usu.user} style={styles.info_xat} >
+                    <View  key={i} >
+                        <Pressable style={styles.info_xat} onPress={() =>crearXat(usu.user)} >
                             <Image 
                                 style={styles.foto}
-                                source={usu.imatge}
+                                source={urlImatge}
                                 />
                             <Text style={styles.nom}>{usu.username}</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                 </View>)}
                 ;})
             }
@@ -99,11 +114,6 @@ export default function NewXat (props){
             <View>
              
             </View>
-            
-            
-            
-            
-            
          </Modal>
          </View>
           

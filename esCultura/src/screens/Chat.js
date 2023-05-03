@@ -15,79 +15,27 @@ export default function Chat(props) {
     var users =[]
     
     
+    
+    
 
     useEffect(() => {
 
         const fetchXats = async () => {
             let endPoint = 'xats/';
-            simpleFetch(endPoint, "GET", "").then((data) => setXats(data))
+            await simpleFetch(endPoint, "GET", "").then((data) => setXats(data))
             //console.log("fetchXats")
             //console.log(xats)
-           /* 
-            for(var i =0; i< xats.length; ++i){
-                for(var j= 0; j< xats[i].participants.length; ++j){
-                   if(xats[i].participants[j] != 2){
-                    let endPoint = 'usuaris/perfils/'+xats[i].participants[j];
-                simpleFetch(endPoint, "GET", "").then((data) => setUsuaris(data))
-                console.log(usuaris)
-                   }
-                }
-                
-            }
             
-            try {
-              const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/xats/', {
-                      headers: {
-                    'Content-Type': 'application/json', 
-                      }});
-              if (!response.ok) {
-                throw new Error('Error al obtener usuaris');
-              }    
-              
-              const data = await response.json();
-              setXats(data);
-              console.log(xats)
-              //console.log(data)
-
-              for (let i = 0; i < data.length; i++) {
-                
-                for(let j= 0; j<data[i].participants.length; ++j){
-                 
-                    if (data[i].participants[j] != 2) {
-
-                            try {
-                              const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/'+data[i].participants[j], {
-                                      headers: {
-                                    'Content-Type': 'application/json', 
-                                      }});
-                              if (!response.ok) {
-                                throw new Error('Error al obtener el likes2');
-                              }    
-                              
-                              const usus = await response.json();
-                            
-                              setUsuaris(prevUsuaris =>([...prevUsuaris, ...usus]))
-                              //users.push(usus)
-                             
-                          } catch (error) {
-                            console.error(error);
-                          }
-                        }
-                }
-              }
-        
-          } catch (error) {
-            console.error(error);
-          }*/
         }
         const getUserId = async () => { 
-        
             let endPoint = 'usuaris/perfils/jo';
-            simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
+            console.log('CHAT')
+        await    simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
 
     }
       fetchXats();
       getUserId();
+      //nomXat()
       }, []);
     
       
@@ -105,16 +53,16 @@ export default function Chat(props) {
                 
             </View>
            
-           
+           <NewXat user={idUser} xats={xats}></NewXat>
            </View>
            <View>
            
            {
-            xats.map((xat) => {
+            xats.map((xat,i) => {
             return (
 
-                <View>
-                    <Xat user={idUser} key={xat.id} part={xat.participants} id={xat.id} miss={xat.ultim_missatge}></Xat>
+                <View key={i}>
+                    <Xat user={idUser}  part={xat.participants} id={xat.id} miss={xat.ultim_missatge}></Xat>
                 </View>);})
     }
            
@@ -132,6 +80,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom:10
     },
     search:{
         flexDirection: 'row',

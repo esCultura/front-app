@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList, Image} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import Punts from 'react-native-bootstrap-icons/icons/three-dots-vertical' 
+import { simpleFetch } from "../utils/utilFunctions";
 
 
 
@@ -15,6 +16,7 @@ export default function InfoXat (props){
         
         
        function usuarisParticipants(){
+        //console.log
         let array = props.participants
         if(array.length > 2){
             setUsuaris(array);
@@ -25,6 +27,13 @@ export default function InfoXat (props){
         
         usuarisParticipants();
           }, []);
+          
+    /*const eliminarXat = async() =>{
+      console.log("eliminar xat")
+      let endpoint= "xats/"+ props.id+"/"
+      simpleFetch(endpoint,"DELETE",{id}).then((data)=> setData(data))
+      console.log("eliminar")  
+    }*/
     
     
     return(
@@ -53,11 +62,11 @@ export default function InfoXat (props){
             <View>
                 
             {
-            usuaris.map((usu) => {
+            usuaris.map((usu,u) => {
                 if(usuaris.length > 2){
                 return (
-                    <View>
-                        <TouchableOpacity  key={usu.user} style={styles.info_xat} >
+                    <View key={u}>
+                        <TouchableOpacity   style={styles.info_xat} >
                             <Image 
                                 style={styles.foto}
                                 source={usu.imatge}
@@ -122,7 +131,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         top: 5,
-        backgroundColor:'#ffffaa',
         height:30,
         width:30,
         
