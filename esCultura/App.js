@@ -15,18 +15,14 @@ import MapIcon from 'react-native-bootstrap-icons/icons/geo-alt-fill';
 import CalendarIcon from 'react-native-bootstrap-icons/icons/calendar3';
 
 import * as Localitzation from 'expo-localization';
-import {setLanguage} from './src/utils/utilFunctions';
-
-const Tab = createBottomTabNavigator();
-
-//split l'ideoma per defecta que te el mobil aixo a d'anar en el translate o a 
-//utils per possar l'ideoma per defecta 
-let ideoma = Localitzation.locale;
-ideoma = ideoma.split('-')[0];
-console.log("ideoma per default del mobil: ", ideoma);
-setLanguage(ideoma);
+import i18n from './src/utils/translateFunctions';
+import {useTranslation} from 'react-i18next';
+const initI18n = i18n;
 
 export default function App() {
+
+  const Tab = createBottomTabNavigator();
+
   return (
     <NavigationContainer>
         <Tab.Navigator screenOptions={{ tabBarStyle: { backgroundColor: '#2FDD60' }, tabBarActiveTintColor: 'white', tabBarInactiveTintColor: 'white' }}>

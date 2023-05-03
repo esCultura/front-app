@@ -1,17 +1,20 @@
 import React, {useEffect, useState } from 'react';
-import { View, Text, Picker } from 'react-native';
+import { View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import {setLanguage, getLanguage} from '../utils/utilFunctions';
+import { useTranslation } from 'react-i18next';
+
 
 export default function TranslateSelector( ) {
-    const [selectedValue, setSelectedValue] = useState( getLanguage() );
+  
+    const { i18n } = useTranslation();
+    console.log("i18n lenguage selected: ", i18n.language);
+    const [selectedValue, setSelectedValue] = useState( i18n.language );
     
-
-    function onChange(value) {
-        setSelectedValue(value);
-        setLanguage(value);
-        console.log("value selected: ",value);
-    }
+    function onChange(code) {
+      setSelectedValue(code);
+      console.log("value selected: ",code);
+      i18n.changeLanguage(code);
+    };
 
     return (
       <View>

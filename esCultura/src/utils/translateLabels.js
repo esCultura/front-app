@@ -3,11 +3,11 @@ const en = {
 }
 
 const es = {
-    search: "Buscar"
+    search: "ESBuscar"
 }
 
 const cat = {
-    search: "Buscar"
+    search: "CatBuscar"
 }
 
 export {en, cat, es};

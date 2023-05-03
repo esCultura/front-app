@@ -1,23 +1,4 @@
 /**
- * Language, setLanguage
- */
-
-let language = 'cat';
-
-export function setLanguage(newLanguage) {
-    console.log("newLanguage: ", newLanguage);
-    language = newLanguage;
-}
-
-export function getLanguage() {
-    return language;
-}
-
-//simplificador de i18n
-
-
-
-/**
  * Token, setToken and fetch
  */
 

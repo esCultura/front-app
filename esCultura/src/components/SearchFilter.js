@@ -6,9 +6,8 @@ import FilterLeft from 'react-native-bootstrap-icons/icons/filter-left';
 import CalendarEvent from 'react-native-bootstrap-icons/icons/calendar-event';
 import ArrowDown from 'react-native-bootstrap-icons/icons/arrow-down';
 
-import {I18n} from 'i18n-js';
-import {en, cat, es} from '../utils/translateLabels';
-import {getLanguage} from '../utils/utilFunctions';
+import { useTranslation } from 'react-i18next';
+
 
 export default function SearchFilter({onVariableChange}, isList) {
     
@@ -31,16 +30,8 @@ export default function SearchFilter({onVariableChange}, isList) {
     
     const [textSearch, setTextSearch] = useState('');
 
-    
-    //fer alguna forma per tal de poder simplificar les 4 linea en una sola
-    let i18n = new I18n();
-    i18n.fallbacks = 'true';
-    i18n.translations = {en, cat, es};
+    const {t} = useTranslation();
 
-    useEffect(() => {
-        i18n.locale = getLanguage();
-        console.log("showing filter");
-      }, []);
 
     /**
      * Crea la query que sera enviada al component para
@@ -152,7 +143,7 @@ export default function SearchFilter({onVariableChange}, isList) {
                 value={textSearch}
                 onBlur={saveFilter}
                 onChangeText={setTextSearch}
-                placeholder={i18n.t('search')}
+                placeholder={t('search')}
                 placeholderTextColor={'#666'}
             >
             </TextInput>
