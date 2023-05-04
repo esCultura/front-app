@@ -6,33 +6,51 @@ import { simpleFetch } from "../utils/utilFunctions";
 export default function ProfileForm (props, onSave) {
     const [username, setUsername] = useState(props.infoPerfil.username);
     const [bio, setBio] = useState(props.infoPerfil.bio);
-    const [password, setPassword] = useState(props.infoPerfil.password);
-    console.log(props);
+    const [password, setPassword] = useState('');
+    const[data, setdata] = useState('');
+    console.log("aquest", props);
 
     const handleSave = async () => {
-      const updatedInfoPerfil = { username, bio, password };
-      console.log(username);
-      let endPoint = 'usuaris/perfils/jo';
-      const data = await simpleFetch(endPoint, "POST", {username: username, bio: bio, password:password});
+      console.log("bio", bio);
+      //let endPoint = 'usuaris/perfils/jo/';
+      //await simpleFetch(endPoint, "PUT", {bio: bio})
+      try {
+        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/jo/' ,{
+          method: 'PUT', 
+          headers: {
+            'Content-Type': 'application/json', 
+            'authorization': 'Token 4399aea952484e30ad0208cd72bf64a083c9b8c4', 
+          },
+          body: JSON.stringify({ 
+            bio: "bio",
+            //esdeveniment: "20230315095",
+          }),                  
+         
+        });
+        const data = await response.json();
+        console.log(data);
+        if (!response.ok) {
+          throw new Error('Error al obtenir les assistencies');
+        }    
+      } catch (error) {
+        console.error(error);
+      }
     };
 
+    function handleChange(value) {
+      setBio(value);
+      console.log(bio);
+    }
   
     return (
         <>
         <View style={styles.container}>
         </View>
-        <Text> Username: </Text>
-        <TextInput
-          style={styles.input1}
-          value={username}
-          onChangeText={setUsername}
-          placeholder="Username"
-        />
       <Text> Bio: </Text>
         <TextInput
           style={styles.input}
           value={bio}
-          onChangeText={setBio}
+          onChangeText={handleChange}
           placeholder="Escriu aquí"
         />
 
@@ -45,7 +63,7 @@ export default function ProfileForm (props, onSave) {
         />
 
         
-        <Button style={styles.button} title="Save" onPress={handleSave} />
+        <Button style={styles.button} title="Save" onPress={() => {handleSave(); console.log("holaa")}} />
         </>
     );
 };

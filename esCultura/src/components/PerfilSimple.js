@@ -8,6 +8,8 @@ import * as ImagePicker from 'expo-image-picker';
 import ProfileForm  from '../components/ProfileForm'; 
 import FollowButton  from '../components/FollowButton'; 
 import Esdeveniment  from '../components/Esdeveniment'; 
+import Trofeu  from '../components/Trofeu'; 
+
 
 export default function PerfilSimple(props, updated) {
     const handleInfoCompletaClose = () => {
@@ -16,6 +18,7 @@ export default function PerfilSimple(props, updated) {
     const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
+    const [estadistiques, setEstadistiques] = useState([]);
     const [infoPerfil, setInfoPerfil] = useState([]);
     const [screenLoaded, setScreenLoaded] = useState(updated);
     const [formVisible, setFormVisible] = useState(false);
@@ -36,7 +39,6 @@ export default function PerfilSimple(props, updated) {
             const data = await simpleFetch(endPoint, "GET", "")
             console.log("datos1", data);
             setJo(data.user);
-            console.log("info0", jo);
         }
 
         const fetchPreferits = async () => {
@@ -49,7 +51,6 @@ export default function PerfilSimple(props, updated) {
               const esd = await simpleFetch(endPoint, "GET", "");
               reserves.push(esd);
             }
-            console.log("reserves", reserves);
             setEsdeveniments(reserves); 
 
         }
@@ -59,10 +60,20 @@ export default function PerfilSimple(props, updated) {
           const data = await simpleFetch(endPoint, "GET", "")
           console.log("datos1", data);
           setInfoPerfil(data);
-          console.log("info1", infoPerfil.email);
-          console.log("info1", seguidors);
-
-    
+          console.log("info5", infoPerfil);
+          const e = [];
+            e.push(data.estadistiques.assistencies_passades);
+            e.push(data.estadistiques.interessos_esdeveniments);
+            e.push(data.estadistiques.interessos_tematiques);
+            e.push(data.estadistiques.missatges_enviats);
+            e.push(data.estadistiques.reserves_futures);
+            e.push(data.estadistiques.seguidors);
+            e.push(data.estadistiques.seguits);
+            e.push(data.estadistiques.xats_participant);
+          console.log("info3", e);
+          setEstadistiques(e);
+          console.log("info4", estadistiques);
+   
           //setImageUri(data.imatge);r
 
          /* if (response.estadistiques > 5) setTrofeus(bronce);
@@ -75,7 +86,6 @@ export default function PerfilSimple(props, updated) {
         const data = await simpleFetch(endPoint, "GET", "")
         console.log("datos2", data);
         const seg = []; 
-        console.log(data[0].seguit);
         for (let j = 0; j < data.length; j++) seg.push(data[j].seguit);
         setSeguits(seg);
         console.log("info2", seguits); 
@@ -112,7 +122,7 @@ export default function PerfilSimple(props, updated) {
   };
 
   const onImatgeChange = async (newImage) => {
-        let endPoint = `usuaris/perfils/${props}`;
+        let endPoint = 'usuaris/perfils/jo/';
 
           const formData = new FormData();
             formData.append('imatge', {
@@ -122,7 +132,7 @@ export default function PerfilSimple(props, updated) {
             });
 
 
-        const response = await simpleFetch(endPoint, "PUT", { imatge:"formData"});
+        const response = await simpleFetch(endPoint, "PUT", { imatge:formData});
     }
 
     if (jo != props.id) {
@@ -253,12 +263,29 @@ export default function PerfilSimple(props, updated) {
             
             <Text> Username: {infoPerfil.username} </Text>
             <Text> Email: {infoPerfil.email} </Text>
+            <Text> Bio: {infoPerfil.bio}</Text>
 
             <TouchableOpacity style={styles.PreferitsButton} onPress={() => {setLlistaVisible(true); }}>
                 <Text > LlistaPreferits </Text>
             </TouchableOpacity>
-
+            
+            <Text> Estadistiques </Text>
             <Text> Escultures </Text>
+            <ScrollView  contentContainerStyle={styles.llistat}>
+                <Trofeu 
+                    assistencies_passades={estadistiques[0]}
+                    interessos_esdeveniments={estadistiques[1]}
+                    interessos_tematiques={estadistiques[2]}
+                    missatges_enviats={estadistiques[3]}
+                    reserves_enviats={estadistiques[4]}
+                    seguidors={estadistiques[5]}
+                    seguits={estadistiques[6]}
+                    xats_participants={estadistiques[7]}
+                            />
+                                
+                
+            </ScrollView>
+
             <View style={styles.bottomContainer}>
             <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
                 <Text > Edit </Text>
