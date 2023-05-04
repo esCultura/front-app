@@ -4,6 +4,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import * as Keychain from 'react-native-keychain';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import {setToken} from '../utils/utilFunctions'
 
 // tuturial que he seguit
 //https://www.youtube.com/watch?v=MBMWiTsqnck&ab_channel=CodewithBeto
@@ -58,6 +59,8 @@ export default function SingUp({navigation, onLogin}) {
         console.log("create with google");
     }
 
+    
+
     function singUp() {
         console.log("create");
         
@@ -78,6 +81,10 @@ export default function SingUp({navigation, onLogin}) {
                     await Keychain.setGenericPassword(username, password);
                 }
                 */
+                console.log("token singup: ", data.token);
+                
+
+                setToken(data.token);
                 onLogin(true);
             })
             .catch(console.error)

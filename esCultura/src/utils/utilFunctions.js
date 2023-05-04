@@ -2,7 +2,7 @@
  * Token, setToken and fetch
  */
 
-let token = '4399aea952484e30ad0208cd72bf64a083c9b8c4';
+let token = '';
 
 export function setToken(newToken) {
     token = newToken;
@@ -33,7 +33,7 @@ export async function simpleFetch(endPoint, method, bodyData) {
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json",
-                'Authorization': 'Basic '+ token, 
+                'Authorization': 'Token '+ token, 
             },
             body: JSON.stringify(bodyData),
         })

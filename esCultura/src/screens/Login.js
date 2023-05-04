@@ -3,6 +3,7 @@ import React, { useState, useEffect} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import {setToken} from '../utils/utilFunctions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -52,6 +53,16 @@ export default function Login({navigation, onLogin}) {
         console.log("login amb google");
     }
 
+    async function _storeData() {
+      try {
+        await AsyncStorage.setItem(
+          "userInfo",
+          data,
+        );
+      } catch (error) {
+        console.log("error to save in local store, error: ", error);
+      }
+    };
 
     function login() {
         console.log("login");
@@ -69,6 +80,39 @@ export default function Login({navigation, onLogin}) {
                 setData(data);
                 console.log("login: ", data);
                 console.log("token: ", data.token);
+
+                //save data local
+                /*
+                    Info que he de guardar en local
+                    - data.imatge                                   --> imatge
+                    - data.user                                     --> userID
+                    - data.bio                                      --> userBio
+                    - data.email                                    --> userEmail
+                    - data.estadistiques.assistencies_passades      --> userAssis
+                    - data.estadistiques.interessos_esdeveniments   --> userIntEsde
+                    - data.estadistiques.interessis_tematiques      --> userIntTema
+                    - data.estadistiques.missatges_enviats          --> userMsg
+                    - data.estadistiques.reserves_futures           --> userRes
+                    - data.estadistiques.seguidors                  --> userSeguidors
+                    - data.estadistiques.seguits                    --> userSeguits
+                    - data.estadistiques.xats_participant           --> userXats
+                */
+                _storeData();
+                /*
+                _storeData("userImg", data.imatge);
+                _storeData("userId", data.user);
+                _storeData("userBio", data.bio);
+                _storeData("userEmail", data.email);
+                _storeData("userAssis", data.estadistiques.assistencies_passades);
+                _storeData("userIntEsde", data.estadistiques.interessos_esdeveniments);
+                _storeData("userIntTema", data.estadistiques.interessis_tematiques);
+                _storeData("userMsg", data.estadistiques.missatges_enviats);
+                _storeData("userRes", data.estadistiques.reserves_futures);
+                _storeData("userSeguidors", data.estadistiques.seguidors );
+                _storeData("userSeguits", data.estadistiques.seguits);
+                _storeData("userXats", data.estadistiques.xats_participant);
+                */
+                setToken(data.token);
                 onLogin(true);
             })
             .catch(console.error)
