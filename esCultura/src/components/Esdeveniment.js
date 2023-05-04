@@ -10,7 +10,7 @@ const type_colors   = ['#3BDE4B', '#3BDE4B', '#3BDE4B', '#3BDE4B'];
 export default function Esdeveniment (props) {
     const [modalVisible, setModalVisible] = useState(false);
 
-    let type = props.type[0].nom;
+    let type = props.type[0]
 
     return (
         <>
@@ -22,7 +22,10 @@ export default function Esdeveniment (props) {
                     {/* <Text style={styles.like}><LikeButton></LikeButton></Text> */}
                     <Text style={styles.title}>{props.title}</Text>
                     {/* <Text style={styles.brief}>{props.brief}</Text> */}
-                    <Text style={styles.info}>🗓️ {props.date}</Text>
+                    <View  style={{display: 'flex',  flexDirection: 'row', alignItems: 'center', whiteSpace: 'nowrap'}} >
+                    <Text style={styles.info}>🗓️ {props.dateIni} </Text> 
+                    {props.dateIni != props.dateFi && <Text> fins {props.dateFi} </Text>}
+                    </View> 
                     <Text style={styles.info}>📌 {props.location}</Text>
                     {/* <Text style><Reservar ></Reservar></Text> */}
                 </View>
@@ -30,14 +33,19 @@ export default function Esdeveniment (props) {
 
             <InfoCompleta 
                 visible={modalVisible} 
-                back={() => setModalVisible(false)}
+                back={() => {setModalVisible(false),
+                    props.back()
+                }
+                }
                 type={props.type}
                 title={props.title}
                 preu={props.preu}
                 complet = {props.desc}
-                date = {props.date}
+                dateIni = {props.dateIni}
+                dateFi = {props.dateFi}
                 location = {props.location}
                 source= {props.source}
+                codi = {props.codi}
             />
         </>
     )

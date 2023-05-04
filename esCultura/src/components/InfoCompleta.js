@@ -4,9 +4,12 @@ import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
+
 const bgcolor = '#3BDE4B';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
+  
+  
 export default function InfoCompleta (props) {
 
     const mesinfo = async () => {
@@ -21,7 +24,7 @@ export default function InfoCompleta (props) {
                 </TouchableOpacity>
                 <View>
                     <Image source={{uri: props.source}} style={styles.image}/>
-                    <Text style={styles.like}><LikeButton  ></LikeButton></Text>
+                    <Text style={styles.like}><LikeButton codi={props.codi} ></LikeButton></Text>
                 </View>
                 <View style={styles.card_info}>
                     <View style={styles.mainInfo}>
@@ -33,7 +36,7 @@ export default function InfoCompleta (props) {
                             }
                         </ScrollView>
                         <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text>
+                        <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
                     </View>
                     <View style={{maxHeight: 390}}>
                         <ScrollView>
@@ -43,10 +46,14 @@ export default function InfoCompleta (props) {
                     <View style={styles.botInfo}>
                         {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
                         <View style={{flexDirection: 'row', gap: 10}}>
-                            <Text ><Reservar ></Reservar></Text>
+                            <View >
+                            <Text ><Reservar codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
+                            </View>
+                            <View style={{width: '50%'}}>
                             <TouchableOpacity style={styles.button} onPress={mesinfo}>
-                                <Text style={{color: 'white', fontSize: 18}}>Més Informació</Text>
+                                <Text style={{color: 'white', fontSize: 18, textAlign: 'center',}}>Més Informació</Text>
                             </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>

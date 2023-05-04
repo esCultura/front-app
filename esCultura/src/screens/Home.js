@@ -37,7 +37,8 @@ export default function Home(props) {
           brief="Tant de bo el tornin a fer!" 
           date="LOLASU" 
           location="In your mind mdfk" 
-        source="https://www.atrapalo.com/houdinis/wp-content/uploads/2021/06/billyelliot-cartel.jpg" /> 
+          codi = "20230315095"
+          source="https://www.atrapalo.com/houdinis/wp-content/uploads/2021/06/billyelliot-cartel.jpg" /> 
       <StatusBar style="auto" />
     </Screen>
 

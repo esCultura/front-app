@@ -14,6 +14,10 @@ export default function Search(props) {
     const url = "http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/";
     const offset = useRef(0);
     const [esdeveniments, setEsdeveniments] = useState([]);
+
+    const handleInfoCompletaClose = () => {
+      };
+
     function componenDidMount() {
         fetch(url+`?limit=15&offset=${offset.current}`, { method: "GET" })
             .then(data => data.json())
@@ -59,9 +63,8 @@ export default function Search(props) {
                 {
                     esdeveniments.map((esd) => {
                         return (<Esdeveniment key={esd.codi} title={esd.nom}
-                            source={"http://agenda.cultura.gencat.cat"+esd.imatges_list[0]} desc={esd.descripcio.replaceAll("&nbsp;", "\n")}
-                            date={esd.dataIni} location={esd.espai} type={esd.tematiques} preu={esd.entrades} />)
-                    })
+                            source={"http://agenda.cultura.gencat.cat"+esd.imatges_list[0]} desc={esd.descripcio.replaceAll("&nbsp;", "\n")} back={() => handleInfoCompletaClose()}
+                            dateIni={esd.dataIni.slice(0,10)} dateFi={esd.dataFi.slice(0,10)} location={esd.espai} type={esd.tematiques.map(tema => tema.nom)} preu={esd.entrades} codi={esd.codi}/>)})
                 }
                 {/* { loading && <Text>Carregant ...</Text> } */}
             </ScrollView>
