@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Button} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Button, Pressable} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import People from 'react-native-bootstrap-icons/icons/people-fill' 
 
@@ -28,14 +28,17 @@ export default function NewGrup (props){
             </TouchableOpacity>
 
             <Modal visible={modalVisible}>
+                <View style={styles.top}>
                 <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
                     <ArrowLeftShort color="black"></ArrowLeftShort>
                 </TouchableOpacity>
+                <Text style={styles.titol}>Crear Grup</Text>
+                </View>
+                <Text>Nom Grup:</Text>
                 <View style={styles.barra}>
-                    <Text>Nou Grup</Text>
                     <View style={styles.search}>
                         <TextInput style={styles.input} placeholder={'Nom'} value={nomGrup} onChangeText={handleTextChange}/>
-                        <Button>Crear</Button>
+                        
                     </View>
                     
                 </View>
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        top:50
     },
     search:{
         flexDirection: 'row',
@@ -114,17 +118,37 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius:13,
         flex:1,
+        width:'80%'
     },
     back:{
         marginLeft:20,
-        marginVertical:20,
-        //position: 'absolute',
-        //flex:1,
-        position: 'absolute',
-        left: 0,
-        top: 5,
+            marginVertical:20,
+            //position: 'absolute',
+            //flex:1,
+            position: 'absolute',
+            left: 0,
+            top: 5,
         
     },
+    top:{
+        heigh:50,
+        backgroundColor:'#2FDD60',
+        width:'100%',
+        flexDirection: 'row',
+
+        //alignItems: 'center', 
+    },
+    titol:{
+        textAlign:'center',
+        alignSelf:'center',
+        justifyContent:'center'
+    },
+    button:{
+        height:35,
+        width:50,
+        borderRadius:13,
+        backgroundColor: '#2FDD60'
+    }
     
 
    
