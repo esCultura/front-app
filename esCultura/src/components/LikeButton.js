@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { simpleFetch } from "../utils/utilFunctions";
+import React, { useEffect, useState } from 'react';
 
 const LikeButton =  ( props ) => {
     const [liked, setLiked] = useState(0);

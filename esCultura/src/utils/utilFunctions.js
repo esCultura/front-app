@@ -37,6 +37,6 @@ export async function simpleFetch(endPoint, method, bodyData) {
 
     let resultJson = await result.json();
 
-    console.log("finalResult: ", resultJson);
+    //console.log("finalResult: ", resultJson);
     return resultJson;    
 }

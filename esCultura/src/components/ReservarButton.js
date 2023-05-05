@@ -51,7 +51,8 @@ export default function Reservar (props){
       fetchReserves();
       }, []);
     
-    const crearReserva = async () => {      
+    const crearReserva = async () => {  
+      console.log("entra aqui1")    
       let endPoint = 'assistencies/';
       if (fechaIni == fechaFi) {
         const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaFi});
@@ -70,6 +71,7 @@ export default function Reservar (props){
 
 
   const eliminarReserva = async () => { 
+    console.log("entra aqui 2")
     let endPoint = `assistencies/?perfil=${user}&esdeveniment=${esd}`;
         const data = await simpleFetch(endPoint, "DELETE", "")
         setReservat(false);
@@ -85,7 +87,7 @@ if (acabat){
 
 else if(reservat){
     return(<View style={styles.container}>
-        <TouchableOpacity style = {styles.buttonEliminar} onPress={eliminarReserva} >
+        <TouchableOpacity testID="eliminarButton" style = {styles.buttonEliminar} onPress={() => {eliminarReserva; console.log("entraaqui0")} }>
             <View>
                 <Text style = {styles.buttonText} > Eliminar Reserva</Text>
             </View>
@@ -94,7 +96,7 @@ else if(reservat){
 }
 else if(!reservat & fechaFi===fechaIni){
     return(<View style={styles.container}> 
-       <TouchableOpacity style = {styles.button} onPress={crearReserva} >
+       <TouchableOpacity testID="reservarButton" style = {styles.button} onPress={crearReserva} >
         <View>
             <Text style = {styles.buttonText} > Reservar</Text>
         </View>
