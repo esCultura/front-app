@@ -140,6 +140,7 @@ export default function SearchFilter({onVariableChange}, isList) {
                 <FilterLeft name="search" color={'black'} size={30} />
             </Pressable>
             <TextInput 
+                testID="input" 
                 value={textSearch}
                 onBlur={saveFilter}
                 onChangeText={setTextSearch}
