@@ -132,7 +132,8 @@ export default function SearchFilter({onVariableChange}, isList) {
 
     return (
         <View style={styles.contentView}>
-            <Pressable 
+            <Pressable
+                testID="btnModal"  
                 title="filter" 
                 onPress={() => setModalVisible(true)}
                 style={styles.buttonIconFilter} 

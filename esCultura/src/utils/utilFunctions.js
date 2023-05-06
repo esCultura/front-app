@@ -2,10 +2,14 @@
  * Token, setToken and fetch
  */
 
-let token = '4399aea952484e30ad0208cd72bf64a083c9b8c4';
+let token = '';
 
 export function setToken(newToken) {
     token = newToken;
+}
+
+export function getToken() {
+    return token;
 }
 
 export async function simpleFetch(endPoint, method, bodyData) {
