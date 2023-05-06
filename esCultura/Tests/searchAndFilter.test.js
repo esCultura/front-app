@@ -14,6 +14,16 @@ describe('<SearchFilter />', () => {
         let component = comp.toJSON();
         expect(component).toMatchSnapshot();
     });
+
+    it('should fire onChange events', () => {
+        const onChange = jest.fn();
+        const { getByTestId } = comp;
+      
+        const inputComponent = getByTestId('input');
+        fireEvent.changeText(inputComponent, 'new text');
+      
+        expect(onChange).toHaveBeenCalledWith('new text');
+      });
     
 
 });
