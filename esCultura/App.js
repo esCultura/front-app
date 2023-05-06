@@ -32,7 +32,11 @@ export default function App() {
         { isSignedIn ? (
                 <Stack.Group>
                   <Stack.Screen name="Base" component={Base} />
-                  <Stack.Screen name="Settings" component={Settings} />
+                  <Stack.Screen name="Settings">
+                    {(props) => (
+                      <Settings {...props} onLogin={onLogin} />
+                    )}
+                  </Stack.Screen>
                 </Stack.Group>
             ) : (
                 <Stack.Group>
