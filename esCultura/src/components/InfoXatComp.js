@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList, Image} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList, Image, Pressable,Button} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import Punts from 'react-native-bootstrap-icons/icons/three-dots-vertical' 
 import { simpleFetch } from "../utils/utilFunctions";
@@ -8,9 +8,13 @@ import { simpleFetch } from "../utils/utilFunctions";
 
 
 export default function InfoXat (props){
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisi, setModalVisi] = useState(false);
     const [usuaris, setUsuaris] =useState([]);
     const [data,setData]=useState('');
+    
+    function patata(){
+        console.log("TANCATaaaaaaaaa")
+    }
     
     useEffect(() => {
         
@@ -33,30 +37,31 @@ export default function InfoXat (props){
       let endpoint= "xats/"+ props.id+"/"
       simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
       console.log("eliminar")
-      setModalVisible(false);
+      setModalVisi(false);
       props.onChange(false)
     }
     
     
     return(
         <View>
-            <TouchableOpacity  style={styles.punts}onPress={() => setModalVisible(true)} >
+            <TouchableOpacity  style={styles.punts}onPress={() => setModalVisi(true)} >
                 <Punts color="black" style={styles.icono}></Punts>
+                <Text></Text>
             </TouchableOpacity>
        
-        <Modal visible={modalVisible}>
+        <Modal visible={modalVisi}>
             <View>
-            <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
-                <ArrowLeftShort color="black"></ArrowLeftShort>
-            </TouchableOpacity>
-                
-            
+            <TouchableOpacity onPress={patata()}>
+                <Text> X </Text>
+                </TouchableOpacity>
+ 
+            </View>
             <View>
                 <TouchableOpacity style={styles.grup} onPress={() =>eliminarXat(props.id)}>
                     <Text style={styles.textEl}>Eliminar Xat</Text>
                 </TouchableOpacity>
             </View>
-            </View>
+            
             <View style={styles.textView}>
                 <Text style={styles.text}>Participants:</Text>
             </View>
