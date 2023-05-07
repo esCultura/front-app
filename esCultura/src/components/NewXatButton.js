@@ -99,7 +99,7 @@ export default function NewXat (props){
                 if(existents.indexOf(usu.user) == -1){
                 return (
                     <View  key={i} >
-                        <Pressable style={styles.info_xat} onPress={() =>crearXat(usu.user)} >
+                        <Pressable testID="newXatButton" style={styles.info_xat} onPress={() =>crearXat(usu.user)} >
                             <Image 
                                 style={styles.foto}
                                 source={urlImatge}
