@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Button, Pressable} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput,Button, Pressable,Image, Alert} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import People from 'react-native-bootstrap-icons/icons/people-fill' 
 
@@ -16,8 +16,10 @@ export default function NewGrup (props){
     const [hihaselected,setHiHaSelected] = useState(false)
     const [update,setUpdate] = useState(false)
     
+    let urlImatge =require('../../assets/profile-base-icon.png')
+    
     function handleTextChange(value) {
-        setTextMissatge(value);     
+        setNomGrup(value);     
     }
     function patata(){
         setModalVisible(false)
@@ -25,6 +27,9 @@ export default function NewGrup (props){
     function iniciaSelected(){
         
     }
+    function getIndex(id) {
+        return selected.findIndex(obj => obj.id === id);
+      }
     
     
     
@@ -37,8 +42,11 @@ export default function NewGrup (props){
                 
                 return (
                     <View key={u}>
-                            <Text style={styles.nom}>{usu.username}</Text>
-                            <Text>{usu.id}</Text>
+                        <Image
+                            style={styles.foto}
+                            source={urlImatge}/>
+                            <Text style={styles.user_seleccionat}>{usu.username}</Text>
+                            
                         
                 </View>)
                 ;})
@@ -55,21 +63,42 @@ export default function NewGrup (props){
         let usus
         console.log(user,username)
         if(selected.length != 0){
-            console.log("ifffffffffff")
+            let index =getIndex(user)
             usus = selected
+            if(index == -1){
+            console.log("ifffffffffff")
+            
             usus.push({id:user, username:username})
+            }
+            else{
+                
+                console.log('borrrrra',user,getIndex(index),index,usus)
+                
+                usus.splice(index,1)
+            }
         }
         else{
             console.log('elseeeeee')
             usus =[{id:user,username:username}]
         }
+        
+        
+        
         console.log(usus)
         setSelected(usus)
         console.log(selected)
         setHiHaSelected(true)
         console.log(hihaselected)
         setUpdate((prevState) =>!prevState)
-        
+    }
+    
+    function crearGrup(){
+        if(nomGrup == ''){
+            alert("Falta el nom del grup")
+        }
+        else{
+            
+        }
     }
     
     useEffect(()=> {
@@ -110,28 +139,26 @@ export default function NewGrup (props){
                     
                     
                 </View>
-                <TouchableOpacity style={styles.boto_crear}>
+                <TouchableOpacity style={styles.boto_crear} onPress={crearGrup}>
                         <Text>Crear</Text>
                     </TouchableOpacity>
-                    <View>
-                        {this.renderSeleccionats()}
-                    </View>
+                    
                 <View>
             {
             props.usuaris.map((usu,u) => {
-                //let index =selected.find((a) =>a.user === usu.user)
-                //onsole.log("indexaaaa",index.bool)
-                if(usu.user != props.user ){
+                
+              let index =getIndex(usu.user)
+                if(usu.user != props.user.user & index == -1){
                 return (
                     <View key={u}>
                         <TouchableOpacity   style={styles.info_xat} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
                             <Text style={styles.nom}>{usu.username}</Text>
                         </TouchableOpacity>
                 </View>)}
-                else if(usu.user != props.user){
+                else if(usu.user != props.user.user){
                     return (
                         <View key={u}>
-                            <TouchableOpacity   style={styles.info_xat_selected} onPress={()=>seleccionarUsuaris(usu.username)}>
+                            <TouchableOpacity   style={styles.info_xat_selected} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
                                 <Text style={styles.nom}>{usu.username}</Text>
                             </TouchableOpacity>
                     </View>)
@@ -234,9 +261,9 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 70,
         overflow: 'hidden',
-        marginVertical: 10,
+       //marginVertical: 10,
         borderColor: 'black',
-        borderWidth: 1,
+        borderWidth: 0.5,
         backgroundColor:'#AFE1AF'
     },
    foto: {
@@ -299,6 +326,15 @@ const styles = StyleSheet.create({
         width:50,
         borderRadius:13,
         backgroundColor: '#2FDD60'
+    },
+    user_seleccionat:{
+        position: 'absolute',
+        left:80,
+        top: 20,
+        alignSelf: 'flex-start',
+        fontSize: 20,
+        fontStyle: "normal",
+        fontWeight: 'bold'
     }
     
 
