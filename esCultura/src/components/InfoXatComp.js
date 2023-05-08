@@ -12,8 +12,8 @@ export default function InfoXat (props){
     const [usuaris, setUsuaris] =useState([]);
     const [data,setData]=useState('');
     
-    function patata(){
-        console.log("TANCATaaaaaaaaa")
+    function tanca(){
+        setModalVisi(false)
     }
     
     useEffect(() => {
@@ -39,6 +39,7 @@ export default function InfoXat (props){
       console.log("eliminar")
       setModalVisi(false);
       props.onChange(false)
+      props.canvia()
     }
     
     
@@ -51,7 +52,7 @@ export default function InfoXat (props){
        
         <Modal visible={modalVisi}>
             <View>
-            <TouchableOpacity onPress={patata()}>
+            <TouchableOpacity onPress={tanca}>
                 <Text> X </Text>
                 </TouchableOpacity>
  

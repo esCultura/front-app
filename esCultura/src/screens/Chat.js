@@ -64,7 +64,7 @@ export default function Chat(props) {
             return (
 
                 <View key={i}>
-                    <Xat user={idUser}  part={xat.participants} id={xat.id} miss={xat.ultim_missatge}></Xat>
+                    <Xat user={idUser}  nom ={xat.nom}part={xat.participants} id={xat.id} miss={xat.ultim_missatge} canvia={recarrega}></Xat>
                 </View>);})
     }
            

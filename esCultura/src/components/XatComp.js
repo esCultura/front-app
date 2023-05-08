@@ -50,32 +50,29 @@ export default function Xat (props){
         
         console.log("RECAREEGA")
         console.log(canvia)
-    /*const fetchMissatges = async () => {  
+    const fetchMissatges = async () => {  
         let endPoint = 'xats/'+props.id+'/missatges/';
         console.log('XATCOMP')
         simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data))
         //console.log('fetchmissatges')
         //console.log(missatges)
        
-    }*/
+    }
     
-    //fetchMissatges();
+    fetchMissatges();
     ultimMissatge()
       }, [update]);
       
       function nomXat(){
-         let array = props.part
-         if(array != 0){
-         array.forEach(item =>{
-             
-             if(array.length > 2){
-                 setNom("Grup esCultura")
-             }
-             else{
-                 if(item.user != 6) setNom(item.username);
-             }
- 
-         })}
+        let array = props.part
+        if(props.nom == null){
+            array.forEach(item =>{
+                    if(item.user != 6) setNom(item.username);
+            })   
+        }
+        else{
+            setNom(props.nom)
+        }
      }
     const enviarMissatge = async () => { 
         let endPoint = 'xats/'+props.id+'/missatges/';
@@ -112,7 +109,7 @@ export default function Xat (props){
                     <Text  styles={styles.nom}>{nom}</Text>
                     </View>
                     
-                    <InfoXat onChange={getData} id={props.id} participants={props.part}></InfoXat>
+                    <InfoXat onChange={getData} id={props.id} participants={props.part} canvia={() =>props.canvia()}></InfoXat>
                 </View>
                 
                 <View style={styles.scroll}>
