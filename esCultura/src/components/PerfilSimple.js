@@ -58,10 +58,12 @@ export default function PerfilSimple(props, updated) {
         const fetchPerfil = async () => {
           let endPoint = `usuaris/perfils/${props.id}`;
           const data = await simpleFetch(endPoint, "GET", "")
-          console.log("datos1", data);
+          console.log("datos11", data);
           setInfoPerfil(data);
           console.log("info5", infoPerfil);
           const e = [];
+
+          console.log("datos", data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.interessos_esdeveniments);
             e.push(data.estadistiques.interessos_tematiques);
@@ -72,13 +74,9 @@ export default function PerfilSimple(props, updated) {
             e.push(data.estadistiques.xats_participant);
           console.log("info3", e);
           setEstadistiques(e);
-          console.log("info4", estadistiques);
+          console.log("info4", estadistiques[0]);
    
-          //setImageUri(data.imatge);r
-
-         /* if (response.estadistiques > 5) setTrofeus(bronce);
-            if (response.length > 10) setTrofeus(plata);
-            if (response.length > 15) setTrofeus(or);*/
+          //setImageUri(data.imatge);
       }
 
       const fetchSeguits = async () => {
@@ -151,7 +149,7 @@ export default function PerfilSimple(props, updated) {
             </View>
 
             <View style={styles.rightContainer} >
-                <TouchableOpacity onPress={() => {setSeguitsVisible(true) }}>
+                <TouchableOpacity testId="PerfilSimple" onPress={() => {setSeguitsVisible(true) }}>
                    <View> 
                    <Text style={styles.num}>  {seguits.length}  </Text>
                    <Text style={styles.text}> Seguits </Text>
@@ -159,7 +157,7 @@ export default function PerfilSimple(props, updated) {
                     
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => {setSeguidorsVisible(true) }}>
+                <TouchableOpacity testId="PerfilSimple" onPress={() => {setSeguidorsVisible(true) }}>
                 <View> 
                 <Text style={styles.num}>  {seguidors.length}  </Text>
                    <Text style={styles.text}> Seguidors </Text>
@@ -177,6 +175,21 @@ export default function PerfilSimple(props, updated) {
 
 
             <Text> Escultures </Text>
+            <Text> Escultures </Text>
+            <ScrollView  contentContainerStyle={styles.llistat}>
+                <Trofeu 
+                    assistencies_passades={estadistiques[0]}
+                    interessos_esdeveniments={estadistiques[1]}
+                    interessos_tematiques={estadistiques[2]}
+                    missatges_enviats={estadistiques[3]}
+                    reserves_enviats={estadistiques[4]}
+                    seguidors={estadistiques[5]}
+                    seguits={estadistiques[6]}
+                    xats_participants={estadistiques[7]}
+                            />
+                                
+                
+            </ScrollView>
 
 
             <Modal visible={seguitsVisible } animationType="slide">
@@ -268,10 +281,10 @@ export default function PerfilSimple(props, updated) {
             <TouchableOpacity style={styles.PreferitsButton} onPress={() => {setLlistaVisible(true); }}>
                 <Text > LlistaPreferits </Text>
             </TouchableOpacity>
-            
-            <Text> Estadistiques </Text>
+
             <Text> Escultures </Text>
             <ScrollView  contentContainerStyle={styles.llistat}>
+                {estadistiques[0]!== undefined && (
                 <Trofeu 
                     assistencies_passades={estadistiques[0]}
                     interessos_esdeveniments={estadistiques[1]}
@@ -283,17 +296,17 @@ export default function PerfilSimple(props, updated) {
                     xats_participants={estadistiques[7]}
                             />
                                 
-                
+                )}
             </ScrollView>
 
             <View style={styles.bottomContainer}>
             <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
-                <Text > Edit </Text>
+                <Text > Edita </Text>
             </TouchableOpacity>
 
 
             <TouchableOpacity style={styles.logoutButton}>
-                <Text > Logout </Text>
+                <Text > Tancar sessió</Text>
             </TouchableOpacity>
                 
             </View>

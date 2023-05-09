@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1683301213007" clover="3.2.0">
-  <project timestamp="1683301213008" name="All files">
-    <metrics statements="523" coveredstatements="45" conditionals="133" coveredconditionals="11" methods="143" coveredmethods="5" elements="799" coveredelements="61" complexity="0" loc="523" ncloc="523" packages="3" files="21" classes="21"/>
+<coverage generated="1683628199213" clover="3.2.0">
+  <project timestamp="1683628199214" name="All files">
+    <metrics statements="524" coveredstatements="46" conditionals="133" coveredconditionals="11" methods="143" coveredmethods="5" elements="800" coveredelements="62" complexity="0" loc="524" ncloc="524" packages="3" files="21" classes="21"/>
     <package name="components">
-      <metrics statements="444" coveredstatements="37" conditionals="125" coveredconditionals="7" methods="113" coveredmethods="4"/>
+      <metrics statements="445" coveredstatements="38" conditionals="125" coveredconditionals="7" methods="113" coveredmethods="4"/>
       <file name="Calendar.js" path="/home/tania/pes/front-app/esCultura/src/components/Calendar.js">
         <metrics statements="71" coveredstatements="0" conditionals="25" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="14" count="0" type="stmt"/>
@@ -320,66 +320,67 @@
         <line num="71" count="0" type="stmt"/>
       </file>
       <file name="ReservarButton.js" path="/home/tania/pes/front-app/esCultura/src/components/ReservarButton.js">
-        <metrics statements="59" coveredstatements="37" conditionals="24" coveredconditionals="7" methods="10" coveredmethods="4"/>
-        <line num="7" count="6" type="stmt"/>
-        <line num="8" count="6" type="stmt"/>
-        <line num="9" count="6" type="stmt"/>
-        <line num="10" count="6" type="stmt"/>
-        <line num="11" count="6" type="stmt"/>
-        <line num="12" count="6" type="stmt"/>
-        <line num="13" count="6" type="stmt"/>
-        <line num="14" count="6" type="stmt"/>
-        <line num="15" count="6" type="stmt"/>
-        <line num="16" count="6" type="stmt"/>
-        <line num="18" count="6" type="stmt"/>
-        <line num="19" count="3" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
+        <metrics statements="60" coveredstatements="38" conditionals="24" coveredconditionals="7" methods="10" coveredmethods="4"/>
+        <line num="7" count="8" type="stmt"/>
+        <line num="8" count="8" type="stmt"/>
+        <line num="9" count="8" type="stmt"/>
+        <line num="10" count="8" type="stmt"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="12" count="8" type="stmt"/>
+        <line num="13" count="8" type="stmt"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="16" count="8" type="stmt"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="29" count="3" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
-        <line num="31" count="3" type="stmt"/>
-        <line num="32" count="3" type="stmt"/>
-        <line num="33" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="37" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="37" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="38" count="0" type="stmt"/>
-        <line num="40" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="41" count="3" type="stmt"/>
+        <line num="40" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="41" count="4" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
-        <line num="48" count="3" type="stmt"/>
-        <line num="49" count="3" type="stmt"/>
-        <line num="51" count="3" type="stmt"/>
-        <line num="54" count="6" type="stmt"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="49" count="4" type="stmt"/>
+        <line num="51" count="4" type="stmt"/>
+        <line num="54" count="8" type="stmt"/>
         <line num="55" count="2" type="stmt"/>
         <line num="56" count="2" type="stmt"/>
         <line num="57" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="58" count="2" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
         <line num="63" count="0" type="stmt"/>
-        <line num="67" count="6" type="stmt"/>
+        <line num="67" count="8" type="stmt"/>
         <line num="68" count="0" type="stmt"/>
         <line num="69" count="0" type="stmt"/>
-        <line num="73" count="6" type="stmt"/>
+        <line num="73" count="8" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
         <line num="76" count="0" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
-        <line num="80" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="80" count="8" type="cond" truecount="1" falsecount="1"/>
         <line num="81" count="0" type="stmt"/>
-        <line num="88" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="88" count="8" type="cond" truecount="1" falsecount="1"/>
         <line num="89" count="0" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
-        <line num="97" count="6" type="cond" truecount="1" falsecount="1"/>
-        <line num="98" count="6" type="stmt"/>
-        <line num="109" count="0" type="stmt"/>
-        <line num="113" count="0" type="stmt"/>
-        <line num="126" count="0" type="stmt"/>
-        <line num="132" count="0" type="stmt"/>
-        <line num="155" count="1" type="stmt"/>
+        <line num="97" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="98" count="8" type="stmt"/>
+        <line num="99" count="8" type="stmt"/>
+        <line num="110" count="0" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="156" count="1" type="stmt"/>
       </file>
       <file name="Screen.js" path="/home/tania/pes/front-app/esCultura/src/components/Screen.js">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -586,12 +587,12 @@
         <metrics statements="11" coveredstatements="8" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
-        <line num="8" count="5" type="stmt"/>
-        <line num="9" count="5" type="stmt"/>
-        <line num="11" count="5" type="stmt"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="15" count="5" type="cond" truecount="4" falsecount="0"/>
-        <line num="16" count="3" type="stmt"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="11" count="6" type="stmt"/>
+        <line num="12" count="6" type="stmt"/>
+        <line num="15" count="6" type="cond" truecount="4" falsecount="0"/>
+        <line num="16" count="4" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
         <line num="41" count="0" type="stmt"/>

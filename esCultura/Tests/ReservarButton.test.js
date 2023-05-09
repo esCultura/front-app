@@ -24,4 +24,17 @@ describe('ReservarButton', () => {
     await (()=> expect(eliminarReservaMock).toHaveBeenCalled());
     await  (()=> expect(reservat).toBe(false));
   });
+
+
+  it('should call obrirdesplegable when the button is pressed and the post is not reservat', async () => {
+    const reservat = false;
+    const desplegableAbierto = false;
+    const fechaIni = new Date('22-05-2022');
+    const fechaFi = new Date('23-05-2023');
+    const seleccionarDataMock = jest.fn();
+    const { getByTestId } = render(<ReservarButton seleccionarData={seleccionarDataMock} reservat={reservat} desplegableAbierto={desplegableAbierto} fechaFi={fechaFi} fechaIni={fechaIni}/>);
+    fireEvent.press(getByTestId('seleccionarData'));
+    await  (()=> expect(desplegableAbierto).toBe(true));
+  });
+
 });

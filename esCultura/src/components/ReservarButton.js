@@ -95,6 +95,7 @@ else if(reservat){
     </View>)
 }
 else if(!reservat & fechaFi===fechaIni){
+  console.log("data", fechaIni);
     return(<View style={styles.container}> 
        <TouchableOpacity testID="reservarButton" style = {styles.button} onPress={crearReserva} >
         <View>
@@ -110,7 +111,7 @@ return(
     <View style={styles.container}>
       {fechaFi !== fechaIni ? (
 
-      <TouchableOpacity style={styles.button} onPress={() => setDesplegableAbierto(!desplegableAbierto)}>
+      <TouchableOpacity testID="seleccionarData" style={styles.button} onPress={() => setDesplegableAbierto(!desplegableAbierto)}>
       <View>
         <Text style={styles.buttonText}>Seleccionar data</Text>
       </View>
