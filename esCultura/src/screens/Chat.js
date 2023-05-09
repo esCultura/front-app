@@ -2,27 +2,26 @@ import { Text, StyleSheet, View , TextInput,Image,TouchableOpacity} from "react-
 import React, { useEffect, useState } from "react";
 import Screen from "../components/Screen";
 import Search from 'react-native-bootstrap-icons/icons/search';
-import Plus from 'react-native-bootstrap-icons/icons/plus';
 import NewXat from "../components/NewXatButton";
 import Xat from "../components/XatComp";
 import {simpleFetch} from '../utils/utilFunctions';
 
 export default function Chat(props) {
-    const [data,setData]=useState('')
-    const [usuaris, setUsuaris] = useState([])
     const [xats, setXats] = useState([])
     const [idUser,setIdUser] = useState([]);
     const [update,setUpdate]= useState([]);
-    var users =[]
+    
+    //Saber el teu usuari
     useEffect(() => {
         const getUserId = async () => { 
             let endPoint = 'usuaris/perfils/jo';
-            console.log('CHAT')
         await    simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
 
     }
     getUserId();
     }, []);
+    
+    //GET xats
     useEffect(() => {
 
         const fetchXats = async () => {
@@ -33,44 +32,33 @@ export default function Chat(props) {
             
         }
         
-      fetchXats();
+        fetchXats();
+    }, [update]);
       
-      
-      }, [update]);
-    
-      
-      function recarrega(){
+      //Update pantalla
+    function recarrega(){
         setUpdate((prevState) =>!prevState)
-      }
-      
-       
-      //<NewXat xats={xats}></NewXat>
-     
+    }
+
     return (
         <Screen >
             <View style={styles.barra}>
-            <View style={styles.search}>
-                <TextInput style={styles.input} placeholder={'Cerca...'}/>
-                <Search  color={'black'}  style={styles.icono}></Search>
+                <View style={styles.search}>
+                    <TextInput style={styles.input} placeholder={'Cerca...'}/>
+                    <Search  color={'black'}  style={styles.icono}></Search>
+                </View>
                 
+                <NewXat user={idUser} xats={xats} canvia={recarrega}></NewXat>
             </View>
-           
-           <NewXat user={idUser} xats={xats} canvia={recarrega}></NewXat>
-           </View>
-           <View>
-           
-           {
-            xats.map((xat,i) => {
-            return (
-
-                <View key={i}>
-                    <Xat user={idUser}  nom ={xat.nom}part={xat.participants} id={xat.id} miss={xat.ultim_missatge} canvia={recarrega}></Xat>
-                </View>);})
-    }
-           
-
-    </View>
-       
+            <View>
+               {
+                xats.map((xat,i) => {
+                return (
+                    <View key={i}>
+                        <Xat user={idUser}  nom ={xat.nom}part={xat.participants} id={xat.id} miss={xat.ultim_missatge} canvia={recarrega}></Xat>
+                    </View>);})
+                }
+            </View>
         </Screen>
     );
 }

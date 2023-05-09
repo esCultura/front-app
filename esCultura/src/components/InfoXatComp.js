@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList, Image, Pressable,Button} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal, Image} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import Punts from 'react-native-bootstrap-icons/icons/three-dots-vertical' 
 import { simpleFetch } from "../utils/utilFunctions";
-
-
 
 
 export default function InfoXat (props){
@@ -12,31 +10,16 @@ export default function InfoXat (props){
     const [usuaris, setUsuaris] =useState([]);
     const [data,setData]=useState('');
     
+    let urlImatge =require('../../assets/profile-base-icon.png')
+    
     function tanca(){
         setModalVisi(false)
     }
-    
-    useEffect(() => {
-        
-        
-       function usuarisParticipants(){
-        //console.log
-        let array = props.participants
-        if(array.length > 2){
-            setUsuaris(array);
-        }
-        else setUsuaris([''])
-       
-       }
-        
-        usuarisParticipants();
-          }, []);
           
     const eliminarXat = async(prop) =>{
       //console.log("eliminar xat",prop)
       let endpoint= "xats/"+ props.id+"/"
       simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
-      console.log("eliminar")
       setModalVisi(false);
       props.onChange(false)
       props.canvia()
@@ -51,11 +34,11 @@ export default function InfoXat (props){
             </TouchableOpacity>
        
         <Modal visible={modalVisi}>
-            <View>
-            <TouchableOpacity onPress={tanca}>
-                <Text> X </Text>
+            <View style={styles.top}>
+                <TouchableOpacity style={styles.back} onPress={tanca}>
+                    <ArrowLeftShort color="black"></ArrowLeftShort>
                 </TouchableOpacity>
- 
+                <Text style={styles.titol}>Informació Xat</Text>
             </View>
             <View>
                 <TouchableOpacity style={styles.grup} onPress={() =>eliminarXat(props.id)}>
@@ -69,18 +52,17 @@ export default function InfoXat (props){
             <View>
                 
             {
-            usuaris.map((usu,u) => {
-                if(usuaris.length > 2){
+            props.participants.map((usu,u) => { 
                 return (
                     <View key={u}>
                         <TouchableOpacity   style={styles.info_xat} >
                             <Image 
                                 style={styles.foto}
-                                source={usu.imatge}
+                                source={urlImatge}
                                 />
                             <Text style={styles.nom}>{usu.username}</Text>
                         </TouchableOpacity>
-                </View>)}
+                </View>)
                 ;})
             }
             </View>
@@ -97,7 +79,7 @@ const styles = StyleSheet.create({
         marginRight:20,
         width:'95%',
         height:50,
-        marginTop:80,
+        //marginTop:80,
         borderRadius:13,
         backgroundColor:"#DC143C",
         display:'flex',
@@ -138,17 +120,8 @@ const styles = StyleSheet.create({
         marginLeft:50
     },
     back:{
-        marginLeft:20,
-        marginVertical:20,
-        //position: 'absolute',
-        //flex:1,
-        position: 'absolute',
-        left: 0,
-        top: 5,
-        height:30,
-        width:30,
-        
-        
+        margin:20,
+        marginVertical:20
     },
     info_xat: {
         width: '100%',
@@ -177,7 +150,19 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: 'bold'
     },
-    
+    titol:{
+        textAlign:'center',
+        alignSelf:'center',
+        justifyContent:'center'
+    },
+    top:{
+        heigh:50,
+        backgroundColor:'#2FDD60',
+        width:'100%',
+        flexDirection: 'row',
+
+        //alignItems: 'center', 
+    },
 
    
 })

@@ -18,25 +18,28 @@ export default function Xat (props){
     const [nom, setNom]=useState('');
     const [canvia, setCanvi] =useState('')
     
+    //Imatge perfil
     function imatgePerfil(props) {
         if(props.imatge != null){
             setUrlImatge(props.imatge);
         }
     };
     
+    //Canvi text input
     function handleTextChange(value) {
         setTextMissatge(value);
-                
     }
+    
+    //Mostrar ultim missatge
     function ultimMissatge(){
         if(props.miss != null){
             setUltimMiss(props.miss.text)
         }
     }
+    
     function getData(val){
        setModalVisible(val)
     }
-    
     
     function veureXat(){
         setModalVisible(true);
@@ -48,17 +51,12 @@ export default function Xat (props){
   
     useEffect(() => {
         
-        console.log("RECAREEGA")
-        console.log(canvia)
     const fetchMissatges = async () => {  
         let endPoint = 'xats/'+props.id+'/missatges/';
-        console.log('XATCOMP')
         simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data))
         //console.log('fetchmissatges')
         //console.log(missatges)
-       
     }
-    
     fetchMissatges();
     ultimMissatge()
       }, [update]);
@@ -67,19 +65,17 @@ export default function Xat (props){
         let array = props.part
         if(props.nom == null){
             array.forEach(item =>{
-                    if(item.user != 6) setNom(item.username);
+                    if(item.user != props.user.user) setNom(item.username);
             })   
         }
         else{
             setNom(props.nom)
         }
      }
+     //POST missatges
     const enviarMissatge = async () => { 
         let endPoint = 'xats/'+props.id+'/missatges/';
-        console.log('XATCOMP')
         simpleFetch(endPoint, "POST", {text:textMissatge,xat:props.id}).then((data) => setData(data))
-        //console.log(xats)  
-        console.log(textMissatge)
         setTextMissatge(' ')
         setUpdate((prevState) =>!prevState)
 }
@@ -102,15 +98,18 @@ export default function Xat (props){
                     <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
                         <ArrowLeftShort color="black"></ArrowLeftShort>
                     </TouchableOpacity>
+                     
                     <Image
                     style={styles.fot}
                     source={urlImatge}/>
+                   
                     <View >
-                    <Text  styles={styles.nom}>{nom}</Text>
+                    <Text  styles={styles.nomtop}>{nom}</Text>
                     </View>
                     
                     <InfoXat onChange={getData} id={props.id} participants={props.part} canvia={() =>props.canvia()}></InfoXat>
                 </View>
+                
                 
                 <View style={styles.scroll}>
                 <ScrollView ref={scrollViewRef}
@@ -134,13 +133,10 @@ export default function Xat (props){
                 </ScrollView>
                 </View>
                 <View style={styles.missatge}>
-                <TextInput style={styles.input} placeholder={'Missatge'} value={textMissatge} onChangeText={handleTextChange}/>
-                
-                <TouchableOpacity style={styles.icono} onPress={enviarMissatge}>
-                        <ArrowRightShort color="black"></ArrowRightShort>
-                </TouchableOpacity>
-                
-                
+                    <TextInput style={styles.input} placeholder={'Missatge'} value={textMissatge} onChangeText={handleTextChange}/>
+                    <TouchableOpacity style={styles.icono} onPress={enviarMissatge}>
+                            <ArrowRightShort color="black"></ArrowRightShort>
+                    </TouchableOpacity>
                 </View>
                 
          </Modal>
@@ -154,6 +150,7 @@ const styles = StyleSheet.create({
         heigh:50,
         backgroundColor:'#2FDD60',
         width:'100%',
+       //display:'flex',
         flexDirection: 'row',
 
         //alignItems: 'center', 
@@ -161,138 +158,136 @@ const styles = StyleSheet.create({
     scroll:{
         marginBottom:125,
     },
+    info_xat: {
+        width: '100%',
+        height: 70,
+        overflow: 'hidden',
+        //marginVertical: 10,
+        borderColor: '#696969',
+        borderBottomWidth: 1,
+        backgroundColor:'#DCDCDC'
+    },
+    foto: {
+        width:50,
+        height:50,
+        borderRadius:50,
+        marginLeft:10,
+        marginVertical:10,
+    },
+    fot: {
+        left:50,
+        width:50,
+        height:50,
+        borderRadius:50,
+        justifyContent:'center',
+        marginVertical:10,
+        //flex:1
+    },
+    a:{
+        textAlign: 'center',
+        justifyContent:'center',
+        color:'pink'     
+    },
+    nom:{
+        position: 'absolute',
+        left:80,
+        top: 10,
+        alignSelf: 'flex-start',
+        fontSize: 20,
+        fontStyle: "normal",
+        fontWeight: 'bold'
+    },
+    ultim_miss:{
+        position: 'absolute',
+        left:80,
+        top: 38,
+        alignSelf: 'flex-start',
+        fontSize: 12,
+        fontStyle: "normal",
+    },
+    back:{
+        marginLeft:20,
+        marginVertical:20,
+        //position: 'absolute',
+        
+        position: 'absolute',
+        left: 0,
+        top: 5,
+        
+    },
+    input:{
+        height: 45,
+        margin: 12,
+        //borderWidth: 1,
+        padding: 10,
+        borderRadius:13,
+        flex:1,
+    },
+    missatge:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 0.5,
+        borderColor: '#000',
+        height: 45,
+        borderRadius: 13,
+        margin: 12,
+        marginVertical:10,
+        width:'95%',
+        //
+        position:'absolute',
+        bottom:0,
+    },
+    icono:{
+        marginRight:20,
+        fontSize:50
+        
+    },
+    textpropi:{
+        backgroundColor: '#dbead5',
+        borderWidth: 0.5,
+        borderColor: '#000',
+        height: 48,
+        borderRadius: 13,
+        margin: 12,
+        marginVertical:10,
+        minWidth:'50%',
+        //width:'50%',
+        right:0,
+        textAlign:'right',
+        alignSelf:'flex-end'
 
-        info_xat: {
-            width: '100%',
-            height: 70,
-            overflow: 'hidden',
-            //marginVertical: 10,
-            borderColor: '#696969',
-            borderBottomWidth: 1,
-            backgroundColor:'#DCDCDC'
-        },
-        foto: {
-            width:50,
-            height:50,
-            borderRadius:50,
-            marginLeft:10,
-            marginVertical:10,
-
-        },
-        fot: {
-            
-            left:50,
-            width:50,
-            height:50,
-            borderRadius:50,
-            justifyContent:'center',
-            marginVertical:10,
-            //flex:1
-            
-            //borderColor:'green',
-            //borderWidth: 4,
-        },
-        a:{
-            textAlign: 'center',
-            justifyContent:'center',
-            color:'pink'
-            
-        },
-        nom:{
-            position: 'absolute',
-            left:80,
-            top: 10,
-            alignSelf: 'flex-start',
-            fontSize: 20,
-            fontStyle: "normal",
-            fontWeight: 'bold'
-        },
-        ultim_miss:{
-            position: 'absolute',
-            left:80,
-            top: 38,
-            alignSelf: 'flex-start',
-            fontSize: 12,
-            fontStyle: "normal",
-        },
-        back:{
-            marginLeft:20,
-            marginVertical:20,
-            //position: 'absolute',
-            //flex:1,
-            position: 'absolute',
-            left: 0,
-            top: 5,
-            
-        },
-        input:{
-            height: 45,
-            margin: 12,
-            //borderWidth: 1,
-            padding: 10,
-            borderRadius:13,
-            flex:1,
-        },
-        missatge:{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#fff',
-            borderWidth: 0.5,
-            borderColor: '#000',
-            height: 45,
-            borderRadius: 13,
-            margin: 12,
-            marginVertical:10,
-            width:'95%',
-            //
-            position:'absolute',
-            bottom:0,
-        },
-        icono:{
-            marginRight:20,
-            fontSize:50
-            
-        },
-        textpropi:{
-            backgroundColor: '#dbead5',
-            borderWidth: 0.5,
-            borderColor: '#000',
-            height: 48,
-            borderRadius: 13,
-            margin: 12,
-            marginVertical:10,
-            minWidth:'50%',
-            //width:'50%',
-            right:0,
-            textAlign:'right',
-            alignSelf:'flex-end'
- 
-        },
-        textextern:{
-            backgroundColor: '#d3d3d3',
-            borderWidth: 0.5,
-            borderColor: '#000',
-            height: 48,
-            borderRadius: 13,
-            margin: 12,
-            marginVertical:10, 
-            textAlign:'left',
-            minWidth:'50%',
-            alignSelf:'flex-start'
-            //width:'50%',
-            
-        },
-        hora:{
-            position:'absolute',
-            top:28,
-            right:8,
-            fontSize:11
-            
-        },
-        textMiss:{
-            marginVertical:12,
-            marginLeft:5
-        }
+    },
+    textextern:{
+        backgroundColor: '#d3d3d3',
+        borderWidth: 0.5,
+        borderColor: '#000',
+        height: 48,
+        borderRadius: 13,
+        margin: 12,
+        marginVertical:10, 
+        textAlign:'left',
+        minWidth:'50%',
+        alignSelf:'flex-start'
+        //width:'50%',
+        
+    },
+    hora:{
+        position:'absolute',
+        top:28,
+        right:8,
+        fontSize:11
+        
+    },
+    textMiss:{
+        marginVertical:12,
+        marginLeft:5
+    },
+    nomtop:{
+        alignContent:'center',
+        justifyContent:'center',
+        
+    }
     })
     

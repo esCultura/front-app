@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Image, Pressable,Button} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' ;
 import Search from 'react-native-bootstrap-icons/icons/search';
-
-
 import NewGrup from "./GrupXatButton";
 import {simpleFetch} from '../utils/utilFunctions';
 
 
 export default function NewXat (props){
     const [modalVisible, setModalVisible] = useState(false);
-    const [elementVisible, setElementVisible] = useState(false)
     const [usuaris, setUsuaris] =useState([]);
     const [selected,setSelected] =useState([])
     const [data,setData]=useState('')
@@ -20,53 +17,24 @@ export default function NewXat (props){
     const [updateUsuaris, setUpdateUsuaris]=useState(false)
     const [nomGrup,setNomGrup]=useState('');
     const [textMissatge, setTextMissatge] = useState('');
-    
-    function handleTextChange(value) {
-        setNomGrup(value);     
-    }
-    
-    
+
     function recarregar(){
         setModalVisible(true)
         setUpdate((prevState) =>!prevState)
         
     }
-
     
-    function seleccionarUsuaris(user){
-        console.log('usuaraiiiiii',user)
-        let solucio =[]
-        let estat
-        let usuari
-            if(selected != null){
-            let array_usuaris = selected
-            array_usuaris.forEach(item =>{
-                if(item.user == user){
-                estat = item.bool
-                usuari = item.user
-                let index =array_usuaris.indexOf(item)
-                console.log('index',index,item)
-                delete array_usuaris[index]
-                }
-                
-            }    
-            )
-            console.log("usuuuu",usuari, "estatttttt",estat)
-            array_usuaris.push({user:usuari,bool:!estat})
-            setSelected(array_usuaris)
-            console.log(selected)
-        
-        
+    function tancaModal(value){
+        setModalVisible(value)
     }
-}
-
+    
     useEffect(() => {
-        console.log("RECAREGAT_NEWXAT")
+        
         const fetchUsuaris = async () => {   
             let endPoint = 'usuaris/perfils';
                 simpleFetch(endPoint, "GET", "").then((data) => setUsuaris(data))
-                console.log("fetchUsus_NEWCHAT")
-                console.log(usuaris)
+                //console.log("fetchUsus_NEWCHAT")
+                //console.log(usuaris)
                 
     }
     fetchUsuaris()
@@ -76,21 +44,17 @@ export default function NewXat (props){
       }, [update]);
     
       const crearXat = async (prop) => {   
-        console.log("crear_xat",prop)
-        console.log('NEWXAT')
-        console.log(prop)
-        console.log(props.user.user)
+       
         let endPoint = 'xats/';
             simpleFetch(endPoint, "POST", {participant_id:[prop,props.user.user] }).then((data) => setData(data))
-            console.log("crearXat")
-            console.log(data)
+            //console.log("crearXat")
+            //console.log(data)
         setModalVisible(false)
         props.canvia()
         
 }
 
         function existeixXat (){
-            console.log('NEWXAT_EXISTEIXXXX')
             let exis =[]
             if(props.xats != null){
             let array_xats = props.xats
@@ -106,55 +70,28 @@ export default function NewXat (props){
             setExisteixXat(exis)
 
         }}
-        function select(){
-            console.log()
-            let selec =[]
-            if(usuaris != null){
-            let array_usuaris = usuaris
-            array_usuaris.forEach(item =>{
-                selec.push({user:item.user,bool:false})
-
-            }    
-            )
-            setSelected(selec)
-            console.log(selected)
-        }
-        else {
-            console.log('buit')
-        }
-    }
-
-    
+ 
 
     
     return(
         <View>
-        <TouchableOpacity style={styles.plus} onPress ={recarregar}>
-            <Text style={styles.icono_plus}>+</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.plus} onPress ={recarregar}>
+                <Text style={styles.icono_plus}>+</Text>
+            </TouchableOpacity>
          
          <Modal visible={modalVisible}>
-         
             <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
                 <ArrowLeftShort color="black"></ArrowLeftShort>
             </TouchableOpacity>
-            
-            <View>
-                
-            </View>
             <View style={styles.barra}>
-            <View style={styles.search}>
-                <TextInput style={styles.input} placeholder={'Usuaris'}/>
-                <Search  color={'black'}  style={styles.icono}></Search>
-                
-            </View>
+                <View style={styles.search}>
+                    <TextInput style={styles.input} placeholder={'Usuaris'}/>
+                    <Search  color={'black'}  style={styles.icono}></Search>
+                </View>
             </View>
 
-            
-            <NewGrup usuaris ={usuaris} user={props.user}></NewGrup>
-            
-           
-            
+            <NewGrup function={tancaModal} usuaris ={usuaris} user={props.user} canvia={() =>props.canvia()}></NewGrup>
+ 
             <View>
             {
             usuaris.map((usu,i) => {
@@ -172,11 +109,7 @@ export default function NewXat (props){
                 ;})
             }
     </View>
-                
-            
-            <View>
-             
-            </View>
+
          </Modal>
          </View>
           
@@ -273,7 +206,4 @@ const styles = StyleSheet.create({
         width:'100%',
         height:'100%'
     }
-    
-
-   
 })

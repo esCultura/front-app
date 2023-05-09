@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput,Button, Pressable,Image, Alert} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput, Pressable,Image, Alert} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import People from 'react-native-bootstrap-icons/icons/people-fill' 
 import { simpleFetch } from "../utils/utilFunctions";
@@ -20,80 +20,63 @@ export default function NewGrup (props){
     
     let urlImatge =require('../../assets/profile-base-icon.png')
     
+    //Canvi input
     function handleTextChange(value) {
         setNomGrup(value);     
     }
-    function patata(){
-        setModalVisible(false)
-    }
-    function iniciaSelected(){
-        
-    }
     function getIndex(id) {
         return selected.findIndex(obj => obj.id === id);
-      }
+    }
     
+    //Tanca Modal
+    function tanca(){
+        setModalVisible(false)
+        let buit =[]
+        setSelected(buit)
+        
+    }
     
-    
+    //Mostrar Usuaris seleccionats
     renderSeleccionats = () =>{
-        if(hihaselected){
+        if(selected.length){
             return(
                 <View>
                     {
                    selected.map((usu,u) => {
-                
-                return (
-                    <View key={u}>
+                        return (
+                        <View key={u}>
                         <Image
                             style={styles.foto}
                             source={urlImatge}/>
                             <Text style={styles.user_seleccionat}>{usu.username}</Text>
-                            
-                        
-                </View>)
-                ;})
-        }
+                        </View>)
+                     ;})
+                    }
                 </View>
             )
-        
-                
     }}
         
-  
-    
+    //Function sleccionar usuaris
     function seleccionarUsuaris(user,username){
         let usus
-        console.log(user,username)
         if(selected.length != 0){
             let index =getIndex(user)
             usus = selected
             if(index == -1){
-            console.log("ifffffffffff")
-            
             usus.push({id:user, username:username})
             }
             else{
-                
-                console.log('borrrrra',user,getIndex(index),index,usus)
-                
                 usus.splice(index,1)
             }
         }
         else{
-            console.log('elseeeeee')
             usus =[{id:user,username:username}]
         }
-        
-        
-        
-        console.log(usus)
         setSelected(usus)
-        console.log(selected)
-        setHiHaSelected(true)
-        console.log(hihaselected)
         setUpdate((prevState) =>!prevState)
     }
     
+    //Crear Grup
     function crearGrup(){
         if(nomGrup == ''){
             alert("Falta el nom del grup")
@@ -104,9 +87,11 @@ export default function NewGrup (props){
         else{
             var partId = [].map.call(selected,e => e.id)
             partId.push(props.user.user)
-            console.log(partId)
             let endpoint = 'xats/'
             simpleFetch(endpoint,"POST",{participant_id:partId,nom:nomGrup}).then((data) => setData(data))
+            setModalVisible(false)
+            props.function(false)
+            props.canvia()
         }
     }
     
@@ -116,102 +101,66 @@ export default function NewGrup (props){
     },[update])
     
     
-    
     return(
         <View>
             <TouchableOpacity style={styles.grup} onPress={() => setModalVisible(true)}>
                 <People color="black" style={styles.icono}></People>
-                <View styles={styles.text}>
-                    <Text style={styles.t}>Nou Grup</Text>
-                    </View>
-                
+                <View>
+                    <Text style={styles.text}>Nou Grup</Text>
+                </View>  
             </TouchableOpacity>
 
             <Modal visible={modalVisible}>
+                <View >
+                    <View style={styles.top}>
+                        <TouchableOpacity style={styles.back} onPress={tanca}>
+                            <ArrowLeftShort color="black"></ArrowLeftShort>
+                        </TouchableOpacity>
+                        <Text style={styles.titol}>Crear Grup</Text>
+                    </View>
                 
-            <View style={styles.crearGrup}>
-
-                <View style={styles.top}>
-                    
-                <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
-                        <ArrowLeftShort color="black"></ArrowLeftShort>
-                    </TouchableOpacity>
+                    <Text style={styles.nomgrup}>Nom Grup:</Text>
                 
-                <Text style={styles.titol}>Crear Grup</Text>
-                </View>
-                <Text>Nom Grup:</Text>
-                <View style={styles.barra}>
-                    <View style={styles.search}>
-                        <TextInput style={styles.input} placeholder={'Nom'} value={nomGrup} onChangeText={handleTextChange}/>
+                    <View style={styles.barra}>
+                        <View style={styles.search}>
+                            <TextInput style={styles.input} placeholder={'Nom'} value={nomGrup} onChangeText={handleTextChange}/>
+                        </View>   
                     </View>
                     
-                    
-                    
-                </View>
-                <TouchableOpacity style={styles.boto_crear} onPress={crearGrup}>
-                        <Text>Crear</Text>
+                    <TouchableOpacity style={styles.boto_crear} onPress={crearGrup}>
+                        <Text style={styles.text}>Crear</Text>
                     </TouchableOpacity>
-                    
-                <View>
-            {
-            props.usuaris.map((usu,u) => {
-                
-              let index =getIndex(usu.user)
-                if(usu.user != props.user.user & index == -1){
-                return (
-                    <View key={u}>
-                        <TouchableOpacity   style={styles.info_xat} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
-                            <Text style={styles.nom}>{usu.username}</Text>
-                        </TouchableOpacity>
-                </View>)}
-                else if(usu.user != props.user.user){
-                    return (
-                        <View key={u}>
-                            <TouchableOpacity   style={styles.info_xat_selected} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
-                                <Text style={styles.nom}>{usu.username}</Text>
-                            </TouchableOpacity>
-                    </View>)
-                }
-                ;})
-            }
-    </View>
-            </View>
-             
+                        
+                    <View>
+                    {
+                    props.usuaris.map((usu,u) => {
+                        let index =getIndex(usu.user)
+                        if(usu.user != props.user.user & index == -1){
+                            return (
+                            <View key={u}>
+                                <TouchableOpacity   style={styles.usuari} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
+                                    <Text style={styles.nom}>{usu.username}</Text>
+                                </TouchableOpacity>
+                            </View>)}
+                        else if(usu.user != props.user.user){
+                            return (
+                            <View key={u}>
+                                <TouchableOpacity   style={styles.usuari_selected} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
+                                    <Text style={styles.nom}>{usu.username}</Text>
+                                </TouchableOpacity>
+                            </View>)
+                        }
+                    ;})
+                    }
+                    </View>
+                </View>
             </Modal>
-            </View>
+        </View>
     )
 }
 
-/*   <View>
-            {
-            props.usuaris.map((usu,u) => {
-                if(usu.user != props.user){
-                return (
-                    <View key={u}>
-                        <TouchableOpacity   style={styles.info_xat} onPress={()=>setUsuarisSelected(usu.user)}>
-                            <Text style={styles.nom}>{usu.username}</Text>
-                        </TouchableOpacity>
-                </View>)}
-                ;})
-            }
-    </View>*/
-
-
 const styles = StyleSheet.create({
     
-    plus:{
-        marginRight:20,
-        width:45,
-        height:45,
-        borderRadius:13,
-        backgroundColor:"#DCDCDC"
-    },
-    icono_plus:{
-       fontSize:30,
-       marginLeft:14,
-       marginVertical:1.5,
-       
-    },
     back:{
         margin:20,
         marginVertical:20
@@ -241,7 +190,8 @@ const styles = StyleSheet.create({
         backgroundColor:'#2FDD60',
         height: 35,
         margin:12,
-        justifyContent:'center'
+        justifyContent:'center',
+        alignSelf:'center'
         
     },
     input:{
@@ -255,9 +205,8 @@ const styles = StyleSheet.create({
     icono:{
         marginRight:20,
         fontSize:50
-        
     },
-    info_xat: {
+    usuari: {
         width: '100%',
         height: 70,
         overflow: 'hidden',
@@ -266,7 +215,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         backgroundColor:'#DCDCDC'
     },
-    info_xat_selected: {
+    usuari_selected: {
         width: '100%',
         height: 70,
         overflow: 'hidden',
@@ -291,11 +240,6 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: 'bold'
     },
-    crearGrup:{
-        width:'100%',
-        height:'100%'
-    },
-
     grup:{
         marginRight:20,
         width:'95%',
@@ -305,15 +249,8 @@ const styles = StyleSheet.create({
         //display:'flex',
         //flexDirection: 'row',
         margin: 12,
-        
     },
     text:{
-        backgroundColor: 'blue',
-        marginLeft:600
-        
-    },
-    t:{
-
         alignSelf:'center'
     },
 
@@ -330,23 +267,9 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         justifyContent:'center'
     },
-    button:{
-        height:35,
-        width:50,
-        borderRadius:13,
-        backgroundColor: '#2FDD60'
-    },
-    user_seleccionat:{
-        position: 'absolute',
-        left:80,
-        top: 20,
-        alignSelf: 'flex-start',
-        fontSize: 20,
-        fontStyle: "normal",
-        fontWeight: 'bold'
-    }
-    
-
-   
+    nomgrup:{
+        marginLeft:15,
+        marginTop:10
+    } 
 })
 
