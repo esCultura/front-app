@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput,Button, Pressable,Image, Alert} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import People from 'react-native-bootstrap-icons/icons/people-fill' 
+import { simpleFetch } from "../utils/utilFunctions";
 
 
 
@@ -15,6 +16,7 @@ export default function NewGrup (props){
     const [selected,setSelected] =useState([])
     const [hihaselected,setHiHaSelected] = useState(false)
     const [update,setUpdate] = useState(false)
+    const [data,setData] = useState('')
     
     let urlImatge =require('../../assets/profile-base-icon.png')
     
@@ -96,8 +98,15 @@ export default function NewGrup (props){
         if(nomGrup == ''){
             alert("Falta el nom del grup")
         }
+        else if(selected.length == 0){
+            alert("No hi han usuaris seleccionats")
+        }
         else{
-            
+            var partId = [].map.call(selected,e => e.id)
+            partId.push(props.user.user)
+            console.log(partId)
+            let endpoint = 'xats/'
+            simpleFetch(endpoint,"POST",{participant_id:partId,nom:nomGrup}).then((data) => setData(data))
         }
     }
     
