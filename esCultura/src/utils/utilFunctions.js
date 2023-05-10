@@ -1,7 +1,11 @@
+/**
+ * Token, setToken and fetch
+ */
+
 let token = '4399aea952484e30ad0208cd72bf64a083c9b8c4';
 
-export function setToken(value) {
-    token = value;
+export function setToken(newToken) {
+    token = newToken;
 }
 
 export async function simpleFetch(endPoint, method, bodyData) {

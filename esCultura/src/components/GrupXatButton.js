@@ -12,32 +12,30 @@ export default function NewGrup (props){
     const [modalVisible, setModalVisible] = useState(false);
     const [usuaris, setUsuaris] =useState([]);
     const [nomGrup,setNomGrup]=useState('');
-    const [usuarisSelected, setUsuarisSelected] = useState([])
+    const [usuarisSelected, setUsuarisSelected] = useState([]);
     const [textMissatge, setTextMissatge] = useState('');
-    const [selected,setSelected] =useState([])
-    const [hihaselected,setHiHaSelected] = useState(false)
-    const [update,setUpdate] = useState(false)
-    const [data,setData] = useState('')
+    const [selected,setSelected] =useState([]);
+    const [hihaselected,setHiHaSelected] = useState(false);
+    const [update,setUpdate] = useState(false);
+    const [data,setData] = useState('');
     const {t} = useTranslation();
     
-    let urlImatge =require('../../assets/profile-base-icon.png')
-    
-    let nomgrup = t('newgroup')
+    let urlImatge =require('../../assets/profile-base-icon.png');
     
     //Canvi input
     function handleTextChange(value) {
         setNomGrup(value);     
     }
+
     function getIndex(id) {
         return selected.findIndex(obj => obj.id === id);
     }
     
     //Tanca Modal
     function tanca(){
-        setModalVisible(false)
-        let buit =[]
-        setSelected(buit)
-        
+        setModalVisible(false);
+        let buit =[];
+        setSelected(buit);
     }
     
     //Mostrar Usuaris seleccionats
@@ -46,71 +44,71 @@ export default function NewGrup (props){
             return(
                 <View>
                     {
-                   selected.map((usu,u) => {
+                    selected.map((usu,u) => {
                         return (
-                        <View key={u}>
-                        <Image
-                            style={styles.foto}
-                            source={urlImatge}/>
-                            <Text style={styles.user_seleccionat}>{usu.username}</Text>
-                        </View>)
-                     ;})
+                            <View key={u}>
+                            <Image
+                                style={styles.foto}
+                                source={urlImatge}/>
+                                <Text style={styles.user_seleccionat}>{usu.username}</Text>
+                            </View>
+                        )
+                    ;})
                     }
                 </View>
             )
-    }}
+        }
+    }
         
     //Function sleccionar usuaris
     function seleccionarUsuaris(user,username){
-        let usus
-        if(selected.length != 0){
-            let index =getIndex(user)
-            usus = selected
-            if(index == -1){
-            usus.push({id:user, username:username})
+        let usus;
+        if (selected.length != 0) {
+            let index =getIndex(user);
+            usus = selected;
+            if (index == -1) {
+                usus.push({id:user, username:username});
             }
-            else{
-                usus.splice(index,1)
+            else {
+                usus.splice(index,1);
             }
         }
-        else{
-            usus =[{id:user,username:username}]
+        else {
+            usus =[{id:user,username:username}];
         }
-        setSelected(usus)
-        setUpdate((prevState) =>!prevState)
+        setSelected(usus);
+        setUpdate((prevState) =>!prevState);
     }
     
     //Crear Grup
-    function crearGrup(){
-        if(nomGrup == ''){
-            alert("Falta el nom del grup")
+    function crearGrup() {
+        if (nomGrup == '') {
+            alert("Falta el nom del grup");
         }
-        else if(selected.length == 0){
-            alert("No hi han usuaris seleccionats")
+        else if (selected.length == 0) {
+            alert("No hi han usuaris seleccionats");
         }
-        else{
-            var partId = [].map.call(selected,e => e.id)
-            partId.push(props.user.user)
-            let endpoint = 'xats/'
-            simpleFetch(endpoint,"POST",{participant_id:partId,nom:nomGrup}).then((data) => setData(data))
-            setModalVisible(false)
-            props.function(false)
-            props.canvia()
+        else {
+            var partId = [].map.call(selected,e => e.id);
+            partId.push(props.user.user);
+            let endpoint = 'xats/';
+            simpleFetch(endpoint,"POST",{participant_id:partId,nom:nomGrup}).then((data) => setData(data));
+            setModalVisible(false);
+            props.function(false);
+            props.canvia();
         }
     }
     
     useEffect(()=> {
-        renderSeleccionats()
-        
+        renderSeleccionats();
     },[update])
-    
     
     return(
         <View>
             <TouchableOpacity style={styles.grup} onPress={() => setModalVisible(true)}>
                 <People color="black" style={styles.icono}></People>
                 <View>
-                    <Text style={styles.text}>t</Text>
+                    <Text style={styles.text}>{t('createGroup')}</Text>
                 </View>  
             </TouchableOpacity>
 
@@ -120,39 +118,41 @@ export default function NewGrup (props){
                         <TouchableOpacity style={styles.back} onPress={tanca}>
                             <ArrowLeftShort color="black"></ArrowLeftShort>
                         </TouchableOpacity>
-                        <Text style={styles.titol}>t('creategroup')</Text>
+                        <Text style={styles.titol}>{t('createGroup')}</Text>
                     </View>
-                
-                    <Text style={styles.nomgrup}>{nomgrup}:</Text>
+                    <Text style={styles.nomgrup}>{t('groupName')}:</Text>
                 
                     <View style={styles.barra}>
                         <View style={styles.search}>
-                            <TextInput style={styles.input} placeholder={'Nom'} value={nomGrup} onChangeText={handleTextChange}/>
+                            <TextInput style={styles.input} placeholder={t('name')} value={nomGrup} onChangeText={handleTextChange}/>
                         </View>   
                     </View>
                     
                     <TouchableOpacity style={styles.boto_crear} onPress={crearGrup}>
-                        <Text style={styles.text}>Crear</Text>
+                        <Text style={styles.text}>{t('create')}</Text>
                     </TouchableOpacity>
                         
                     <View>
                     {
                     props.usuaris.map((usu,u) => {
                         let index =getIndex(usu.user)
-                        if(usu.user != props.user.user & index == -1){
+                        if (usu.user != props.user.user & index == -1) {
                             return (
-                            <View key={u}>
-                                <TouchableOpacity   style={styles.usuari} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
-                                    <Text style={styles.nom}>{usu.username}</Text>
-                                </TouchableOpacity>
-                            </View>)}
-                        else if(usu.user != props.user.user){
+                                <View key={u}>
+                                    <TouchableOpacity   style={styles.usuari} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
+                                        <Text style={styles.nom}>{usu.username}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        }
+                        else if (usu.user != props.user.user) {
                             return (
-                            <View key={u}>
-                                <TouchableOpacity   style={styles.usuari_selected} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
-                                    <Text style={styles.nom}>{usu.username}</Text>
-                                </TouchableOpacity>
-                            </View>)
+                                <View key={u}>
+                                    <TouchableOpacity   style={styles.usuari_selected} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
+                                        <Text style={styles.nom}>{usu.username}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )
                         }
                     ;})
                     }

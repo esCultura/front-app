@@ -6,11 +6,11 @@ import FilterLeft from 'react-native-bootstrap-icons/icons/filter-left';
 import CalendarEvent from 'react-native-bootstrap-icons/icons/calendar-event';
 import ArrowDown from 'react-native-bootstrap-icons/icons/arrow-down';
 
+import { useTranslation } from 'react-i18next';
+
+
 export default function SearchFilter({onVariableChange}, isList) {
-
-    const [eventsData, setEventsData] = useState([]);
-    const [endPoint, setEndPoint] = useState('');
-
+    
     const [modalVisible, setModalVisible] = useState(false);
     const [slider1, setSlider1] = useState(0);
 
@@ -28,21 +28,10 @@ export default function SearchFilter({onVariableChange}, isList) {
     const [checkDansa, setCheckDansa] = useState(false);
     const [checkInfantil, setCheckInfantil] = useState(false);
     
-
     const [textSearch, setTextSearch] = useState('');
 
-    function emitVariable() {
-        onVariableChange(endPoint);
-    };
+    const {t} = useTranslation();
 
-    /**
-     * Catche the value of the TextInput
-     * @param {*} value 
-     */
-    function handleTextChange(value) {
-        setTextSearch(value);
-        console.log("Fer fetch de: ", value);
-    }
 
     /**
      * Crea la query que sera enviada al component para
@@ -53,7 +42,6 @@ export default function SearchFilter({onVariableChange}, isList) {
         let parmaArr = [];
 
         setModalVisible(false);
-        console.log("filter saved");
 
         //search text
         if (textSearch != '') {
@@ -62,7 +50,7 @@ export default function SearchFilter({onVariableChange}, isList) {
 
         //query per les tematiques
         if (tematiquesArry().length != 0) {
-            let tematicQuery = 'tematiques_nom_in=';
+            let tematicQuery = 'tematiques__nom__in=';
             tematiquesArry().forEach((value, index) => {
                 if (index === 0) {
                     tematicQuery+=value;
@@ -93,9 +81,8 @@ export default function SearchFilter({onVariableChange}, isList) {
                 endpointQuery+='&'+value;
             }
         })
-        // console.log("Final endpoint Query: ", endpointQuery);
-        setEndPoint(endpointQuery);
-        emitVariable();
+        onVariableChange(endpointQuery);
+
     }
 
     /**
@@ -152,6 +139,14 @@ export default function SearchFilter({onVariableChange}, isList) {
             >
                 <FilterLeft name="search" color={'black'} size={30} />
             </Pressable>
+            <TextInput 
+                value={textSearch}
+                onBlur={saveFilter}
+                onChangeText={setTextSearch}
+                placeholder={t('search')}
+                placeholderTextColor={'#666'}
+            >
+            </TextInput>
 
             <Modal visible={modalVisible} animationType="slide">
                 <View>
@@ -268,14 +263,7 @@ export default function SearchFilter({onVariableChange}, isList) {
                 </View>
             </Modal>
 
-            <TextInput 
-                value={textSearch}
-                onBlur={saveFilter}
-                onChangeText={handleTextChange}
-                placeholder={'Search'}
-                placeholderTextColor={'#666'}
-            >
-            </TextInput>
+            
         </View>
     );
   }

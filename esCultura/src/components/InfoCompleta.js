@@ -4,9 +4,12 @@ import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
+
 const bgcolor = '#3BDE4B';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
+  
+  
 export default function InfoCompleta (props) {
 
     const mesinfo = async () => {
@@ -17,7 +20,7 @@ export default function InfoCompleta (props) {
         <Modal visible={props.visible} animationType="slide">
             <View style={{height: '100%'}}>
                 <TouchableOpacity onPress={props.back} style={styles.back}>
-                    <XCircleFill color="white" width={145} height={145} />
+                    <XCircleFill color="white" width={175} height={175} />
                 </TouchableOpacity>
                 <View>
                     <Image source={{uri: props.source}} style={styles.image}/>
@@ -28,12 +31,12 @@ export default function InfoCompleta (props) {
                         <ScrollView contentContainerStyle={styles.typesContainer}>
                             {
                                 props.type.map((type, i) => {
-                                    return (<Text key={i} style={styles.type}>{type}</Text>);
+                                    return (<Text key={i} style={styles.type}>{type.nom}</Text>);
                                 })
                             }
                         </ScrollView>
                         <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.info}>🗓️ {props.date} 📌 {props.location}</Text>
+                        <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
                     </View>
                     <View style={{maxHeight: 390}}>
                         <ScrollView>
@@ -43,10 +46,14 @@ export default function InfoCompleta (props) {
                     <View style={styles.botInfo}>
                         {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
                         <View style={{flexDirection: 'row', gap: 10}}>
-                            <Text ><Reservar codi={props.codi}></Reservar></Text>
+                            <View >
+                            <Text ><Reservar codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
+                            </View>
+                            <View style={{width: '50%'}}>
                             <TouchableOpacity style={styles.button} onPress={mesinfo}>
-                                <Text style={{color: 'white', fontSize: 18}}>Més Informació</Text>
+                                <Text style={{color: 'white', fontSize: 18, textAlign: 'center',}}>Més Informació</Text>
                             </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>

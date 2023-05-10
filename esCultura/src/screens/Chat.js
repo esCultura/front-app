@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View , TextInput,Image,TouchableOpacity} from "react-native";
+import {StyleSheet, View , TextInput} from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../components/Screen";
 import Search from 'react-native-bootstrap-icons/icons/search';
@@ -9,10 +9,11 @@ import {simpleFetch} from '../utils/utilFunctions';
 import { useTranslation } from 'react-i18next';
 
 export default function Chat(props) {
-    const [xats, setXats] = useState([])
+    const [xats, setXats] = useState([]);
+    const [resultXats, setResultXats] = useState([]);
     const [idUser,setIdUser] = useState([]);
-    const [update,setUpdate]= useState([]);
-    
+    const [update,setUpdate] = useState([]);
+    const [searchText, setSearchText] = useState([]);
     
     const {t} = useTranslation();
     
@@ -20,23 +21,22 @@ export default function Chat(props) {
     useEffect(() => {
         const getUserId = async () => { 
             let endPoint = 'usuaris/perfils/jo';
-        await    simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
-
-    }
-    getUserId();
+            await simpleFetch(endPoint, "GET", "").then((data) => setIdUser(data));
+        }
+        getUserId();
     }, []);
     
     //GET xats
     useEffect(() => {
-
         const fetchXats = async () => {
             let endPoint = 'xats/';
-            await simpleFetch(endPoint, "GET", "").then((data) => setXats(data))
-            //console.log("fetchXats")
-            //console.log(xats)
-            
+            await simpleFetch(endPoint, "GET", "").then((data) => {
+                setXats(data);
+                setResultXats(data);
+            });
+            //console.log("fetchXats");
+            //console.log(xats);
         }
-        
         fetchXats();
     }, [update]);
       
@@ -45,23 +45,45 @@ export default function Chat(props) {
         setUpdate((prevState) =>!prevState)
     }
 
+    function filterSearch () {
+        let newXats;
+        if (searchText != "") {
+            newXats = xats.filter(xat => 
+                xat.nom == searchText
+            );
+            console.log("xats: ", newXats);
+        }
+        else {
+            newXats = xats;
+        }
+        setResultXats(newXats);
+    }
+
     return (
         <Screen >
             <View style={styles.barra}>
                 <View style={styles.search}>
-                    <TextInput style={styles.input} placeholder={t('search')}/>
+                    <TextInput 
+                        style={styles.input} 
+                        value={searchText}
+                        onBlur={filterSearch}
+                        onChangeText={setSearchText}
+                        placeholder={t('search')} 
+                    />
                     <Search  color={'black'}  style={styles.icono}></Search>
                 </View>
                 
                 <NewXat user={idUser} xats={xats} canvia={recarrega}></NewXat>
             </View>
             <View>
-               {
-                xats.map((xat,i) => {
-                return (
-                    <View key={i}>
-                        <Xat user={idUser}  nom ={xat.nom}part={xat.participants} id={xat.id} miss={xat.ultim_missatge} canvia={recarrega}></Xat>
-                    </View>);})
+                {
+                    resultXats.map((xat,i) => {
+                        return (
+                            <View key={i}>
+                                <Xat user={idUser}  nom ={xat.nom}part={xat.participants} id={xat.id} miss={xat.ultim_missatge} canvia={recarrega}></Xat>
+                            </View>
+                        );
+                    })
                 }
             </View>
         </Screen>

@@ -1,39 +1,21 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { Text, View, Image, StyleSheet, Pressable, TextInput} from "react-native";
 import React, { useState, useEffect} from 'react';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as Keychain from 'react-native-keychain';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import {setToken} from '../utils/utilFunctions'
 
 // tuturial que he seguit
 //https://www.youtube.com/watch?v=MBMWiTsqnck&ab_channel=CodewithBeto
 //ALERTA per poder fer login de forma correcta cal fer prebuild de l'app
 
-//GOOGLE credentials
-    //web: 770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com
-    //iOS: 770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com
-    //Android: 770757510426-cklpthldhp6u7iurthc8mfjmlr2kueuv.apps.googleusercontent.com
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function SingUp() {
+export default function SingUp({navigation, onLogin}) {
 
-    const [accessToken, setAccessToken] = useState(null);
+    const [accessToken, setAccessToken] = useState('null');
     const [request, response, promtAsync] = Google.useIdTokenAuthRequest({
         clientId: "770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com",
         iosClientId: "770757510426-j3rkn6j0qcns6gk4k0rsjtpphe3lghqj.apps.googleusercontent.com",
@@ -48,52 +30,62 @@ export default function SingUp() {
     const host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
     useEffect( ()=>{
-        if (response?.type === "sucess") {
-            setAccessToken(response.authentication.accessToken);
-            accessToken && fetchUserInfo();
+        console.log("google response: ", response?.type);
+        if (response?.type === "success") {
+            console.log("response params: ", response.params);
+            console.log("response auth: ", response.authentication);
+            setAccessToken(response.authentication);
+            
+            fetch(host+'usuaris/sign_in/google-oauth2', {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    "Content-Type": "application/json",
+                },
+                
+                body: JSON.stringify({access_token: accessToken}),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(console.error)
+            
         }
     }, [response, accessToken])
-
-    async function fetchUserInfo() {
-        let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-            header: {
-                Authoritzation: `Bearer ${accessToken}`
-            }    
-        });
-        const userInfo = await response.json();
-        console.log("userInof: ", userInfo);
-    }
-
 
     function loginWithGoole() {
         promtAsync();
         console.log("create with google");
     }
 
+    
+
     function singUp() {
         console.log("create");
         
         fetch(host+'usuaris/sign_up/perfils/', {
             method: "POST",
-            /*
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            */
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json",
             },
-            
             body: JSON.stringify({password: password, password2: password, username: username, email: email}),
         })
             .then(res => res.json())
             .then(async data => {
                 setData(data);
                 console.log("singUP: ", data);
+                /*
                 if (data.created) {
                     await Keychain.setGenericPassword(username, password);
                 }
+                */
+                console.log("token singup: ", data.token);
+                
+
+                setToken(data.token);
+                onLogin(true);
             })
             .catch(console.error)
     }
@@ -159,6 +151,13 @@ export default function SingUp() {
                 style={styles.btnExternSingUp} 
             >
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
+            </Pressable>
+            <Text>{accessToken}</Text>
+            <Pressable 
+                title="login"
+                onPress={()=>navigation.navigate("Login")}
+            >
+                <Text style={styles.createAcountText}>Login</Text>                
             </Pressable>
             
 

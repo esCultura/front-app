@@ -6,7 +6,7 @@ import Screen from "../components/Screen";
 export default function Map(props) {
 
     return (
-        <Screen>
+        <Screen navigation={props.navigation}>
             <MapComp></MapComp>
         </Screen>
     );

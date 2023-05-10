@@ -18,6 +18,8 @@ export default function NewXat (props){
     const [updateUsuaris, setUpdateUsuaris]=useState(false)
     const [nomGrup,setNomGrup]=useState('');
     const [textMissatge, setTextMissatge] = useState('');
+    
+    const {t} = useTranslation();
 
     function recarregar(){
         setModalVisible(true)
@@ -30,49 +32,39 @@ export default function NewXat (props){
     }
     
     useEffect(() => {
-        
         const fetchUsuaris = async () => {   
             let endPoint = 'usuaris/perfils';
-                simpleFetch(endPoint, "GET", "").then((data) => setUsuaris(data))
-                //console.log("fetchUsus_NEWCHAT")
-                //console.log(usuaris)
-                
-    }
-    fetchUsuaris()
-    existeixXat()
+            simpleFetch(endPoint, "GET", "").then((data) => setUsuaris(data))
+            //console.log("fetchUsus_NEWCHAT");
+            //console.log(usuaris);
+        }
+        fetchUsuaris();
+        existeixXat();
+    }, [update]);
     
-   
-      }, [update]);
-    
-      const crearXat = async (prop) => {   
-       
+    const crearXat = async (prop) => {   
         let endPoint = 'xats/';
-            simpleFetch(endPoint, "POST", {participant_id:[prop,props.user.user] }).then((data) => setData(data))
-            //console.log("crearXat")
-            //console.log(data)
+        simpleFetch(endPoint, "POST", {participant_id:[prop,props.user.user] }).then((data) => setData(data))
+        //console.log("crearXat")
+        //console.log(data)
         setModalVisible(false)
         props.canvia()
-        
-}
+    }
 
-        function existeixXat (){
-            let exis =[]
-            if(props.xats != null){
-            let array_xats = props.xats
-            array_xats.forEach(item =>{
-                if(item.participants.length == 2){
-                    item.participants.forEach(it=>{
-                        if(it.user != props.user) exis.push(it.user);
-                    })
-                }
-            }    
-            )
-            exis.push(props.user)
-            setExisteixXat(exis)
-
-        }}
- 
-
+    function existeixXat (){
+        let exis =[]
+        if(props.xats != null){
+        let array_xats = props.xats
+        array_xats.forEach(item =>{
+            if(item.participants.length == 2){
+                item.participants.forEach(it=>{
+                    if(it.user != props.user) exis.push(it.user);
+                })
+            }
+        });
+        exis.push(props.user)
+        setExisteixXat(exis)
+    }}
     
     return(
         <View>
@@ -80,42 +72,41 @@ export default function NewXat (props){
                 <Text style={styles.icono_plus}>+</Text>
             </TouchableOpacity>
          
-         <Modal visible={modalVisible}>
-            <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
-                <ArrowLeftShort color="black"></ArrowLeftShort>
-            </TouchableOpacity>
-            <View style={styles.barra}>
-                <View style={styles.search}>
-                    <TextInput style={styles.input} placeholder={'Usuaris'}/>
-                    <Search  color={'black'}  style={styles.icono}></Search>
+            <Modal visible={modalVisible}>
+                <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
+                    <ArrowLeftShort color="black"></ArrowLeftShort>
+                </TouchableOpacity>
+                <View style={styles.barra}>
+                    <View style={styles.search}>
+                        <TextInput style={styles.input} placeholder={t('users')}/>
+                        <Search  color={'black'}  style={styles.icono}></Search>
+                    </View>
                 </View>
-            </View>
 
-            <NewGrup function={tancaModal} usuaris ={usuaris} user={props.user} canvia={() =>props.canvia()}></NewGrup>
- 
-            <View>
-            {
-            usuaris.map((usu,i) => {
-                if(existents.indexOf(usu.user) == -1){
-                return (
-                    <View  key={i} >
-                        <Pressable testID="newXatButton" style={styles.info_xat} onPress={() =>crearXat(usu.user)} >
-                            <Image 
-                                style={styles.foto}
-                                source={urlImatge}
-                                />
-                            <Text style={styles.nom}>{usu.username}</Text>
-                        </Pressable>
-                </View>)}
-                ;})
-            }
-    </View>
-
-         </Modal>
-         </View>
-          
-    )
+                <NewGrup function={tancaModal} usuaris ={usuaris} user={props.user} canvia={() =>props.canvia()}></NewGrup>
     
+                <View>
+                    {
+                    usuaris.map((usu,i) => {
+                        if(existents.indexOf(usu.user) == -1){
+                            return (
+                                <View  key={i} >
+                                    <Pressable testID="newXatButton" style={styles.info_xat} onPress={() =>crearXat(usu.user)} >
+                                        <Image 
+                                            style={styles.foto}
+                                            source={urlImatge}
+                                            />
+                                        <Text style={styles.nom}>{usu.username}</Text>
+                                    </Pressable>
+                                </View>
+                            )
+                        }
+                        })
+                    }
+                </View>
+            </Modal>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({

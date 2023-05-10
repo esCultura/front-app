@@ -2,21 +2,55 @@ import React, {useState, useEffect} from 'react';
 import {Calendar, LocaleConfig, markedDates} from 'react-native-calendars';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View } from 'react-native';
+import { Text, View, Modal, TouchableOpacity } from 'react-native';
+import InfoCompleta from "./InfoCompleta";
+import Esdeveniment from './Esdeveniment';
+import { simpleFetch } from "../utils/utilFunctions";
+
+import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
+
 
 
 const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
   const [newMarkedDates, setnewMarkedDates] = useState({});
-  const [data, setData] = useState('');
-  const reserva = {key: 'reserva', color: 'purple', selectedDotColor: 'blue', selected: true, marked: true};
-  const perfil = "primerUsuari"
-  const [screenLoaded, setScreenLoaded] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [llistaVisible, setLlistaVisible] = useState(false);
+  const [selectedReserva, setSelectedReserva] = useState(null);
+  const [esdeveniments, setEsdeveniments] = useState([]);
+  const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
+  const user = props.perfil;
+
+ 
 
   useEffect(() => {
+
+    const getColorReserva = (tematica) => {
+      switch (tematica) {
+        case 'Musica': 
+          return 'red';
+        case 'Teatre': 
+          return 'blue';
+        case 'Cine': 
+          return 'green';
+        case 'Espectacles':
+          return 'yellow';
+        case 'infantil':
+         return 'orange';  
+        case 'Arts visuals':
+          return 'green';
+        case 'Divulgació':
+          return 'grey';
+        case 'Tradicional i popular':
+          return 'pink';
+        default: 
+          return 'purple';
+      }
+    }
+    
     const fetchReserves = async () => {
       try {
-        const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${perfil}` ,{
+        const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?user=${user}` ,{
             headers: {
                 'Content-Type': 'application/json', 
           }});
@@ -25,32 +59,61 @@ const CustomCalendar = (props) => {
         }    
         const data = await response.json();
         console.log(data);
+        const prevMarkedDates = { ...newMarkedDates };
+        const nextMarkedDates = {};
         for (let i = 0; i < data.length; i++) {
           const assistencies = data[i].esdeveniment;
+          const date = data[i].data.slice(0,10);
           const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
             headers: {
                 'Content-Type': 'application/json', 
           }});
-          if (!response.ok) {
+          if (!responseDates.ok) {
             throw new Error('Error al obtenir el esdeveniment');
           }
-          const dates = await responseDates.json();
-          const date = dates[0].dataFi.slice(0,10);
-          newMarkedDates[date] = { marked: true };
-          console.log("hola1")
-          console.log(newMarkedDates);
+          const dates = await responseDates.json();      
+          
+
+          const reserva = {key: data[i].id, color: getColorReserva(dates[0].tematiques[0]), selectedDotColor: 'blue', selected: true, marked: true,
+                    info: {
+                      source: "http://agenda.cultura.gencat.cat"+dates[0].imatges_list[0],
+                      desc: dates[0].descripcio.replaceAll("&nbsp;", "\n"),
+                      title: dates[0].nom,
+                      dateIni: dates[0].dataIni.slice(0,10),
+                      dateFi: dates[0].dataFi.slice(0,10),
+                      location: dates[0].espai,
+                      type: dates[0].tematiques.map(tema => tema.nom),
+                      preu: dates[0].entrades,
+                      codi: dates[0].codi,
+                    
+                    }        
+          };
+           if (nextMarkedDates[date]) {
+             nextMarkedDates[date].dots.push(reserva);
+          } else {
+             nextMarkedDates[date] = {
+              dots: [reserva]
+            };
+          }
         }
-        setnewMarkedDates(newMarkedDates); 
-        console.log("hola2")
-        console.log(newMarkedDates);
+
+        Object.keys(prevMarkedDates).forEach(date => {
+          if (!(date in nextMarkedDates)) {
+            delete prevMarkedDates[date];
+          }
+        });
+        const mergedMarkedDates = { ...prevMarkedDates, ...nextMarkedDates };
+
+        setnewMarkedDates(mergedMarkedDates); 
     } catch (error) {
       console.error(error);
     }
   };
   fetchReserves();
-  }, [screenLoaded]);
+  }, [screenLoaded, props.screenLoaded]);
 
     return (
+      <>
       <Calendar
       showArrows={true}
       renderArrow={direction => (
@@ -83,23 +146,73 @@ const CustomCalendar = (props) => {
         onDayPress={day => {
           setSelected(day.dateString)
           if (newMarkedDates.hasOwnProperty(day.dateString)) {
-            alert("hi ha una reserva");
-          } else {
-            alert('No hi ha reserves per la data');
-          };
+            if (newMarkedDates[day.dateString].dots.length > 1) {
+              const reserves = [];
+                for (let j = 0; j < newMarkedDates[day.dateString].dots.length; ++j) {
+                  const reserva = newMarkedDates[day.dateString].dots[j];
+                  reserves.push(reserva);
+                }
+                setEsdeveniments(reserves);
+                setLlistaVisible(true);
+            }
+            else {
+              const reserva = newMarkedDates[day.dateString].dots[0];
+              setSelectedReserva(reserva);
+              setModalVisible(true);
+              console.log(reserva.info.source)
+            }
+          } 
         }}
 
         markedDates={newMarkedDates}
-        //markingType={'multi-dot'}
-        
-       /*markedDates={{
-              '2023-03-26': {dots: [reserva], marked:true, selected:false, activeOpacity: 0},
-              //'data.dataIni': { selected: true, marked: true, selectedColor: "blue"  },
-          //[selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
-            "2023-05-17": {marked: true},
-        }}*/
+        markingType={'multi-dot'}
         firstDay= {1} 
       />
+      {modalVisible && (
+      <InfoCompleta 
+                visible={modalVisible} 
+                back={() =>  {
+                  setModalVisible(false),
+                  setScreenLoaded(!screenLoaded);
+                  }
+                }
+                type={selectedReserva.info.type} 
+                complet={selectedReserva.info.desc}
+                source={selectedReserva.info.source}
+                title={selectedReserva.info.title}
+                preu={selectedReserva.info.preu}
+                dateFi = {selectedReserva.info.dateFi}
+                dateIni = {selectedReserva.info.dateIni}
+                location = {selectedReserva.info.location}
+                codi = {selectedReserva.info.codi}
+            />
+    )}
+    <Modal visible={llistaVisible } animationType="slide">
+        
+            <TouchableOpacity onPress={() => setLlistaVisible(false)} style={styles.back}>
+                  <XCircleFill color="red" width={145} height={145} />
+            </TouchableOpacity>
+            <View style={styles.llistat}>
+            {
+            esdeveniments.map((esd) => (
+            <Esdeveniment 
+                  key ={esd.info.codi}
+                  back={() => setLlistaVisible(false)}
+                  type={esd.info.type}
+                  desc={esd.info.desc}
+                  title={esd.info.title}
+                  preu={esd.info.preu}
+                  dateFi = {esd.info.dateFi}
+                  dateIni = {esd.info.dateIni}
+                  location = {esd.info.location}
+                  codi = {esd.info.codi}
+                  source = {esd.info.source}
+              />
+           ))}
+        </View>
+      </Modal>
+    
+    </>
   );
 };
 
@@ -144,6 +257,20 @@ const styles = StyleSheet.create({
       backgroundColor: '#00456',
       paddingTop: 120,
       paddingBottom: 40,
+    },
+    llistat: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 20,
+      },
+      back: {
+        zIndex: 1,
+        position: 'absolute',
+        top: 6,
+        left: 6,
+        width: 16,
+        height: 16,
     }
   });
 export default CustomCalendar;

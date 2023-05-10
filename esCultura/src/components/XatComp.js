@@ -4,23 +4,25 @@ import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short'
 import ArrowRightShort from 'react-native-bootstrap-icons/icons/arrow-right-short' 
 import {simpleFetch} from '../utils/utilFunctions';
 import InfoXat from "./InfoXatComp";
-
+import { useTranslation } from 'react-i18next';
 
 export default function Xat (props){
     const [modalVisible, setModalVisible] = useState(false);
-    const [urlImatge, setUrlImatge]=useState(require('../../assets/profile-base-icon.png'))
+    const [urlImatge, setUrlImatge]=useState(require('../../assets/profile-base-icon.png'));
     const [missatges,setMissatges]=useState([]);
     const [textMissatge, setTextMissatge] = useState('');
     const [data,setData] = useState('');
     const [ultim_mis, setUltimMiss] = useState('');
     const scrollViewRef = useRef();
-    const [update, setUpdate]=useState(false)
+    const [update, setUpdate]=useState(false);
     const [nom, setNom]=useState('');
-    const [canvia, setCanvi] =useState('')
+    const [canvia, setCanvi] =useState('');
+
+    const {t} = useTranslation();
     
     //Imatge perfil
     function imatgePerfil(props) {
-        if(props.imatge != null){
+        if (props.imatge != null) {
             setUrlImatge(props.imatge);
         }
     };
@@ -31,56 +33,55 @@ export default function Xat (props){
     }
     
     //Mostrar ultim missatge
-    function ultimMissatge(){
-        if(props.miss != null){
-            setUltimMiss(props.miss.text)
+    function ultimMissatge() {
+        if (props.miss != null) {
+            setUltimMiss(props.miss.text);
         }
     }
     
-    function getData(val){
-       setModalVisible(val)
+    function getData(val) {
+       setModalVisible(val);
     }
     
-    function veureXat(){
+    function veureXat() {
         setModalVisible(true);
     }
     
     useEffect(()=> {
-        nomXat()
+        nomXat();
     })
   
     useEffect(() => {
         
-    const fetchMissatges = async () => {  
-        let endPoint = 'xats/'+props.id+'/missatges/';
-        simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data))
-        //console.log('fetchmissatges')
-        //console.log(missatges)
-    }
-    fetchMissatges();
-    ultimMissatge()
-      }, [update]);
+        const fetchMissatges = async () => {  
+            let endPoint = 'xats/'+props.id+'/missatges/';
+            simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data));
+            //console.log('fetchmissatges');
+            //console.log(missatges);
+        }
+        fetchMissatges();
+        ultimMissatge();
+    }, [update]);
       
-      function nomXat(){
-        let array = props.part
-        if(props.nom == null){
+    function nomXat() {
+        let array = props.part;
+        if (props.nom == null) {
             array.forEach(item =>{
-                    if(item.user != props.user.user) setNom(item.username);
+                if(item.user != props.user.user) setNom(item.username);
             })   
         }
-        else{
-            setNom(props.nom)
+        else {
+            setNom(props.nom);
         }
-     }
-     //POST missatges
+    }
+
+    //POST missatges
     const enviarMissatge = async () => { 
         let endPoint = 'xats/'+props.id+'/missatges/';
-        simpleFetch(endPoint, "POST", {text:textMissatge,xat:props.id}).then((data) => setData(data))
-        setTextMissatge(' ')
-        setUpdate((prevState) =>!prevState)
-}
-
-
+        simpleFetch(endPoint, "POST", {text:textMissatge,xat:props.id}).then((data) => setData(data));
+        setTextMissatge(' ');
+        setUpdate((prevState) =>!prevState);
+    }
     
     return(
         <View>
@@ -104,7 +105,7 @@ export default function Xat (props){
                     source={urlImatge}/>
                    
                     <View style={styles.nomtop}>
-                    <Text  >{nom}</Text>
+                        <Text>{nom}</Text>
                     </View>
                     
                     <InfoXat onChange={getData} id={props.id} participants={props.part} canvia={() =>props.canvia()}></InfoXat>
@@ -113,32 +114,35 @@ export default function Xat (props){
                 
                 <View style={styles.scroll}>
                 <ScrollView ref={scrollViewRef}
-                            onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
+                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
                 {
                     missatges?.map((miss,m) => {
-                        if(miss.creador.user == props.user.user){
+                        if (miss.creador.user == props.user.user) {
                             return (
-                            <View key= {m} style={styles.textpropi}>  
-                                <Text  style={styles.textMiss}> {miss.text}</Text>
-                                <Text style={styles.hora}> {miss.data}</Text>
-                            </View>) 
+                                <View key= {m} style={styles.textpropi}>  
+                                    <Text  style={styles.textMiss}> {miss.text}</Text>
+                                    <Text style={styles.hora}> {miss.data}</Text>
+                                </View>
+                            ) 
                         }
-                        else{
-                        return (
-                        <View key ={m}style={styles.textextern}>
-                            <Text  style={styles.textMiss}> {miss.text}</Text>
-                            <Text  style={styles.hora}> {miss.data}</Text>
-                        </View>);}})
+                        else {
+                            return (
+                                <View key ={m}style={styles.textextern}>
+                                    <Text  style={styles.textMiss}> {miss.text}</Text>
+                                    <Text  style={styles.hora}> {miss.data}</Text>
+                                </View>
+                            );
+                        }
+                    })
                 }
                 </ScrollView>
                 </View>
                 <View style={styles.missatge}>
-                    <TextInput style={styles.input} placeholder={'Missatge'} value={textMissatge} onChangeText={handleTextChange}/>
+                    <TextInput style={styles.input} placeholder={t('msg')} value={textMissatge} onChangeText={handleTextChange}/>
                     <TouchableOpacity style={styles.icono} onPress={enviarMissatge}>
-                            <ArrowRightShort color="black"></ArrowRightShort>
+                        <ArrowRightShort color="black"></ArrowRightShort>
                     </TouchableOpacity>
                 </View>
-                
          </Modal>
          </View>
     )

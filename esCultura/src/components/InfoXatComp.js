@@ -10,22 +10,23 @@ export default function InfoXat (props){
     const [modalVisi, setModalVisi] = useState(false);
     const [usuaris, setUsuaris] =useState([]);
     const [data,setData]=useState('');
+
+    const {t} = useTranslation();
     
-    let urlImatge =require('../../assets/profile-base-icon.png')
+    let urlImatge =require('../../assets/profile-base-icon.png');
     
-    function tanca(){
-        setModalVisi(false)
+    function tanca() {
+        setModalVisi(false);
     }
           
-    const eliminarXat = async(prop) =>{
-      //console.log("eliminar xat",prop)
-      let endpoint= "xats/"+ props.id+"/"
-      simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
-      setModalVisi(false);
-      props.onChange(false)
-      props.canvia()
+    const eliminarXat = async(prop) => {
+        //console.log("eliminar xat",prop);
+        let endpoint= "xats/"+ props.id+"/";
+        simpleFetch(endpoint,"DELETE","").then((data)=> setData(data));
+        setModalVisi(false);
+        props.onChange(false);
+        props.canvia();
     }
-    
     
     return(
         <View>
@@ -34,40 +35,38 @@ export default function InfoXat (props){
                 <Text></Text>
             </TouchableOpacity>
        
-        <Modal visible={modalVisi}>
-            <View style={styles.top}>
-                <TouchableOpacity style={styles.back} onPress={tanca}>
-                    <ArrowLeftShort color="black"></ArrowLeftShort>
-                </TouchableOpacity>
-                <Text style={styles.titol}>Informació Xat</Text>
-            </View>
-            <View>
-                <TouchableOpacity style={styles.grup} onPress={() =>eliminarXat(props.id)}>
-                    <Text style={styles.textEl}>Eliminar Xat</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={styles.textView}>
-                <Text style={styles.text}>Participants:</Text>
-            </View>
-            <View>
+            <Modal visible={modalVisi}>
+                <View style={styles.top}>
+                    <TouchableOpacity style={styles.back} onPress={tanca}>
+                        <ArrowLeftShort color="black"></ArrowLeftShort>
+                    </TouchableOpacity>
+                    <Text style={styles.titol}>{t('infoXat')}</Text>
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.grup} onPress={() =>eliminarXat(props.id)}>
+                        <Text style={styles.textEl}>{t('eliminarXat')}</Text>
+                    </TouchableOpacity>
+                </View>
                 
-            {
-            props.participants.map((usu,u) => { 
-                return (
-                    <View key={u}>
-                        <TouchableOpacity   style={styles.info_xat} >
-                            <Image 
-                                style={styles.foto}
-                                source={urlImatge}
-                                />
-                            <Text style={styles.nom}>{usu.username}</Text>
-                        </TouchableOpacity>
-                </View>)
-                ;})
-            }
-            </View>
-
+                <View style={styles.textView}>
+                    <Text style={styles.text}>{t('participants')}:</Text>
+                </View>
+                <View>
+                    {
+                    props.participants.map((usu,u) => { 
+                        return (
+                            <View key={u}>
+                                <TouchableOpacity style={styles.info_xat} >
+                                    <Image 
+                                        style={styles.foto}
+                                        source={urlImatge}
+                                        />
+                                    <Text style={styles.nom}>{usu.username}</Text>
+                                </TouchableOpacity>
+                        </View>)
+                        ;})
+                    }
+                </View>
             </Modal>    
         </View>
     )
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     ic:{
         marginVertical:15,
         marginLeft:0
-        
     },
     titol:{
 
