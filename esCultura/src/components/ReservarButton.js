@@ -84,6 +84,13 @@ if (acabat){
         </View>
   </View>)
 }
+if (fechaIni == 'Online'){
+  return(<View style={styles.container}>
+        <View style={styles.acabat}>
+            <Text style = {styles.buttonText} > Esdeveniment online </Text>
+        </View>
+  </View>)
+}
 
 else if(reservat){
     return(<View style={styles.container}>

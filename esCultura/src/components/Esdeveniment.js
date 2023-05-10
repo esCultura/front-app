@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import LikeButton from "./LikeButton";
@@ -11,7 +11,10 @@ const type_colors   = ['#3BDE4B', '#3BDE4B', '#3BDE4B', '#3BDE4B'];
 
 export default function Esdeveniment (props) {
     const [modalVisible, setModalVisible] = useState(false);
-    let type = props.type[0]
+    let type = props.type[0] 
+    const [dataIni, setDataIni] = useState(props.dateIni === '2222-02-02' || props.dateIni === '9999-09-09' ? 'Online' : props.dateIni);
+
+
     return (
         <>
             <TouchableOpacity style={styles.card} onPress={() => setModalVisible(true)}>
@@ -23,10 +26,10 @@ export default function Esdeveniment (props) {
                     <Text style={styles.title}>{props.title}</Text>
                     {/* <Text style={styles.brief}>{props.brief}</Text> */}
                     <View  style={{display: 'flex',  flexDirection: 'row', alignItems: 'center', whiteSpace: 'nowrap'}} >
-                    <Text style={styles.info}>🗓️ {props.dateIni} </Text> 
+                    <Text style={styles.info}>🗓️ {dataIni} </Text> 
                     {props.dateIni != props.dateFi && <Text> fins {props.dateFi} </Text>}
                     </View> 
-                    <Text style={styles.info}>📌 {props.location}</Text>
+                    {props.location !== null &&  <Text style={styles.info}>📌 {props.location}</Text> }
                     {/* <Text style><Reservar ></Reservar></Text> */}
                 </View>
             </TouchableOpacity>
@@ -41,7 +44,7 @@ export default function Esdeveniment (props) {
                 title={props.title}
                 preu={props.preu}
                 complet = {props.desc}
-                dateIni = {props.dateIni}
+                dateIni = {dataIni}
                 dateFi = {props.dateFi}
                 location = {props.location}
                 source= {props.source}
