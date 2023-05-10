@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, ScrollView, Lin
 import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import Categoria from "./PerfilCategoria";
 
 
 const bgcolor = '#3BDE4B';
@@ -31,7 +32,7 @@ export default function InfoCompleta (props) {
                         <ScrollView contentContainerStyle={styles.typesContainer}>
                             {
                                 props.type.map((type, i) => {
-                                    return (<Text key={i} style={styles.type}>{type.nom}</Text>);
+                                    return (<Categoria key={i} tipus={type}></Categoria>);
                                 })
                             }
                         </ScrollView>
