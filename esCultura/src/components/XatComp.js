@@ -103,8 +103,8 @@ export default function Xat (props){
                     style={styles.fot}
                     source={urlImatge}/>
                    
-                    <View >
-                    <Text  styles={styles.nomtop}>{nom}</Text>
+                    <View style={styles.nomtop}>
+                    <Text  >{nom}</Text>
                     </View>
                     
                     <InfoXat onChange={getData} id={props.id} participants={props.part} canvia={() =>props.canvia()}></InfoXat>
@@ -287,6 +287,7 @@ const styles = StyleSheet.create({
     nomtop:{
         alignContent:'center',
         justifyContent:'center',
+        marginLeft:60
         
     }
     })

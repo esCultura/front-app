@@ -6,10 +6,15 @@ import NewXat from "../components/NewXatButton";
 import Xat from "../components/XatComp";
 import {simpleFetch} from '../utils/utilFunctions';
 
+import { useTranslation } from 'react-i18next';
+
 export default function Chat(props) {
     const [xats, setXats] = useState([])
     const [idUser,setIdUser] = useState([]);
     const [update,setUpdate]= useState([]);
+    
+    
+    const {t} = useTranslation();
     
     //Saber el teu usuari
     useEffect(() => {
@@ -44,7 +49,7 @@ export default function Chat(props) {
         <Screen >
             <View style={styles.barra}>
                 <View style={styles.search}>
-                    <TextInput style={styles.input} placeholder={'Cerca...'}/>
+                    <TextInput style={styles.input} placeholder={t('search')}/>
                     <Search  color={'black'}  style={styles.icono}></Search>
                 </View>
                 

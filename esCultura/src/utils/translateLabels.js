@@ -1,14 +1,13 @@
-export default {
-    cat: {
-        start: "començar"
-    },
-    cas: {
-        start: "empezar"
-    },
-    eng: {
-        start: "start"
-    }
+const en = {
+    search: "Search"
 }
 
+const es = {
+    search: "Buscar"
+}
 
-{{TransformStreamDefaultController[cat].start}}
+const cat = {
+    search: "Cerca"
+}
+
+export {en, cat, es};

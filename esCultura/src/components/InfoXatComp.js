@@ -3,6 +3,7 @@ import { View, Text, StyleSheet , TouchableOpacity,Modal, Image} from "react-nat
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import Punts from 'react-native-bootstrap-icons/icons/three-dots-vertical' 
 import { simpleFetch } from "../utils/utilFunctions";
+import { useTranslation } from 'react-i18next';
 
 
 export default function InfoXat (props){
@@ -28,8 +29,8 @@ export default function InfoXat (props){
     
     return(
         <View>
-            <TouchableOpacity  style={styles.punts}onPress={() => setModalVisi(true)} >
-                <Punts color="black" style={styles.icono}></Punts>
+            <TouchableOpacity  style={styles.icono}onPress={() => setModalVisi(true)} >
+                <Punts color="black" style={styles.ic}></Punts>
                 <Text></Text>
             </TouchableOpacity>
        
@@ -108,12 +109,17 @@ const styles = StyleSheet.create({
     },
     icono:{
         position:'absolute',
-        right:0,
+        left:220,
         width:60,
         height:60,
         borderRadius:50,
         marginLeft:10,
         marginVertical:12,
+    },
+    ic:{
+        marginVertical:15,
+        marginLeft:0
+        
     },
     titol:{
 

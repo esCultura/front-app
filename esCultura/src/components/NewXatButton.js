@@ -4,6 +4,7 @@ import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short'
 import Search from 'react-native-bootstrap-icons/icons/search';
 import NewGrup from "./GrupXatButton";
 import {simpleFetch} from '../utils/utilFunctions';
+import { useTranslation } from 'react-i18next';
 
 
 export default function NewXat (props){

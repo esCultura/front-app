@@ -3,6 +3,7 @@ import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput, Pressable,Im
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import People from 'react-native-bootstrap-icons/icons/people-fill' 
 import { simpleFetch } from "../utils/utilFunctions";
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -17,8 +18,11 @@ export default function NewGrup (props){
     const [hihaselected,setHiHaSelected] = useState(false)
     const [update,setUpdate] = useState(false)
     const [data,setData] = useState('')
+    const {t} = useTranslation();
     
     let urlImatge =require('../../assets/profile-base-icon.png')
+    
+    let nomgrup = t('newgroup')
     
     //Canvi input
     function handleTextChange(value) {
@@ -106,7 +110,7 @@ export default function NewGrup (props){
             <TouchableOpacity style={styles.grup} onPress={() => setModalVisible(true)}>
                 <People color="black" style={styles.icono}></People>
                 <View>
-                    <Text style={styles.text}>Nou Grup</Text>
+                    <Text style={styles.text}>t</Text>
                 </View>  
             </TouchableOpacity>
 
@@ -116,10 +120,10 @@ export default function NewGrup (props){
                         <TouchableOpacity style={styles.back} onPress={tanca}>
                             <ArrowLeftShort color="black"></ArrowLeftShort>
                         </TouchableOpacity>
-                        <Text style={styles.titol}>Crear Grup</Text>
+                        <Text style={styles.titol}>t('creategroup')</Text>
                     </View>
                 
-                    <Text style={styles.nomgrup}>Nom Grup:</Text>
+                    <Text style={styles.nomgrup}>{nomgrup}:</Text>
                 
                     <View style={styles.barra}>
                         <View style={styles.search}>
