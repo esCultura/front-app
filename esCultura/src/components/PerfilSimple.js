@@ -9,9 +9,11 @@ import ProfileForm  from '../components/ProfileForm';
 import FollowButton  from '../components/FollowButton'; 
 import Esdeveniment  from '../components/Esdeveniment'; 
 import Trofeu  from '../components/Trofeu'; 
+import {setToken} from '../utils/utilFunctions';
 
 
 export default function PerfilSimple(props, updated) {
+
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
       };
@@ -30,8 +32,6 @@ export default function PerfilSimple(props, updated) {
     const [seguidorsVisible, setSeguidorsVisible] = useState(false);
     const [perfilVisible, setPerfilVisible] = useState(false);
     const [perfil, setPerfil] = useState(null);
-
-    
 
     useEffect(() => {
         const fetchJo = async () => {
@@ -134,6 +134,12 @@ export default function PerfilSimple(props, updated) {
 
         const response = await simpleFetch(endPoint, "PUT", { imatge:formData});
     }
+
+    const doLogout = () =>  {
+        setToken("");
+        props.onLogin(false);
+    }
+
 
     if (jo != props.id) {
     return (
@@ -292,7 +298,7 @@ export default function PerfilSimple(props, updated) {
             </TouchableOpacity>
 
 
-            <TouchableOpacity style={styles.logoutButton}>
+            <TouchableOpacity style={styles.logoutButton} onPress={doLogout}>
                 <Text > Logout </Text>
             </TouchableOpacity>
                 

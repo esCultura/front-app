@@ -1,14 +1,37 @@
-/**
- * Token, setToken and fetch
- */
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let token = '4399aea952484e30ad0208cd72bf64a083c9b8c4';
+let token;
+
+async function _retrieveData () {
+  try {
+    const value = await AsyncStorage.getItem('token');
+    if (value !== null) {
+        token = value;
+    }
+    console.log("token stored: ", token);
+  } catch (error) {
+    console.log("error en agafar dades locals, token error: ", error);
+  }
+};
+_retrieveData ();
 
 export function setToken(newToken) {
-    token = newToken;
+    async function _storeData() {
+        try {
+            await AsyncStorage.setItem(
+                'token',
+                newToken,
+            );
+            console.log("token save correctly");
+        } catch (error) {
+            console.log("error to save in local store, token error: ", error);
+        }
+    };
+    _storeData();
 }
 
 export async function simpleFetch(endPoint, method, bodyData) {
+
     console.log("tokenValue: ", token);
     console.log("endPoint: ", endPoint);
 

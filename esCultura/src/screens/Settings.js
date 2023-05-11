@@ -2,7 +2,7 @@ import { Button, Text } from "react-native";
 import PerfilSimple from '../components/PerfilSimple.js';
 import React, {useState, useEffect} from 'react';
 
-export default function Settings(props) {
+export default function Settings({onLogin, navigation}) {
     const [screenLoaded, setScreenLoaded] = useState(true);
 
     useEffect(() => {
@@ -11,8 +11,8 @@ export default function Settings(props) {
 
     return (
         <>
-            <Button title={"ENRERE"} onPress={() => props.navigation.goBack()} />
-            <PerfilSimple id='6' screenLoaded={screenLoaded} > </PerfilSimple>
+            <Button title={"ENRERE"} onPress={() => navigation.goBack()} />
+            <PerfilSimple onLogin={onLogin} id='6' screenLoaded={screenLoaded}  > </PerfilSimple>
         </>
     )
 }
