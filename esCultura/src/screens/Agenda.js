@@ -14,7 +14,7 @@ export default function Agenda(updated, handleTabPress) {
 
     return (
       <Screen>
-        <CustomCalendar perfil="primerUsuari" screenLoaded={screenLoaded} />
+        <CustomCalendar perfil='6' screenLoaded={screenLoaded} />
       </Screen>
   );
     

@@ -1,11 +1,9 @@
-import { Text , View} from "react-native";
 import PerfilSimple from '../components/PerfilSimple';
 import { StyleSheet } from "react-native";
-import { Dimensions } from 'react-native';
 import Screen from "../components/Screen.js";
 import React, {useState, useEffect} from 'react';
 
-export default function Agenda(updated, handleTabPress) {
+export default function Perfil(updated, handleTabPress) {
   const [screenLoaded, setScreenLoaded] = useState(true);
 
   useEffect(() => {

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import LikeButton from "./LikeButton";
-import Reservar from "./ReservarButton";
 import InfoCompleta from "./InfoCompleta";
 
 let typecolor = '#3BDE4B';

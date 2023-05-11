@@ -9,8 +9,15 @@ const en = {
     logout: "Logout",
     trophys: "Trophys",
     favourites: "Favourites",
-
-
+    users: "Users",
+    createGroup: "Create group",
+    groupName: "Name of group",
+    name: "Name",
+    create: "Create",
+    msg: "Message",
+    infoXat: "Information Chat",
+    eliminarXat: "Remove Chat",
+    participants: "Participants",
 }
 
 const es = {
@@ -39,6 +46,15 @@ const cat = {
     logout: "Tancar sessio",
     trophys: "Escultures",
     favourites: "Preferits",
+    users: "Usuarios",
+    createGroup: "Crear groupo",
+    groupName: "Nombre del grupo",
+    name: "Nombre",
+    create: "Crear",
+    msg: "Mensaje",
+    infoXat: "Información Chat",
+    eliminarXat: "Eliminar Chat",
+    participants: "Participantes",
 }
 
 export {en, cat, es};

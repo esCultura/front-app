@@ -20,7 +20,7 @@ export default function InfoCompleta (props) {
         <Modal visible={props.visible} animationType="slide">
             <View style={{height: '100%'}}>
                 <TouchableOpacity onPress={props.back} style={styles.back}>
-                    <XCircleFill color="white" width={145} height={145} />
+                    <XCircleFill color="white" width={175} height={175} />
                 </TouchableOpacity>
                 <View>
                     <Image source={{uri: props.source}} style={styles.image}/>
@@ -31,7 +31,7 @@ export default function InfoCompleta (props) {
                         <ScrollView contentContainerStyle={styles.typesContainer}>
                             {
                                 props.type.map((type, i) => {
-                                    return (<Text key={i} style={styles.type}>{type}</Text>);
+                                    return (<Text key={i} style={styles.type}>{type.nom}</Text>);
                                 })
                             }
                         </ScrollView>
