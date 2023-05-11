@@ -15,7 +15,7 @@ const LikeButton =  ( props ) => {
         let endPoint = `interessos/esdeveniments/?esdeveniment=${esdeveniment}`;
         const data = await simpleFetch(endPoint, "GET", "")
         setLikes(data.length);
-        
+        console.log("like", data.length);
         let endPoint2 = `interessos/esdeveniments/?user=${user}&esdeveniment=${esdeveniment}`;
         const data2 = await simpleFetch(endPoint2, "GET", "")
         if (data2.length === 0)  setLiked(false);

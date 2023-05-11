@@ -40,7 +40,7 @@ export default function InfoCompleta (props) {
         "influencer": false,
         "seguit1": false,
         "seguit2": false,
-        "seguit3": false,
+        "stalker": false,
         "xats1": false,
         "xats2": false,
         "xats3": false,
@@ -68,7 +68,7 @@ export default function InfoCompleta (props) {
         { nombre: "influencer", imagen: require('../../assets/influencer.jpeg') }, //17 
         { nombre: "seguit1", imagen: require('../../assets/premio.png') }, //18
         { nombre: "seguit2", imagen: require('../../assets/premio.png')}, //19 
-        { nombre: "seguit3", imagen: require('../../assets/premio.png')},// 20
+        { nombre: "stalker", imagen: require('../../assets/premio.png')},// 20
         { nombre: "xats1", imagen: require('../../assets/xatgrupal.png') }, //21 
         { nombre: "xats2", imagen: require('../../assets/grups4(1).jpg') }, //22
         { nombre: "xats", imagen: require('../../assets/grupos7.jpg') }, //23
@@ -103,7 +103,7 @@ export default function InfoCompleta (props) {
         else if (seguidors == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "influencer": true}));
         if (seguits >= 5 && seguits <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "seguit1": true}));
         else if (seguits >= 10 && seguits <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "seguit2": true}));
-        else if (seguits == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "seguit3": true}));
+        else if (seguits == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "stalker": true}));
         if (xats_participants >= 5 && xats_participants <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "xats1": true}));
         else if (xats_participants >= 10 && xats_participants<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "xats2": true}));
         else if (xats_participants == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "xats3": true}));

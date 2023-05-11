@@ -10,9 +10,14 @@ import FollowButton  from '../components/FollowButton';
 import Esdeveniment  from '../components/Esdeveniment'; 
 import Trofeu  from '../components/Trofeu'; 
 import {setToken} from '../utils/utilFunctions';
+import TranslateSelector from "./TranslateSelector";
+import { useTranslation } from 'react-i18next';
 
 
 export default function PerfilSimple(props, updated) {
+
+    const {t} = useTranslation();
+
 
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
@@ -34,6 +39,7 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
+        console.log(props.id);
         const fetchJo = async () => {
             let endPoint = `usuaris/perfils/jo`;
             const data = await simpleFetch(endPoint, "GET", "")
@@ -306,13 +312,17 @@ export default function PerfilSimple(props, updated) {
             </ScrollView>
 
             <View style={styles.bottomContainer}>
+            
+
+
+            <TranslateSelector> </TranslateSelector>
             <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
                 <Text > Edita </Text>
             </TouchableOpacity>
 
 
             <TouchableOpacity style={styles.logoutButton}>
-                <Text > Tancar sessió</Text>
+                <Text > {t('logout')}</Text>
             </TouchableOpacity>
                 
             </View>
