@@ -5,6 +5,8 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import {setToken} from '../utils/utilFunctions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
+
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -21,6 +23,9 @@ export default function Login({navigation, onLogin}) {
         androidClientId: "770757510426-cklpthldhp6u7iurthc8mfjmlr2kueuv.apps.googleusercontent.com"
     });
     const [data, setData] = useState('');
+
+    const {t} = useTranslation();
+
     let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
     useEffect( ()=>{
@@ -128,13 +133,13 @@ export default function Login({navigation, onLogin}) {
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.icona}/>
             </View>
             <TextInput style={styles.inputUser} 
-                placeholder="Username" 
+                placeholder={t('Username')}
                 placeholderTextColor="#FFFFFF"  
                 value={username}
                 onChangeText={handleTextChangeUsername}
             />
             <TextInput style={styles.inputPass} 
-                placeholder="Password" 
+                placeholder={t('Password')}
                 placeholderTextColor="#FFFFFF" 
                 value={password}
                 onChangeText={handleTextChangePassword}
@@ -148,9 +153,9 @@ export default function Login({navigation, onLogin}) {
                 onPress={() => login()}
                 style={styles.btnLogin} 
             >
-                <Text style={styles.loginText}>Login</Text>
+                <Text style={styles.loginText}>{t('Login')}</Text>
             </Pressable>
-            <Text style={styles.loginWith}>Or Login with</Text>
+            <Text style={styles.loginWith}>{t('Or_Login_with')}</Text>
             <Pressable 
                 title="login"
                 onPress={() => loginWithGoogle()}
@@ -163,7 +168,7 @@ export default function Login({navigation, onLogin}) {
                 title="createAccount"
                 onPress={()=>navigation.navigate("SingUp")}
             >
-                <Text style={styles.createAcountText}>Create Account</Text>                
+                <Text style={styles.createAcountText}>{t('Create_Account')}</Text>                
             </Pressable>
         </LinearGradient>
         

@@ -5,6 +5,7 @@ import * as Keychain from 'react-native-keychain';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import {setToken} from '../utils/utilFunctions';
+import { useTranslation } from 'react-i18next';
 
 
 // tuturial que he seguit
@@ -29,6 +30,8 @@ export default function SingUp({navigation, onLogin}) {
     const [password, setPassword] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
     const [data, setData] = useState('');
+
+    const {t} = useTranslation();
 
     const host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
 
@@ -123,14 +126,14 @@ export default function SingUp({navigation, onLogin}) {
                 <Image source={require('../../assets/icona-escultura.png')} style={styles.icona}/>
             </View>
             <TextInput style={styles.inputUser} 
-                placeholder="Username" 
+                placeholder={t('Username')} 
                 placeholderTextColor="#FFFFFF" 
                 value={username}
                 onChangeText={handleTextChangeUsername}
             />
 
             <TextInput style={styles.inputPass} 
-                placeholder="E-mail" 
+                placeholder={t('e_mail')} 
                 placeholderTextColor="#FFFFFF"
                 value={email}
                 onChangeText={handleTextChangeEmail}
@@ -141,7 +144,7 @@ export default function SingUp({navigation, onLogin}) {
             </Text>
             
             <TextInput style={styles.inputPass}
-                placeholder="Password" 
+                placeholder={t('Password')}
                 placeholderTextColor="#FFFFFF" 
                 value={password}
                 onChangeText={handleTextChangePassword}
@@ -157,11 +160,11 @@ export default function SingUp({navigation, onLogin}) {
                 onPress={() => singUp()}
                 style={styles.btnSingUp} 
             >
-                <Text style={styles.singUpText}>Create Account</Text>
+                <Text style={styles.singUpText}>{t('Create_Account')}</Text>
             </Pressable>
             <View style={styles.spacerView}></View>
             
-            <Text style={styles.createAcountText}>Or Sing up with</Text>
+            <Text style={styles.createAcountText}>{t('Or_Sing_up_with')}</Text>
             <Pressable 
                 title="login"
                 onPress={() => loginWithGoole()}
@@ -174,7 +177,7 @@ export default function SingUp({navigation, onLogin}) {
                 title="login"
                 onPress={()=>navigation.navigate("Login")}
             >
-                <Text style={styles.createAcountText}>Login</Text>                
+                <Text style={styles.createAcountText}>{t('Login')}</Text>                
             </Pressable>
             
 
