@@ -13,6 +13,7 @@ export default function Login({navigation, onLogin}) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMesage, setErrorMesage] = useState('');
     const [accessToken, setAccessToken] = useState(null);
     const [request, response, promtAsync] = Google.useIdTokenAuthRequest({
         clientId: "770757510426-2lniaqalfcjjk33tl1lbi75u32sbc2t0.apps.googleusercontent.com",
@@ -78,8 +79,7 @@ export default function Login({navigation, onLogin}) {
             .then(res => res.json())
             .then(data => {
                 setData(data);
-                console.log("login: ", data);
-                console.log("token: ", data.token);
+                //console.log("token: ", data.token);
 
                 //save data local
                 /*
@@ -97,23 +97,15 @@ export default function Login({navigation, onLogin}) {
                     - data.estadistiques.seguits                    --> userSeguits
                     - data.estadistiques.xats_participant           --> userXats
                 */
-                _storeData();
-                /*
-                _storeData("userImg", data.imatge);
-                _storeData("userId", data.user);
-                _storeData("userBio", data.bio);
-                _storeData("userEmail", data.email);
-                _storeData("userAssis", data.estadistiques.assistencies_passades);
-                _storeData("userIntEsde", data.estadistiques.interessos_esdeveniments);
-                _storeData("userIntTema", data.estadistiques.interessis_tematiques);
-                _storeData("userMsg", data.estadistiques.missatges_enviats);
-                _storeData("userRes", data.estadistiques.reserves_futures);
-                _storeData("userSeguidors", data.estadistiques.seguidors );
-                _storeData("userSeguits", data.estadistiques.seguits);
-                _storeData("userXats", data.estadistiques.xats_participant);
-                */
-                setToken(data.token);
-                onLogin(true);
+                
+                if (data.token) {
+                    setToken(data.token);
+                    onLogin(true);
+                    _storeData();
+                }
+                if (data.non_field_errors) {
+                    setErrorMesage(data.non_field_errors);
+                }
             })
             .catch(console.error)
     }
@@ -148,6 +140,9 @@ export default function Login({navigation, onLogin}) {
                 onChangeText={handleTextChangePassword}
                 secureTextEntry={true}
             />
+            <Text style={styles.errorMsg} >
+                {errorMesage ? errorMesage : null}
+            </Text>
             <Pressable 
                 title="Login" 
                 onPress={() => login()}
@@ -260,6 +255,12 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 10,
+    },
+    errorMsg: {
+        marginTop: 5,
+        marginLeft: '5%',
+        marginRight: '5%',
+        color: 'red',
     },
     
 });

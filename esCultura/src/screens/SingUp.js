@@ -4,7 +4,8 @@ import {LinearGradient} from 'expo-linear-gradient';
 import * as Keychain from 'react-native-keychain';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import {setToken} from '../utils/utilFunctions'
+import {setToken} from '../utils/utilFunctions';
+
 
 // tuturial que he seguit
 //https://www.youtube.com/watch?v=MBMWiTsqnck&ab_channel=CodewithBeto
@@ -24,7 +25,9 @@ export default function SingUp({navigation, onLogin}) {
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
     const [data, setData] = useState('');
 
     const host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
@@ -59,8 +62,6 @@ export default function SingUp({navigation, onLogin}) {
         console.log("create with google");
     }
 
-    
-
     function singUp() {
         console.log("create");
         
@@ -75,32 +76,39 @@ export default function SingUp({navigation, onLogin}) {
             .then(res => res.json())
             .then(async data => {
                 setData(data);
-                console.log("singUP: ", data);
-                /*
-                if (data.created) {
-                    await Keychain.setGenericPassword(username, password);
-                }
-                */
-                console.log("token singup: ", data.token);
+                //console.log("singUP: ", data);
+                //console.log("token singup: ", data.token);
                 
-
-                setToken(data.token);
-                onLogin(true);
+                if (data.token) {
+                    setToken(data.token);
+                    onLogin(true);
+                }
+                if (data.email) {
+                    let str = '';
+                    for (let error of data.email) {
+                        str += error + "\n";
+                    }
+                    setErrorEmail(str);
+                }
+                if (data.password) {
+                    let str = '';
+                    for (let error of data.password) {
+                        str += error + "\n";
+                    }
+                    setErrorPassword(str);
+                }
             })
             .catch(console.error)
     }
 
     function handleTextChangeUsername(value) {
         setUsername(value);
-        console.log("username: ", username);
     }
     function handleTextChangeEmail(value) {
         setEmail(value);
-        console.log("password: ", email);
     }
     function handleTextChangePassword(value) {
         setPassword(value);
-        console.log("password: ", password);
     }
 
     return (
@@ -120,13 +128,18 @@ export default function SingUp({navigation, onLogin}) {
                 value={username}
                 onChangeText={handleTextChangeUsername}
             />
+
             <TextInput style={styles.inputPass} 
                 placeholder="E-mail" 
                 placeholderTextColor="#FFFFFF"
                 value={email}
                 onChangeText={handleTextChangeEmail}
-
             />
+
+            <Text style={styles.errorMsg} >
+                {errorEmail ? errorEmail : null} 
+            </Text>
+            
             <TextInput style={styles.inputPass}
                 placeholder="Password" 
                 placeholderTextColor="#FFFFFF" 
@@ -134,6 +147,10 @@ export default function SingUp({navigation, onLogin}) {
                 onChangeText={handleTextChangePassword}
                 secureTextEntry={true}
             />
+            
+            <Text style={styles.errorMsg} >
+                {errorPassword ? errorPassword : null}
+            </Text>
 
             <Pressable 
                 title="singUp" 
@@ -198,7 +215,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     btnSingUp: {
-        marginTop: '20%',
+        marginTop: 30,
         marginBottom: 30,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -225,7 +242,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: 10,
+        marginTop: 5,
         marginBottom: 15,
     },
     btnExternSingUp: {
@@ -242,6 +259,12 @@ const styles = StyleSheet.create({
         height: 30,
         width: 17,
         resizeMode: 'contain',
-    }
+    },
+    errorMsg: {
+        marginTop: 5,
+        marginLeft: '5%',
+        marginRight: '5%',
+        color: 'red',
+    },
     
 });

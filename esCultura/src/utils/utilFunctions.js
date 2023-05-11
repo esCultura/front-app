@@ -22,7 +22,6 @@ export function setToken(newToken) {
                 'token',
                 newToken,
             );
-            console.log("token save correctly");
         } catch (error) {
             console.log("error to save in local store, token error: ", error);
         }
@@ -36,7 +35,6 @@ export async function simpleFetch(endPoint, method, bodyData) {
     console.log("endPoint: ", endPoint);
 
     let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
-    console.log("url: ", host+endPoint);
 
     let result;
     if (method === "GET" || method === "HEAD") {
@@ -64,6 +62,5 @@ export async function simpleFetch(endPoint, method, bodyData) {
 
     let resultJson = await result.json();
 
-    console.log("finalResult: ", resultJson);
     return resultJson;    
 }
