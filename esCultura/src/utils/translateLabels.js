@@ -16,6 +16,17 @@ const en = {
     Or_Sing_up_with: "Or Sing up with",
     Create_Account: "Create Account",
     e_mail: "e-mail", 
+    Data_inici_i_final: "Start and end date",
+    Teatre: "theater",
+    Categoria: "Category",
+    Espectacles: "Shows",
+    Musica: "Music",
+    Exposicions: "Exhibitions",
+    Cinema: "Cinema",
+    Divulgacio: "Disclosure",
+    Dansa: "Dance",
+    Infantil: "Children's",
+    Filter: "Filter",
 }
 
 const es = {
@@ -36,6 +47,17 @@ const es = {
     Or_Sing_up_with: "O regístrate con",
     Create_Account: "Crear una cuenta",
     e_mail: "Correo electrónico", 
+    Data_inici_i_final: "Fecha de inicio i final",
+    Teatre: "Teatro",
+    Categoria: "Categoría",
+    Espectacles: "Espectáculos",
+    Musica: "Musica",
+    Exposicions: "Exposiciones",
+    Cinema: "Cine",
+    Divulgacio: "Divulgación",
+    Dansa: "Danza",
+    Infantil: "Infantil",
+    Filter: "Filtrar",
 
 }
 
@@ -57,6 +79,17 @@ const cat = {
     Or_Sing_up_with: "O registra't amb",
     Create_Account: "Crear compte",
     e_mail: "correu electrònic", 
+    Data_inici_i_final: "Data de inici i final",
+    Teatre: "Teatre",
+    Categoria: "Categoria",
+    Espectacles: "Espectacles",
+    Musica: "Musica",
+    Exposicions: "Exposicions",
+    Cinema: "Cinema",
+    Divulgacio: "Divulgació",
+    Dansa: "Dansa",
+    Infantil: "Infantil",
+    Filter: "Filtre",
 
 }
 
