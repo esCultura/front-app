@@ -20,7 +20,7 @@ function setIniLang() {
     };
     _retrieveData ();
 
-    if (lang !== "") {   
+    if (lang == "") {   
         let ideoma = Localitzation.locale;
         ideoma = ideoma.split('-')[0];
         lang = ideoma;

@@ -154,7 +154,7 @@ export default function SearchFilter({onVariableChange}, isList) {
                         <ArrowDown name="closeModal" color={'black'} size={30} />
                     </Pressable>
                     <View style={styles.contentModal}>
-                        <Text style={styles.textModal}>Data inici i final</Text>
+                        <Text style={styles.textModal}>{t('Data_inici_i_final')}</Text>
                         <View style={styles.contentDataPicker}>
                             <Pressable style={styles.datePicker} onPress={() => setShowDatePickerIni(true)} >
                                 <Text> {dateIni.toLocaleDateString()} </Text>
@@ -187,51 +187,51 @@ export default function SearchFilter({onVariableChange}, isList) {
                             )}
                         </View>
 
-                        <Text style={styles.textModal}>Categoria</Text>
+                        <Text style={styles.textModal}>{t('Categoria')}</Text>
                         <CheckBox
-                            title="Teatre"
+                            title={t('Teatre')} 
                             checkedColor='green'
                             checked={checkTeatre}
                             onPress={() => setCheckTeatre(!checkTeatre)}
                         />
                         <CheckBox
-                            title="Espectacles"
+                            title={t('Espectacles')}
                             checkedColor='green'
                             checked={checkEspectacles}
                             onPress={() => setCheckEspectacles(!checkEspectacles)}
                         />
                         <CheckBox
-                            title="Musica"
+                            title={t('Musica')}
                             checkedColor='green'
                             checked={checkMusica}
                             onPress={() => setCheckMusica(!checkMusica)}
                         />
                         <CheckBox
-                            title="Exposicions"
+                            title={t('Exposicions')}
                             checkedColor='green'
                             checked={checkExposicions}
                             onPress={() => setCheckExposicions(!checkExposicions)}
                         />
                         <CheckBox
-                            title="Cinema"
+                            title={t('Cinema')}
                             checkedColor='green'
                             checked={checkCinema}
                             onPress={() => setCheckCinema(!checkCinema)}
                         />
                         <CheckBox
-                            title="Divulgacio"
+                            title={t('Divulgacio')}
                             checkedColor='green'
                             checked={checkDivulgacio}
                             onPress={() => setCheckDivulgacio(!checkDivulgacio)}
                         />
                         <CheckBox
-                            title="Dansa"
+                            title={t('Dansa')}
                             checkedColor='green'
                             checked={checkDansa}
                             onPress={() => setCheckDansa(!checkDansa)}
                         />
                         <CheckBox
-                            title="Infantil"
+                            title={t('Infantil')}
                             checkedColor='green'
                             checked={checkInfantil}
                             onPress={() => setCheckInfantil(!checkInfantil)}
