@@ -18,6 +18,24 @@ const en = {
     infoXat: "Information Chat",
     eliminarXat: "Remove Chat",
     participants: "Participants",
+    Username: "Username",
+    Password: "Password",
+    Login: "Login",
+    Or_Login_with: "Or Login with",
+    Or_Sing_up_with: "Or Sing up with",
+    Create_Account: "Create Account",
+    e_mail: "e-mail", 
+    Data_inici_i_final: "Start and end date",
+    Teatre: "theater",
+    Categoria: "Category",
+    Espectacles: "Shows",
+    Musica: "Music",
+    Exposicions: "Exhibitions",
+    Cinema: "Cinema",
+    Divulgacio: "Disclosure",
+    Dansa: "Dance",
+    Infantil: "Children's",
+    Filter: "Filter",
 }
 
 const es = {
@@ -55,6 +73,26 @@ const cat = {
     infoXat: "Información Chat",
     eliminarXat: "Eliminar Chat",
     participants: "Participantes",
+    Username: "Nombre de usuario",
+    Password: "Contraseña",
+    Login: "Iniciar sessión",
+    Or_Login_with: "O iniciar sessión con",
+    Or_Sing_up_with: "O regístrate con",
+    Create_Account: "Crear una cuenta",
+    e_mail: "Correo electrónico", 
+    Data_inici_i_final: "Fecha de inicio i final",
+    Teatre: "Teatro",
+    Categoria: "Categoría",
+    Espectacles: "Espectáculos",
+    Musica: "Musica",
+    Exposicions: "Exposiciones",
+    Cinema: "Cine",
+    Divulgacio: "Divulgación",
+    Dansa: "Danza",
+    Infantil: "Infantil",
+    Filter: "Filtrar",
+
 }
+
 
 export {en, cat, es};
