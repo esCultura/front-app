@@ -176,6 +176,7 @@ const CustomCalendar = (props) => {
                   setScreenLoaded(!screenLoaded);
                   }
                 }
+                perfil ={user}
                 type={selectedReserva.info.type} 
                 complet={selectedReserva.info.desc}
                 source={selectedReserva.info.source}
@@ -198,6 +199,7 @@ const CustomCalendar = (props) => {
             <Esdeveniment 
                   key ={esd.info.codi}
                   back={() => setLlistaVisible(false)}
+                  perfil ={user}
                   type={esd.info.type}
                   desc={esd.info.desc}
                   title={esd.info.title}

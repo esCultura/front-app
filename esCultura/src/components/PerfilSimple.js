@@ -10,7 +10,7 @@ import FollowButton  from '../components/FollowButton';
 import Esdeveniment  from '../components/Esdeveniment'; 
 import Trofeu  from '../components/Trofeu'; 
 import {setToken} from '../utils/utilFunctions';
-import TranslateSelector from "./TranslateSelector";
+import TranslateSelector from "../components/TranslateSelector";
 import { useTranslation } from 'react-i18next';
 
 
@@ -189,7 +189,6 @@ export default function PerfilSimple(props, updated) {
 
 
             <Text> Escultures </Text>
-            <Text> Escultures </Text>
             <ScrollView  contentContainerStyle={styles.llistat}>
                 <Trofeu 
                     assistencies_passades={estadistiques[0]}
@@ -253,7 +252,7 @@ export default function PerfilSimple(props, updated) {
 
     );
    }
-   else {
+   else { // soc jo
     return (
         <>
          <View style={styles.container} > 
@@ -267,7 +266,7 @@ export default function PerfilSimple(props, updated) {
                 style={styles.imatgePerfil}
             />
             <TouchableOpacity style={styles.FotoButton} onPress={editFoto}>
-                { <Text> ediar foto </Text> }
+                { <Text> Editar foto </Text> }
             </TouchableOpacity>
             </View>
 
@@ -316,6 +315,7 @@ export default function PerfilSimple(props, updated) {
             <View style={styles.bottomContainer}>
             
 
+            <TranslateSelector> </TranslateSelector>
             <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
                 <Text > Edita </Text>
             </TouchableOpacity>
@@ -372,11 +372,12 @@ export default function PerfilSimple(props, updated) {
                     <XCircleFill color="red" width={145} height={145} />
                 </TouchableOpacity>
                 <ScrollView  contentContainerStyle={styles.llistat}>
-                {
+                {  jo !== null  && ( 
                 esdeveniments.map(esd => (
                 <Esdeveniment 
                     key ={esd[0].codi}
                     back={() => handleInfoCompletaClose()}
+                    perfil={jo}
                     type={esd[0].tematiques.map(tema => tema.nom)}
                     desc={esd[0].descripcio}
                     title={esd[0].nom}
@@ -387,7 +388,7 @@ export default function PerfilSimple(props, updated) {
                     codi = {esd[0].codi}
                     source = {"http://agenda.cultura.gencat.cat"+ esd[0].imatges_list[0]}
                             />
-                    ))}
+                    )))}
                     </ScrollView>
                 </Modal>
 
