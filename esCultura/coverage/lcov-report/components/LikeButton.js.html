@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/34</span>
+                <span class='fraction'>0/40</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/31</span>
+                <span class='fraction'>0/37</span>
             </div>
         
             
@@ -123,7 +123,15 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -136,16 +144,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,35 +205,43 @@ import { simpleFetch } from "../utils/utilFunctions";
 import React, { useEffect, useState } from 'react';
 &nbsp;
 const LikeButton =  <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >( </span>props ) =&gt; {</span>
+  const [jo, setJo] = <span class="cstat-no" title="statement not covered" >useState(null);</span>
     const [liked, setLiked] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
     const [likes, setLikes] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
     const likeValue = <span class="cstat-no" title="statement not covered" >liked ? -1 : 1;</span>
-    const user = <span class="cstat-no" title="statement not covered" >6</span>
     const esdeveniment = <span class="cstat-no" title="statement not covered" >props.codi;</span>
     
 <span class="cstat-no" title="statement not covered" >   useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+&nbsp;
+    const fetchJo = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
+      let endPoint = <span class="cstat-no" title="statement not covered" >`usuaris/perfils/jo/`;</span>
+      const data = <span class="cstat-no" title="statement not covered" >await simpleFetch(endPoint, "GET", "")</span>
+<span class="cstat-no" title="statement not covered" >      setJo(data.user);</span>
+  }
+&nbsp;
     const fetchLikes = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
         let endPoint = <span class="cstat-no" title="statement not covered" >`interessos/esdeveniments/?esdeveniment=${esdeveniment}`;</span>
         const data = <span class="cstat-no" title="statement not covered" >await simpleFetch(endPoint, "GET", "")</span>
 <span class="cstat-no" title="statement not covered" >        setLikes(data.length);</span>
-        
-        let endPoint2 = <span class="cstat-no" title="statement not covered" >`interessos/esdeveniments/?user=${user}&amp;esdeveniment=${esdeveniment}`;</span>
+<span class="cstat-no" title="statement not covered" >        console.log("like", data.length);</span>
+        let endPoint2 = <span class="cstat-no" title="statement not covered" >`interessos/esdeveniments/?user=${jo}&amp;esdeveniment=${esdeveniment}`;</span>
         const data2 = <span class="cstat-no" title="statement not covered" >await simpleFetch(endPoint2, "GET", "")</span>
 <span class="cstat-no" title="statement not covered" >        if (data2.length === 0)  <span class="cstat-no" title="statement not covered" >setLiked(false);</span></span>
         else    <span class="cstat-no" title="statement not covered" >setLiked(true);</span>
   };
+<span class="cstat-no" title="statement not covered" >  fetchJo();</span>
 <span class="cstat-no" title="statement not covered" >  fetchLikes();</span>
   }, []);
 &nbsp;
   const handleLike = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
     let endPoint = <span class="cstat-no" title="statement not covered" >'interessos/esdeveniments/';</span>
-        const data = <span class="cstat-no" title="statement not covered" >await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esdeveniment})</span>
+        const data = <span class="cstat-no" title="statement not covered" >await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esdeveniment})</span>
 <span class="cstat-no" title="statement not covered" >        setLikes(<span class="fstat-no" title="function not covered" >(p</span>revLikes) =&gt; <span class="cstat-no" title="statement not covered" >prevLikes + likeValue)</span>;</span>
 <span class="cstat-no" title="statement not covered" >        setLiked(true);</span>
   };
   
   const handleUnlike = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-    let endPoint = <span class="cstat-no" title="statement not covered" >`interessos/esdeveniments/?perfil=${user}&amp;esdeveniment=${esdeveniment}`;</span>
+    let endPoint = <span class="cstat-no" title="statement not covered" >`interessos/esdeveniments/?perfil=${jo}&amp;esdeveniment=${esdeveniment}`;</span>
         const data = <span class="cstat-no" title="statement not covered" >await simpleFetch(endPoint, "DELETE", "")</span>
 <span class="cstat-no" title="statement not covered" >        setLikes(<span class="fstat-no" title="function not covered" >(p</span>revLikes) =&gt; <span class="cstat-no" title="statement not covered" >prevLikes + likeValue)</span>;</span>
 <span class="cstat-no" title="statement not covered" >        setLiked(false);</span>
@@ -250,7 +274,7 @@ const LikeButton =  <span class="cstat-no" title="statement not covered" ><span 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-05-05T15:40:12.945Z
+                at 2023-05-11T12:55:15.448Z
             </div>
         <script src="../prettify.js"></script>
         <script>

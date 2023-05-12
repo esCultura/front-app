@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import Screen from "../components/Screen.js";
 import React, {useState, useEffect} from 'react';
 
-export default function Perfil(updated, handleTabPress) {
+export default function Perfil(updated, handleTabPress, props) {
   const [screenLoaded, setScreenLoaded] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function Perfil(updated, handleTabPress) {
 
     return (
       <Screen>
-        <PerfilSimple id='6' screenLoaded={screenLoaded} />
+        <PerfilSimple id={props.id} screenLoaded={screenLoaded} />
       </Screen>
   );
     

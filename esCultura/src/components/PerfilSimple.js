@@ -39,15 +39,16 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
-        console.log(props.id);
+        console.log("entra aqui ?");
         const fetchJo = async () => {
-            let endPoint = `usuaris/perfils/jo`;
+            let endPoint = `usuaris/perfils/jo/`;
             const data = await simpleFetch(endPoint, "GET", "")
             console.log("datos1", data);
             setJo(data.user);
         }
 
         const fetchPreferits = async () => {
+            console.log("jo1", props.id);
             let endPoint = `interessos/esdeveniments/?perfil=${props.id}`;
             const data = await simpleFetch(endPoint, "GET", "");
             const reserves = [];
@@ -62,6 +63,7 @@ export default function PerfilSimple(props, updated) {
         }
 
         const fetchPerfil = async () => {
+
           let endPoint = `usuaris/perfils/${props.id}`;
           const data = await simpleFetch(endPoint, "GET", "")
           console.log("datos11", data);
@@ -86,7 +88,7 @@ export default function PerfilSimple(props, updated) {
       }
 
       const fetchSeguits = async () => {
-        let endPoint = `seguiments?seguidor=${props.id}`;
+        let endPoint = `seguiments/?seguidor=${props.id}/`;
         const data = await simpleFetch(endPoint, "GET", "")
         console.log("datos2", data);
         const seg = []; 
@@ -96,15 +98,15 @@ export default function PerfilSimple(props, updated) {
       }
     
       const fetchSeguidors = async () => {
-        let endPoint = `seguiments?seguit=${props.id}`;
+        let endPoint = `seguiments/?seguit=${props.id}/`;
         const data = await simpleFetch(endPoint, "GET", "")
         const seg = []; 
         for (let j = 0; j < data.length; j++) seg.push(data[j].seguidor);
         setSeguidors(seg);
       }
 
-      fetchPreferits();
       fetchJo();
+      fetchPreferits();
       fetchSeguits();
       fetchSeguidors();
       fetchPerfil();
@@ -314,8 +316,6 @@ export default function PerfilSimple(props, updated) {
             <View style={styles.bottomContainer}>
             
 
-
-            <TranslateSelector> </TranslateSelector>
             <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
                 <Text > Edita </Text>
             </TouchableOpacity>

@@ -24,7 +24,7 @@ export default function InfoCompleta (props) {
                 </TouchableOpacity>
                 <View>
                     <Image source={{uri: props.source}} style={styles.image}/>
-                    <Text style={styles.like}><LikeButton codi={props.codi} ></LikeButton></Text>
+                    <Text style={styles.like}><LikeButton id={props.perfil} codi={props.codi} ></LikeButton></Text>
                 </View>
                 <View style={styles.card_info}>
                     <View style={styles.mainInfo}>
@@ -47,7 +47,7 @@ export default function InfoCompleta (props) {
                         {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
                         <View style={{flexDirection: 'row', gap: 10}}>
                             <View >
-                            <Text ><Reservar codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
+                            <Text ><Reservar id={props.perfil} codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
                             </View>
                             <View style={{width: '50%'}}>
                             <TouchableOpacity style={styles.button} onPress={mesinfo}>

@@ -11,13 +11,19 @@ export default function Reservar (props){
     const [fechasVisibles, setFechasVisibles] = useState([]); 
     const [reservat, setReservat] = useState(false);
     const [acabat, setAcabat] = useState(false);
-    const user = 6;
     const esd = props.codi;
     const [fechas, setFechas] = useState([]);
+    const [jo, setJo] = useState(props.id);
 
       useEffect(() => {
+      /*  const fetchJo = async () => {
+          let endPoint = `usuaris/perfils/jo/`;
+          const data = await simpleFetch(endPoint, "GET", "")
+          setJo(data.user);
+      }*/
+
         const fetchReserves = async () => {
-              let endPoint = `assistencies/?user=${user}&esdeveniment=${esd}`;
+              let endPoint = `assistencies/?perfil=${jo}&esdeveniment=${esd}`;
           const data = await simpleFetch(endPoint, "GET", "")
           for (let i = 0; i < data.length; i++) {
             if (data[i].esdeveniment === esd) {
@@ -48,6 +54,7 @@ export default function Reservar (props){
         setFechas(fechas);
         console.log(fechas);
 
+      //fetchJo();
       fetchReserves();
       }, []);
     
@@ -55,10 +62,10 @@ export default function Reservar (props){
       console.log("entra aqui1")    
       let endPoint = 'assistencies/';
       if (fechaIni == fechaFi) {
-        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaFi});
+        const data = await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esd, data: fechaFi});
       }
       else {
-        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaSeleccionada});
+        const data = await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esd, data: fechaSeleccionada});
       }
       setReservat(true);
 }
@@ -72,7 +79,7 @@ export default function Reservar (props){
 
   const eliminarReserva = async () => { 
     console.log("entra aqui 2")
-    let endPoint = `assistencies/?perfil=${user}&esdeveniment=${esd}`;
+    let endPoint = `assistencies/?perfil=${jo}&esdeveniment=${esd}`;
         const data = await simpleFetch(endPoint, "DELETE", "")
         setReservat(false);
 }

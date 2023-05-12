@@ -1,4 +1,4 @@
-/*import React from 'react';
+import React from 'react';
 import Calendar from '../src/components/Calendar';
 import { render, fireEvent } from '@testing-library/react-native';
 
@@ -10,4 +10,4 @@ describe('<Calendar />', () => {
       expect(toJSON()).toMatchSnapshot();
     });
   });
-  */
+  

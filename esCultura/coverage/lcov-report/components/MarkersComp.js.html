@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -90,13 +90,18 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -109,6 +114,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,25 +127,28 @@
 import {Marker} from 'react-native-maps';
 import {simpleFetch} from '../utils/utilFunctions';
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >MarkersMap(</span>{queryFilter}) {
-&nbsp;
+export default function <span class="fstat-no" title="function not covered" >MarkersMap(</span>{queryFilter, longitudeDivice, latitudeDivice}) {
     function <span class="fstat-no" title="function not covered" >componentDidMount(</span>) {
-      let endPoint = <span class="cstat-no" title="statement not covered" >'esdeveniments/';</span>
-      
+      let endPoint =  <span class="cstat-no" title="statement not covered" >"esdeveniments/?latitud=" + latitudeDivice +"&amp;longitud=" + longitudeDivice + "&amp;limit=30";</span>
+<span class="cstat-no" title="statement not covered" >      console.log("query: ", queryFilter);</span>
+<span class="cstat-no" title="statement not covered" >      if (queryFilter != "") {</span>
+<span class="cstat-no" title="statement not covered" >        endPoint = "esdeveniments/?latitud=" + latitudeDivice +"&amp;longitud=" + longitudeDivice + "&amp;"+ queryFilter +"&amp;limit=30" ;</span>
+      }
 <span class="cstat-no" title="statement not covered" >      simpleFetch(endPoint, "GET", "").then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >setEventsData(data))</span></span>
     }
     
 <span class="cstat-no" title="statement not covered" >    useEffect( <span class="fstat-no" title="function not covered" >()</span>=&gt;{</span>
 <span class="cstat-no" title="statement not covered" >      componentDidMount();</span>
-    }, [queryFilter])
+    }, [queryFilter, longitudeDivice, latitudeDivice])
 &nbsp;
     const [eventsData, setEventsData] = <span class="cstat-no" title="statement not covered" >useState([]);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return eventsData.map(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >&lt;Marker</span></span>
       key={data.codi}
-      coordinate={{ latitude: data.latitud ? data.latitud : 0, 
-                    longitude: data.longitud ? data.longitud : 0
-                 }}
+      coordinate={{ 
+        latitude: data.latitud ? data.latitud : 0, 
+        longitude: data.longitud ? data.longitud : 0
+      }}
       title={data.nom}
       //mirar si es pot possar algu que linqui directa a l'esdeveniment
     &gt;
@@ -151,7 +160,7 @@ export default function <span class="fstat-no" title="function not covered" >Mar
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-05-09T10:29:59.147Z
+                at 2023-05-11T12:55:15.448Z
             </div>
         <script src="../prettify.js"></script>
         <script>

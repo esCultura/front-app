@@ -38,6 +38,7 @@ export default function Esdeveniment (props) {
                     props.back()
                 }
                 }
+                perfil={props.perfil}
                 type={props.type}
                 title={props.title}
                 preu={props.preu}
