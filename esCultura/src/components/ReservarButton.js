@@ -14,11 +14,13 @@ export default function Reservar (props){
     const esd = props.codi;
     const [fechas, setFechas] = useState([]);
     const [jo, setJo] = useState(props.id);
-    console.log("joreserva", props.id);
 
-
-    useEffect(() => {
-
+      useEffect(() => {
+      /*  const fetchJo = async () => {
+          let endPoint = `usuaris/perfils/jo/`;
+          const data = await simpleFetch(endPoint, "GET", "")
+          setJo(data.user);
+      }*/
 
         const fetchReserves = async () => {
               let endPoint = `assistencies/?perfil=${jo}&esdeveniment=${esd}`;
@@ -52,6 +54,7 @@ export default function Reservar (props){
         setFechas(fechas);
         console.log(fechas);
 
+      //fetchJo();
       fetchReserves();
       }, []);
     
