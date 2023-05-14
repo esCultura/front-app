@@ -3,6 +3,8 @@ import { ScrollView, View, Text, StyleSheet, DevSettings } from "react-native";
 import Esdeveniment from "../components/Esdeveniment";
 import SearchFilter from "../components/SearchFilter";
 import Screen from "../components/Screen";
+import { simpleFetch } from "../utils/utilFunctions";
+
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
   const paddingToBottom = 20;
@@ -14,6 +16,7 @@ export default function Search(props) {
     const url = "http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/";
     const offset = useRef(0);
     const [esdeveniments, setEsdeveniments] = useState([]);
+    const [jo, setJo] = useState(null);
 
     const handleInfoCompletaClose = () => {
       };
@@ -42,7 +45,16 @@ export default function Search(props) {
     }
 
     useEffect( () => {
+        const fetchJo = async () => {
+            let endPoint = `usuaris/perfils/jo/`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            setJo(data.user);
+            console.log("josearch", data.user);
+        }
+
         componenDidMount();
+        fetchJo();
+    
     }, []);
 
     const onQueryChange = (query) => {
@@ -60,11 +72,12 @@ export default function Search(props) {
             scrollEventThrottle={400}
             contentContainerStyle={styles.llistat}>
                 <SearchFilter onVariableChange={onQueryChange} isList={true} />
-                {
-                    esdeveniments.map((esd) => {
-                        return (<Esdeveniment key={esd.codi} title={esd.nom}
+                { jo !== null  && ( 
+                  esdeveniments.map((esd) => {
+                        return ( <Esdeveniment key={esd.codi} title={esd.nom} perfil={jo}
                             source={"http://agenda.cultura.gencat.cat"+esd.imatges_list[0]} desc={esd.descripcio.replaceAll("&nbsp;", "\n")} back={() => handleInfoCompletaClose()}
-                            dateIni={esd.dataIni.slice(0,10)} dateFi={esd.dataFi.slice(0,10)} location={esd.espai} type={esd.tematiques.map(tema => tema.nom)} preu={esd.entrades} codi={esd.codi}/>)})
+                            dateIni={esd.dataIni.slice(0,10)} dateFi={esd.dataFi.slice(0,10)} location={esd.espai} type={esd.tematiques.map(tema => tema.nom)} preu={esd.entrades} codi={esd.codi}/>
+                            )}))
                 }
                 {/* { loading && <Text>Carregant ...</Text> } */}
             </ScrollView>

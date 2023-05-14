@@ -10,9 +10,14 @@ import FollowButton  from '../components/FollowButton';
 import Esdeveniment  from '../components/Esdeveniment'; 
 import Trofeu  from '../components/Trofeu'; 
 import {setToken} from '../utils/utilFunctions';
+import TranslateSelector from "./TranslateSelector";
+import { useTranslation } from 'react-i18next';
 
 
 export default function PerfilSimple(props, updated) {
+
+    const {t} = useTranslation();
+
 
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
@@ -34,14 +39,16 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
+        console.log("entra aqui ?");
         const fetchJo = async () => {
-            let endPoint = `usuaris/perfils/jo`;
+            let endPoint = `usuaris/perfils/jo/`;
             const data = await simpleFetch(endPoint, "GET", "")
             console.log("datos1", data);
             setJo(data.user);
         }
 
         const fetchPreferits = async () => {
+            console.log("jo1", props.id);
             let endPoint = `interessos/esdeveniments/?perfil=${props.id}`;
             const data = await simpleFetch(endPoint, "GET", "");
             const reserves = [];
@@ -56,12 +63,15 @@ export default function PerfilSimple(props, updated) {
         }
 
         const fetchPerfil = async () => {
+
           let endPoint = `usuaris/perfils/${props.id}`;
           const data = await simpleFetch(endPoint, "GET", "")
-          console.log("datos1", data);
+          console.log("datos11", data);
           setInfoPerfil(data);
           console.log("info5", infoPerfil);
           const e = [];
+
+          console.log("datos", data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.interessos_esdeveniments);
             e.push(data.estadistiques.interessos_tematiques);
@@ -72,17 +82,13 @@ export default function PerfilSimple(props, updated) {
             e.push(data.estadistiques.xats_participant);
           console.log("info3", e);
           setEstadistiques(e);
-          console.log("info4", estadistiques);
+          console.log("info4", estadistiques[0]);
    
-          //setImageUri(data.imatge);r
-
-         /* if (response.estadistiques > 5) setTrofeus(bronce);
-            if (response.length > 10) setTrofeus(plata);
-            if (response.length > 15) setTrofeus(or);*/
+          //setImageUri(data.imatge);
       }
 
       const fetchSeguits = async () => {
-        let endPoint = `seguiments?seguidor=${props.id}`;
+        let endPoint = `seguiments/?seguidor=${props.id}`;
         const data = await simpleFetch(endPoint, "GET", "")
         console.log("datos2", data);
         const seg = []; 
@@ -92,15 +98,15 @@ export default function PerfilSimple(props, updated) {
       }
     
       const fetchSeguidors = async () => {
-        let endPoint = `seguiments?seguit=${props.id}`;
+        let endPoint = `seguiments/?seguit=${props.id}`;
         const data = await simpleFetch(endPoint, "GET", "")
         const seg = []; 
         for (let j = 0; j < data.length; j++) seg.push(data[j].seguidor);
         setSeguidors(seg);
       }
 
-      fetchPreferits();
       fetchJo();
+      fetchPreferits();
       fetchSeguits();
       fetchSeguidors();
       fetchPerfil();
@@ -140,7 +146,6 @@ export default function PerfilSimple(props, updated) {
         props.onLogin(false);
     }
 
-
     if (jo != props.id) {
     return (
         <>
@@ -157,32 +162,44 @@ export default function PerfilSimple(props, updated) {
             </View>
 
             <View style={styles.rightContainer} >
-                <TouchableOpacity onPress={() => {setSeguitsVisible(true) }}>
+                <TouchableOpacity testId="PerfilSimple" onPress={() => {setSeguitsVisible(true) }}>
                    <View> 
                    <Text style={styles.num}>  {seguits.length}  </Text>
-                   <Text style={styles.text}> Seguits </Text>
+                   <Text style={styles.text}> {t('following')} </Text>
                    </View>
                     
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => {setSeguidorsVisible(true) }}>
+                <TouchableOpacity testId="PerfilSimple" onPress={() => {setSeguidorsVisible(true) }}>
                 <View> 
                 <Text style={styles.num}>  {seguidors.length}  </Text>
-                   <Text style={styles.text}> Seguidors </Text>
+                   <Text style={styles.text}> {t('followers')} </Text>
                    </View>
                 </TouchableOpacity>
             </View>
             </View>
             
             <View style={styles.followButton}>
-            <FollowButton> jo={jo} seguit={props.id} </FollowButton>
+                <FollowButton> jo={jo} seguit={props.id} </FollowButton>
             </View>
             
             <Text> Username: {infoPerfil.username} </Text>
             <Text> Email: {infoPerfil.email} </Text>
 
 
-            <Text> Escultures </Text>
+            <Text> {t('trophys')} </Text>
+            <ScrollView  contentContainerStyle={styles.llistat}>
+                <Trofeu 
+                    assistencies_passades={estadistiques[0]}
+                    interessos_esdeveniments={estadistiques[1]}
+                    interessos_tematiques={estadistiques[2]}
+                    missatges_enviats={estadistiques[3]}
+                    reserves_enviats={estadistiques[4]}
+                    seguidors={estadistiques[5]}
+                    seguits={estadistiques[6]}
+                    xats_participants={estadistiques[7]}
+                />
+            </ScrollView>
 
 
             <Modal visible={seguitsVisible } animationType="slide">
@@ -194,7 +211,7 @@ export default function PerfilSimple(props, updated) {
                 {
                 seguits.map(s => 
                     <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text> Usuari {s}  </Text>
+                    <Text> {t('user')} {s}  </Text>
                     </TouchableOpacity>
                 )}
                 </ScrollView>
@@ -210,7 +227,7 @@ export default function PerfilSimple(props, updated) {
                 {
                 seguidors.map(s => 
                     <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text> Usuari {s}  </Text>
+                    <Text> {t('user')} {s}  </Text>
                     </TouchableOpacity>
                 )}
                 </ScrollView>
@@ -246,7 +263,7 @@ export default function PerfilSimple(props, updated) {
                 style={styles.imatgePerfil}
             />
             <TouchableOpacity style={styles.FotoButton} onPress={editFoto}>
-                { <Text> ediar foto </Text> }
+                { <Text> {t('editphoto')} </Text> }
             </TouchableOpacity>
             </View>
 
@@ -254,14 +271,14 @@ export default function PerfilSimple(props, updated) {
                 <TouchableOpacity onPress={() => {setSeguitsVisible(true) }}>
                 <View> 
                    <Text style={styles.num}>  {seguits.length}  </Text>
-                   <Text style={styles.text}> Seguits </Text>
+                   <Text style={styles.text}> {t('following')} </Text>
                    </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {setSeguidorsVisible(true) }}>
                 <View> 
                    <Text style={styles.num}>  {seguidors.length}  </Text>
-                   <Text style={styles.text}> Seguidors </Text>
+                   <Text style={styles.text}> {t('followers')} </Text>
                    </View>
                 </TouchableOpacity>
             </View>
@@ -272,12 +289,12 @@ export default function PerfilSimple(props, updated) {
             <Text> Bio: {infoPerfil.bio}</Text>
 
             <TouchableOpacity style={styles.PreferitsButton} onPress={() => {setLlistaVisible(true); }}>
-                <Text > LlistaPreferits </Text>
+                <Text > {t('LlistaPreferits')} </Text>
             </TouchableOpacity>
-            
-            <Text> Estadistiques </Text>
-            <Text> Escultures </Text>
+
+            <Text> {t('trophys')} </Text>
             <ScrollView  contentContainerStyle={styles.llistat}>
+                {estadistiques[0]!== undefined && (
                 <Trofeu 
                     assistencies_passades={estadistiques[0]}
                     interessos_esdeveniments={estadistiques[1]}
@@ -289,17 +306,21 @@ export default function PerfilSimple(props, updated) {
                     xats_participants={estadistiques[7]}
                             />
                                 
-                
+                )}
             </ScrollView>
 
             <View style={styles.bottomContainer}>
+            
+
+            <TranslateSelector> </TranslateSelector>
+            
             <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
-                <Text > Edit </Text>
+                <Text > {t('edit')} </Text>
             </TouchableOpacity>
 
 
-            <TouchableOpacity style={styles.logoutButton} onPress={doLogout}>
-                <Text > Logout </Text>
+            <TouchableOpacity style={styles.logoutButton} onPress={() => {doLogout()}}>
+                <Text > {t('logout')}</Text>
             </TouchableOpacity>
                 
             </View>
@@ -410,7 +431,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 2 , height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 5,
-        width: 130,
+        width: 150,
         justifyContent: 'center', 
         alignItems: 'center',
     },

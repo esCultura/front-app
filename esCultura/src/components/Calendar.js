@@ -20,7 +20,7 @@ const CustomCalendar = (props) => {
   const [esdeveniments, setEsdeveniments] = useState([]);
   const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
   const user = props.perfil;
-
+  console.log("joagenda", props.perfil);
  
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const CustomCalendar = (props) => {
     
     const fetchReserves = async () => {
       try {
-        const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?user=${user}` ,{
+        const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${user}` ,{
             headers: {
                 'Content-Type': 'application/json', 
           }});

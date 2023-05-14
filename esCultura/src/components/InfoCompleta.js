@@ -26,7 +26,7 @@ export default function InfoCompleta (props) {
                 </TouchableOpacity>
                 <View>
                     <Image source={{uri: props.source}} style={styles.image}/>
-                    <Text style={styles.like}><LikeButton codi={props.codi} ></LikeButton></Text>
+                    <Text style={styles.like}><LikeButton id={props.perfil} codi={props.codi} ></LikeButton></Text>
                 </View>
                 <View style={styles.card_info}>
                     <View style={styles.mainInfo}>
@@ -38,7 +38,7 @@ export default function InfoCompleta (props) {
                             }
                         </ScrollView>
                         <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
+                        <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== 'Online' && props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
                     </View>
                     <View style={{maxHeight: 390}}>
                         <ScrollView>
@@ -49,7 +49,7 @@ export default function InfoCompleta (props) {
                         {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
                         <View style={{flexDirection: 'row', gap: 10}}>
                             <View >
-                            <Text ><Reservar codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
+                            <Text ><Reservar id={props.perfil} codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
                             </View>
                             <View style={{width: '50%'}}>
                             <TouchableOpacity style={styles.button} onPress={mesinfo}>

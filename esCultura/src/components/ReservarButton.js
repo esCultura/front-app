@@ -11,13 +11,19 @@ export default function Reservar (props){
     const [fechasVisibles, setFechasVisibles] = useState([]); 
     const [reservat, setReservat] = useState(false);
     const [acabat, setAcabat] = useState(false);
-    const user = 6;
     const esd = props.codi;
     const [fechas, setFechas] = useState([]);
+    const [jo, setJo] = useState(props.id);
 
       useEffect(() => {
+      /*  const fetchJo = async () => {
+          let endPoint = `usuaris/perfils/jo/`;
+          const data = await simpleFetch(endPoint, "GET", "")
+          setJo(data.user);
+      }*/
+
         const fetchReserves = async () => {
-              let endPoint = `assistencies/?user=${user}&esdeveniment=${esd}`;
+              let endPoint = `assistencies/?perfil=${jo}&esdeveniment=${esd}`;
           const data = await simpleFetch(endPoint, "GET", "")
           for (let i = 0; i < data.length; i++) {
             if (data[i].esdeveniment === esd) {
@@ -48,16 +54,18 @@ export default function Reservar (props){
         setFechas(fechas);
         console.log(fechas);
 
+      //fetchJo();
       fetchReserves();
       }, []);
     
-    const crearReserva = async () => {      
+    const crearReserva = async () => {  
+      console.log("entra aqui1")    
       let endPoint = 'assistencies/';
       if (fechaIni == fechaFi) {
-        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaFi});
+        const data = await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esd, data: fechaFi});
       }
       else {
-        const data = await simpleFetch(endPoint, "POST", {perfil: user, esdeveniment:esd, data: fechaSeleccionada});
+        const data = await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esd, data: fechaSeleccionada});
       }
       setReservat(true);
 }
@@ -70,7 +78,8 @@ export default function Reservar (props){
 
 
   const eliminarReserva = async () => { 
-    let endPoint = `assistencies/?perfil=${user}&esdeveniment=${esd}`;
+    console.log("entra aqui 2")
+    let endPoint = `assistencies/?perfil=${jo}&esdeveniment=${esd}`;
         const data = await simpleFetch(endPoint, "DELETE", "")
         setReservat(false);
 }
@@ -82,10 +91,17 @@ if (acabat){
         </View>
   </View>)
 }
+if (fechaIni == 'Online'){
+  return(<View style={styles.container}>
+        <View style={styles.acabat}>
+            <Text style = {styles.buttonText} > Esdeveniment online </Text>
+        </View>
+  </View>)
+}
 
 else if(reservat){
     return(<View style={styles.container}>
-        <TouchableOpacity style = {styles.buttonEliminar} onPress={eliminarReserva} >
+        <TouchableOpacity testID="eliminarButton" style = {styles.buttonEliminar} onPress={() => {eliminarReserva; console.log("entraaqui0")} }>
             <View>
                 <Text style = {styles.buttonText} > Eliminar Reserva</Text>
             </View>
@@ -93,8 +109,9 @@ else if(reservat){
     </View>)
 }
 else if(!reservat & fechaFi===fechaIni){
+  console.log("data", fechaIni);
     return(<View style={styles.container}> 
-       <TouchableOpacity style = {styles.button} onPress={crearReserva} >
+       <TouchableOpacity testID="reservarButton" style = {styles.button} onPress={crearReserva} >
         <View>
             <Text style = {styles.buttonText} > Reservar</Text>
         </View>
@@ -108,7 +125,7 @@ return(
     <View style={styles.container}>
       {fechaFi !== fechaIni ? (
 
-      <TouchableOpacity style={styles.button} onPress={() => setDesplegableAbierto(!desplegableAbierto)}>
+      <TouchableOpacity testID="seleccionarData" style={styles.button} onPress={() => setDesplegableAbierto(!desplegableAbierto)}>
       <View>
         <Text style={styles.buttonText}>Seleccionar data</Text>
       </View>
