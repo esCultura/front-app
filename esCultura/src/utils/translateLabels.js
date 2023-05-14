@@ -32,7 +32,7 @@ const en = {
 const es = {
     search: "Buscar",
     users: "Usuarios",
-    createGroup: "Crear groupo",
+    createGroup: "Crear grupo",
     groupName: "Nombre del grupo",
     name: "Nombre",
     create: "Crear",

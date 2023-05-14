@@ -4,11 +4,10 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import {useTranslation} from 'react-i18next'
 import {simpleFetch} from '../utils/utilFunctions';
-import BotoSeguir from "./FollowCategoria";
+
 import { setDefaultNamespace } from "i18next";
 
 export default function Categoria (props){
-    const [modalVisible, setModalVisible] = useState(false);
     const [seguidors, setSeguidors]= useState('')
     const [seguit,setSeguit] =useState('')
     const [data, setData] = useState('')
@@ -17,53 +16,56 @@ export default function Categoria (props){
     const bgcolor = '#3BDE4B'
     
     const fetchSeguidors = async () =>{
-        let endpoint='interessos/tematiques/?tematica='+props.tipus
+        let endpoint='interessos/tematiques/?tematica='+props.tipus+'&perfil=6'
         console.log("aaaaaaaa", endpoint)
         simpleFetch(endpoint,"GET","").then((data) =>setSeguidors(data))
+        console.log('hellooooooo',seguidors)
+        if(seguidors != null) setSeguit(true)
         setRefresh((prevState)=>!prevState)
       
     }
     
-    function getseguit() {
-        setSeguit(false)
-        let array = seguidors
-        if(array.length !=0){
-        array.forEach(element => {
-            if(element.perfil == 6){
-                setSeguit(true)
-            }
-        });}
-    }
-    
     function recarrega (){
-        setModalVisible(true)
         setRefresh((prevState)=>!prevState)
     }
+
     
 
     
     useEffect(() =>{
-        getseguit()
-        renderBotoFollow()
-   },[refresh])
+       
+       
+   },[update])
     
     const seguir = async () =>{
         let endpoint = 'interessos/tematiques/'
         simpleFetch(endpoint,"POST",{perfil:6,tematica:props.tipus}).then((data) =>setData(data))
+        console.log('segueix')
+        
+        setSeguit(true)
         setUpdate((prevState) =>!prevState);
+        console.log(seguit)
     }
     
     const deixarDeSeguir = async () =>{
         let endpoint = 'interessos/tematiques/?tematica='+props.tipus+'&perfil=6'
         simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
+       
+        setSeguit(false)
+        console.log('deixa de seguir')
         setUpdate((prevState) =>!prevState);
+        console.log(seguit)
+        
         
     }
     
- 
+    
     useEffect(()=>{
-        fetchSeguidors()
+        
+        console.log(seguit)
+        
     },[update])
+
 
     
     if(seguit){
@@ -78,7 +80,7 @@ export default function Categoria (props){
     else{
         return(
             <View>
-                <TouchableOpacity onPress={seguir}>
+                <TouchableOpacity  onPress={seguir}>
                     <Text style={styles.type}>{props.tipus}</Text>
                 </TouchableOpacity>
             </View>
