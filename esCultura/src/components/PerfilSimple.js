@@ -204,9 +204,7 @@ export default function PerfilSimple(props, updated) {
                     seguidors={estadistiques[5]}
                     seguits={estadistiques[6]}
                     xats_participants={estadistiques[7]}
-                            />
-                                
-                
+                />
             </ScrollView>
 
 
@@ -327,7 +325,7 @@ export default function PerfilSimple(props, updated) {
             </TouchableOpacity>
 
 
-            <TouchableOpacity style={styles.logoutButton}>
+            <TouchableOpacity style={styles.logoutButton} onPress={() => {doLogout()}}>
                 <Text > {t('logout')}</Text>
             </TouchableOpacity>
                 
