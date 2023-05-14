@@ -42,7 +42,9 @@ const en = {
     MesInformacio: "More information",
     EsdevenimentOnline: "Online event",
     EsdevenimentTancat: "Closed event",
+    editphoto: "Edit photo",
 }
+
 
 const es = {
     search: "Buscar",
@@ -61,6 +63,7 @@ const es = {
     MesInformacio: "Más información",
     EsdevenimentOnline: "Evento online",
     EsdevenimentTancat: "Evento cerrado",
+    editphoto: "Editar foto",
 
 
 }
@@ -109,6 +112,7 @@ const cat = {
     MesInformacio: "Més informació",
     EsdevenimentOnline: "Event online",
     EsdevenimentTancat: "Event tancat",
+    editphoto: "Editar foto",
 
 }
 

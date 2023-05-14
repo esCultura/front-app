@@ -266,7 +266,7 @@ export default function PerfilSimple(props, updated) {
                 style={styles.imatgePerfil}
             />
             <TouchableOpacity style={styles.FotoButton} onPress={editFoto}>
-                { <Text> {t('edit photo')} </Text> }
+                { <Text> {t('editphoto')} </Text> }
             </TouchableOpacity>
             </View>
 
