@@ -4,15 +4,18 @@ import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short'
 import Punts from 'react-native-bootstrap-icons/icons/three-dots-vertical' 
 import { simpleFetch } from "../utils/utilFunctions";
 import { useTranslation } from 'react-i18next';
-
+import PerfilSimple from '../components/PerfilSimple';
+import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
 export default function InfoXat (props){
     const [modalVisi, setModalVisi] = useState(false);
+    const [modalPerfil, setModalPerfil] = useState(false);
     const [usuaris, setUsuaris] =useState([]);
     const [data,setData]=useState('');
+    const [perfil,setPerfil] = useState(null);
 
     const {t} = useTranslation();
-    
+    console.log("holaa", props);
     let urlImatge =require('../../assets/profile-base-icon.png');
     
     function tanca() {
@@ -27,8 +30,15 @@ export default function InfoXat (props){
         props.onChange(false);
         props.canvia();
     }
+
+    function openPerfil(id) {
+        setModalPerfil(true);
+        console.log("id", id);
+        setPerfil(id);
+      };
     
     return(
+        <>
         <View>
             <TouchableOpacity  style={styles.icono}onPress={() => setModalVisi(true)} >
                 <Punts color="black" style={styles.ic}></Punts>
@@ -56,7 +66,7 @@ export default function InfoXat (props){
                     props.participants.map((usu,u) => { 
                         return (
                             <View key={u}>
-                                <TouchableOpacity style={styles.info_xat} >
+                                <TouchableOpacity style={styles.info_xat} onPress={() => {openPerfil(usu.user)}} >
                                     <Image 
                                         style={styles.foto}
                                         source={urlImatge}
@@ -69,7 +79,15 @@ export default function InfoXat (props){
                 </View>
             </Modal>    
         </View>
+        <Modal visible={modalPerfil} >
+                <TouchableOpacity onPress={() => {setModalPerfil(false); }} style={styles.backperfil}>
+                    <XCircleFill color="red" width={145} height={145} />
+                </TouchableOpacity>
+                    <PerfilSimple id={perfil}> </PerfilSimple>
+        </Modal>
+    </>
     )
+
 }
 
 
@@ -167,6 +185,13 @@ const styles = StyleSheet.create({
 
         //alignItems: 'center', 
     },
-
+    backperfil: {
+        zIndex: 1,
+        position: 'absolute',
+        top: 6,
+        left: 6,
+        width: 16,
+        height: 16,
+    },
    
 })

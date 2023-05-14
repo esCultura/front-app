@@ -8,6 +8,7 @@ const FollowButton =  ( props ) => {
     const followValue = follow ? -1 : 1;
     const user = props.jo
     const pers = props.seguit;
+    console.log("props", props.jo);
     
    useEffect(() => {
     const fetchFollows = async () => {
@@ -23,12 +24,14 @@ const FollowButton =  ( props ) => {
     let endPoint = 'seguiments/';
         const data = await simpleFetch(endPoint, "POST", {seguidor: user, seguit:pers})
         setFollow(true);
+        props.onFollowChange();
   };
   
   const handleUnfollow = async () => {
     let endPoint = `seguiments/?seguidor=${user}&seguit=${pers}`;
         const data = await simpleFetch(endPoint, "DELETE", "")
         setFollow(false);
+        props.onFollowChange();
 
   };
   

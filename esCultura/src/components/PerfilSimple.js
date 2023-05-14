@@ -147,6 +147,11 @@ export default function PerfilSimple(props, updated) {
     }
 
 
+    function handleFollowChange () {
+        setScreenLoaded(!screenLoaded);
+      };
+
+      
     if (jo != props.id) {
     return (
         <>
@@ -181,7 +186,7 @@ export default function PerfilSimple(props, updated) {
             </View>
             
             <View style={styles.followButton}>
-            <FollowButton> jo={jo} seguit={props.id} </FollowButton>
+            <FollowButton jo= {jo} seguit={props.id} onFollowChange={handleFollowChange}> </FollowButton>
             </View>
             
             <Text> Username: {infoPerfil.username} </Text>

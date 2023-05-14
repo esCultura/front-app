@@ -11,10 +11,11 @@ export default function ProfileForm (props, onSave) {
     console.log("aquest", props);
 
     const handleSave = async () => {
-      console.log("bio", bio);
-      //let endPoint = 'usuaris/perfils/jo/';
-      //await simpleFetch(endPoint, "PUT", {bio: bio})
-      try {
+      console.log("bio2", bio);
+      let endPoint = 'usuaris/perfils/jo/';
+      const response = await simpleFetch(endPoint, "PUT", {bio: bio});
+      console.log("reposn", response);
+      /*try {
         const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/jo/' ,{
           method: 'PUT', 
           headers: {
@@ -34,12 +35,12 @@ export default function ProfileForm (props, onSave) {
         }    
       } catch (error) {
         console.error(error);
-      }
+      }*/
     };
 
     function handleChange(value) {
       setBio(value);
-      console.log(bio);
+      console.log("bio", bio);
     }
   
     return (
