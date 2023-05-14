@@ -36,6 +36,12 @@ const en = {
     Dansa: "Dance",
     Infantil: "Children's",
     Filter: "Filter",
+    LlistaPreferits: "Favourites events",
+    EliminarReserva: "Delete reservation",
+    Reservar: "Book",
+    MesInformacio: "More information",
+    EsdevenimentOnline: "Online event",
+    EsdevenimentTancat: "Closed event",
 }
 
 const es = {
@@ -49,6 +55,12 @@ const es = {
     logout: "Cerrar sesion",
     trophys: "Esculturas",
     favourites: "Favortitos",
+    LlistaPreferits: "Eventos preferidos",
+    EliminarReserva: "Eliminar reserva",
+    Reservar: "Reservar",
+    MesInformacio: "Más información",
+    EsdevenimentOnline: "Evento online",
+    EsdevenimentTancat: "Evento cerrado",
 
 
 }
@@ -91,6 +103,12 @@ const cat = {
     Dansa: "Danza",
     Infantil: "Infantil",
     Filter: "Filtrar",
+    LlistaPreferits: "Events preferits",
+    EliminarReserva: "Eliminar reserva",
+    Reservar: "Reservar",
+    MesInformacio: "Més informació",
+    EsdevenimentOnline: "Event online",
+    EsdevenimentTancat: "Event tancat",
 
 }
 

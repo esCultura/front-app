@@ -20,58 +20,58 @@ export default function InfoCompleta (props) {
     const xats_participants= props.xats_participants;
 
     const [premiosOtorgados, setPremiosOtorgados] = useState({
-        "principiant": false,
-        "amateur": false,
-        "culturista": false,
-        "principiant1": false,
-        "amateur1": false,
-        "culturista1": false,
-        "tematiques1": false,
-        "tematiques2": false,
-        "tematiques3": false,
-        "cotorra": false,
-        "lloro": false,
-        "xarlatan": false,
-        "reserved1": false,
-        "reserved2": false,
-        "reserved3": false,
-        "popular": false,
-        "famos": false,
-        "influencer": false,
-        "seguit1": false,
-        "seguit2": false,
-        "stalker": false,
-        "xats1": false,
-        "xats2": false,
-        "xats3": false,
+        "Principiant": false,
+        "Amateur": false,
+        "Culturista": false,
+        "Explorador": false,
+        "Tadeo Jones": false, 
+        "Indiana Jones": false,  
+        "El polze nerviós": false,  
+        "El poze content": false, 
+        "El poze d'or": false, 
+        "Cotorra": false,
+        "Lloro": false,
+        "Xarlatan": false,
+        "Previngut": false, 
+        "Esporuguit": false, 
+        "Gurú": false, 
+        "Popular": false,
+        "Famos": false,
+        "Influencer": false,
+        "Fan": false,
+        "Fan número 1": false,
+        "Stalker": false,
+        "Xataprenent": false,
+        "XatMaster": false,
+        "Xatadicte": false,
 
       });
       
       const premios = [
-        { nombre: "principiant", imagen: require('../../assets/principiante.jpg') }, //0
-        { nombre: "amateur", imagen: require('../../assets/amateur.jpg') },   //1
-        { nombre: "culturista", imagen: require('../../assets/culturista(1).jpg')},  //2
-        { nombre: "principiant1", imagen: require('../../assets/premio.png') },  //3
-        { nombre: "amateur1", imagen: require('../../assets/premio.png')},  //4
-        { nombre: "culturista1", imagen: require('../../assets/premio.png') },  //5
-        { nombre: "tematiques1", imagen: require('../../assets/premio.png') }, //6
-        { nombre: "tematiques2", imagen: require('../../assets/premio.png') }, //7
-        { nombre: "tematiques3", imagen: require('../../assets/premio.png') }, //8
-        { nombre: "cotorra", imagen: require('../../assets/cotorra.jpeg') }, //9
-        { nombre: "lloro", imagen: require('../../assets/loro.jpeg') }, //10
-        { nombre: "xarlatan", imagen: require('../../assets/muchoschats.png') },  //11
-        { nombre: "reserved1", imagen: require('../../assets/reserved1.jpg') }, //12
-        { nombre: "reserved2", imagen: require('../../assets/reserved2.1.jpg') }, //13
-        { nombre: "reserved3", imagen: require('../../assets/reserved3.jpg') }, //14
-        { nombre: "popular", imagen: require('../../assets/premio.png') }, //15 
-        { nombre: "famos", imagen: require('../../assets/premio.png')}, //16 
-        { nombre: "influencer", imagen: require('../../assets/influencer.jpeg') }, //17 
-        { nombre: "seguit1", imagen: require('../../assets/premio.png') }, //18
-        { nombre: "seguit2", imagen: require('../../assets/premio.png')}, //19 
-        { nombre: "stalker", imagen: require('../../assets/premio.png')},// 20
-        { nombre: "xats1", imagen: require('../../assets/xatgrupal.png') }, //21 
-        { nombre: "xats2", imagen: require('../../assets/grups4(1).jpg') }, //22
-        { nombre: "xats", imagen: require('../../assets/grupos7.jpg') }, //23
+        { nombre: "Principiant", imagen: require('../../assets/principiante.jpg'), descripcion: "Has assistit a 5 esdeveniments" }, //0
+        { nombre: "Amateur", imagen: require('../../assets/amateur.jpg') , descripcion: "Has assistit a 10 esdeveniments"},   //1
+        { nombre: "Culturista", imagen: require('../../assets/culturista(1).jpg'), descripcion: "Has assistit a 15 esdeveniments"},  //2
+        { nombre: "Explorador", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 5 esdeveniments"},  //3
+        { nombre: "Tadeo Jones", imagen: require('../../assets/premio.png'), descripcion: "Has donat like a 10 esdeveniments"},  //4
+        { nombre: "Indiana Jones", imagen: require('../../assets/premio.png'), descripcion: "Has donat like a 15 esdeveniments" },  //5
+        { nombre: "El polze nerviós", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 5 categories"}, //6
+        { nombre: "El polze content", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 10 categories"}, //7
+        { nombre: "El polze d'or", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 15 categories"}, //8
+        { nombre: "Cotorra", imagen: require('../../assets/cotorra.jpeg') , descripcion: "Has enviat a 5 missatges"}, //9
+        { nombre: "Lloro", imagen: require('../../assets/loro.jpeg'), descripcion: "Has enviat a 10 missatges" }, //10
+        { nombre: "Xarlatan", imagen: require('../../assets/muchoschats.png') , descripcion: "Has enviat a 15 missatges"},  //11
+        { nombre: "Previngut", imagen: require('../../assets/reserved1.jpg') , descripcion: "Has reservat a 5 events diferents"}, //12
+        { nombre: "Esporuguit", imagen: require('../../assets/reserved2.1.jpg') , descripcion: "Has reservat a 10 events diferents" }, //13
+        { nombre: "Gurú", imagen: require('../../assets/reserved3.jpg'), descripcion: "Has reservat a 15 events diferents" }, //14
+        { nombre: "Popular", imagen: require('../../assets/premio.png'), descripcion: "T'han seguit 5 usuaris"}, //15 
+        { nombre: "Famos", imagen: require('../../assets/premio.png'),  descripcion: "T'han seguit 10 usuaris"}, //16 
+        { nombre: "Influencer", imagen: require('../../assets/influencer.jpeg') , descripcion: "T'han seguit 15 usuaris"}, //17 
+        { nombre: "Fan", imagen: require('../../assets/premio.png') , descripcion: "Has seguit a 5 usuaris"}, //18
+        { nombre: "Fan número 1", imagen: require('../../assets/premio.png'), descripcion: "Has seguit a 5 usuaris"}, //19 
+        { nombre: "Stalker", imagen: require('../../assets/premio.png'), descripcion: "Has seguit a 5 usuaris"},// 20
+        { nombre: "Xataprenent", imagen: require('../../assets/xatgrupal.png') ,  descripcion: "Participes en 5 xats diferents"}, //21 
+        { nombre: "XatMaster", imagen: require('../../assets/grups4(1).jpg'),  descripcion: "Participes en 10 xats diferents" }, //22
+        { nombre: "Xatadicte", imagen: require('../../assets/grupos7.jpg') ,  descripcion: "Participes en 15 xats diferents"}, //23
 
        
       ];
@@ -83,30 +83,30 @@ export default function InfoCompleta (props) {
     useEffect(() => {
         console.log("imagen", premios[21].imagen);
         console.log("entra", props);
-        if (assistencies_passades < 10 && assistencies_passades > 4) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "principiant": true}));
-        else if (assistencies_passades >=10 && assistencies_passades <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "amateur": true}));
-        else if (assistencies_passades >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "culturista": true}));
-        if (interessos_esdeveniments >= 5&& interessos_esdeveniments<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "principiant1": true}));
-        else if (interessos_esdeveniments >= 10 && interessos_esdeveniments<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "amateur1": true}));
-        else if (interessos_esdeveniments >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "culturista1": true}));
-        if (interessos_tematiques >= 5 && interessos_tematiques<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "tematiques1": true}));
-        else if (interessos_tematiques >= 10&& interessos_tematiques<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "tematiques2": true}));
-        else if (interessos_tematiques >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "tematiques3": true}));
-        if (missatges_enviats >= 5 && missatges_enviats<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "cotorra": true}));
-        else if (missatges_enviats >= 10 && missatges_enviats <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "lloro": true}));
-        else if (missatges_enviats >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "xarlatan": true}));
-        if (reserves_enviats >= 5 && reserves_enviats <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "reserved1": true}));
-        else if (reserves_enviats >= 10 && reserves_enviats <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "reserved2": true}));
-        else if (reserves_enviats >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "reserved3": true}));
-        if (seguidors >= 5 && seguidors<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "popular": true}));
-        else if (seguidors >= 10 && seguidors <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "famos": true}));
-        else if (seguidors == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "influencer": true}));
-        if (seguits >= 5 && seguits <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "seguit1": true}));
-        else if (seguits >= 10 && seguits <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "seguit2": true}));
-        else if (seguits == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "stalker": true}));
-        if (xats_participants >= 5 && xats_participants <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "xats1": true}));
-        else if (xats_participants >= 10 && xats_participants<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "xats2": true}));
-        else if (xats_participants == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "xats3": true}));
+        if (assistencies_passades < 10 && assistencies_passades > 4) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Principiant": true}));
+        else if (assistencies_passades >=10 && assistencies_passades <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Amateur": true}));
+        else if (assistencies_passades >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Culturista": true}));
+        if (interessos_esdeveniments >= 5&& interessos_esdeveniments<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Explorador": true}));
+        else if (interessos_esdeveniments >= 10 && interessos_esdeveniments<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Tadeo Jones": true}));
+        else if (interessos_esdeveniments >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Indiana Jones": true}));
+        if (interessos_tematiques >= 5 && interessos_tematiques<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze nerviós": true}));
+        else if (interessos_tematiques >= 10&& interessos_tematiques<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze content": true}));
+        else if (interessos_tematiques >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze d'or": true}));
+        if (missatges_enviats >= 5 && missatges_enviats<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Cotorra": true}));
+        else if (missatges_enviats >= 10 && missatges_enviats <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Lloro": true}));
+        else if (missatges_enviats >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Xarlatan": true}));
+        if (reserves_enviats >= 5 && reserves_enviats <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Previngut": true}));
+        else if (reserves_enviats >= 10 && reserves_enviats <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Esporuguit": true}));
+        else if (reserves_enviats >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Gurú": true}));
+        if (seguidors >= 5 && seguidors<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Popular": true}));
+        else if (seguidors >= 10 && seguidors <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Famós": true}));
+        else if (seguidors == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Influencer": true}));
+        if (seguits >= 5 && seguits <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Fan": true}));
+        else if (seguits >= 10 && seguits <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Fan número 1": true}));
+        else if (seguits == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Stalker": true}));
+        if (xats_participants >= 5 && xats_participants <10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Xatataprenent": true}));
+        else if (xats_participants >= 10 && xats_participants<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "XatMaster": true}));
+        else if (xats_participants == 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Xatadicte": true}));
       }, []);
 
       
