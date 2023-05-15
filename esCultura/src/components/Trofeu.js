@@ -23,10 +23,10 @@ export default function InfoCompleta (props) {
         "Principiant": false,
         "Amateur": false,
         "Culturista": false,
-        "Explorador": false,
+        "Dora la Exploradora": false,
         "Tadeo Jones": false, 
         "Indiana Jones": false,  
-        "El polze nerviós": false,  
+        "El polze tímid": false,  
         "El poze content": false, 
         "El poze d'or": false, 
         "Cotorra": false,
@@ -51,24 +51,24 @@ export default function InfoCompleta (props) {
         { nombre: "Principiant", imagen: require('../../assets/principiante.jpg'), descripcion: "Has assistit a 5 esdeveniments" }, //0
         { nombre: "Amateur", imagen: require('../../assets/amateur.jpg') , descripcion: "Has assistit a 10 esdeveniments"},   //1
         { nombre: "Culturista", imagen: require('../../assets/culturista(1).jpg'), descripcion: "Has assistit a 15 esdeveniments"},  //2
-        { nombre: "Explorador", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 5 esdeveniments"},  //3
-        { nombre: "Tadeo Jones", imagen: require('../../assets/premio.png'), descripcion: "Has donat like a 10 esdeveniments"},  //4
-        { nombre: "Indiana Jones", imagen: require('../../assets/premio.png'), descripcion: "Has donat like a 15 esdeveniments" },  //5
-        { nombre: "El polze nerviós", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 5 categories"}, //6
-        { nombre: "El polze content", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 10 categories"}, //7
-        { nombre: "El polze d'or", imagen: require('../../assets/premio.png') , descripcion: "Has donat like a 15 categories"}, //8
+        { nombre: "Dora la Exploradora", imagen: require('../../assets/dora.png') , descripcion: "Has donat like a 5 esdeveniments"},  //3
+        { nombre: "Tadeo Jones", imagen: require('../../assets/tadeo-jones.png'), descripcion: "Has donat like a 10 esdeveniments"},  //4
+        { nombre: "Indiana Jones", imagen: require('../../assets/indiana-jones.png'), descripcion: "Has donat like a 15 esdeveniments" },  //5
+        { nombre: "El polze tímid", imagen: require('../../assets/niño.png') , descripcion: "Has donat like a 5 categories"}, //6
+        { nombre: "El polze content", imagen: require('../../assets/niña.png') , descripcion: "Has donat like a 10 categories"}, //7
+        { nombre: "El polze d'or", imagen: require('../../assets/recommended.png') , descripcion: "Has donat like a 15 categories"}, //8
         { nombre: "Cotorra", imagen: require('../../assets/cotorra.jpeg') , descripcion: "Has enviat a 5 missatges"}, //9
         { nombre: "Lloro", imagen: require('../../assets/loro.jpeg'), descripcion: "Has enviat a 10 missatges" }, //10
         { nombre: "Xarlatan", imagen: require('../../assets/muchoschats.png') , descripcion: "Has enviat a 15 missatges"},  //11
         { nombre: "Previngut", imagen: require('../../assets/reserved1.jpg') , descripcion: "Has reservat a 5 events diferents"}, //12
         { nombre: "Esporuguit", imagen: require('../../assets/reserved2.1.jpg') , descripcion: "Has reservat a 10 events diferents" }, //13
         { nombre: "Gurú", imagen: require('../../assets/reserved3.jpg'), descripcion: "Has reservat a 15 events diferents" }, //14
-        { nombre: "Popular", imagen: require('../../assets/premio.png'), descripcion: "T'han seguit 5 usuaris"}, //15 
-        { nombre: "Famos", imagen: require('../../assets/premio.png'),  descripcion: "T'han seguit 10 usuaris"}, //16 
+        { nombre: "Popular", imagen: require('../../assets/popular.png'), descripcion: "T'han seguit 5 usuaris"}, //15 
+        { nombre: "Famós", imagen: require('../../assets/famos.png'),  descripcion: "T'han seguit 10 usuaris"}, //16 
         { nombre: "Influencer", imagen: require('../../assets/influencer.jpeg') , descripcion: "T'han seguit 15 usuaris"}, //17 
-        { nombre: "Fan", imagen: require('../../assets/premio.png') , descripcion: "Has seguit a 5 usuaris"}, //18
-        { nombre: "Fan número 1", imagen: require('../../assets/premio.png'), descripcion: "Has seguit a 5 usuaris"}, //19 
-        { nombre: "Stalker", imagen: require('../../assets/premio.png'), descripcion: "Has seguit a 5 usuaris"},// 20
+        { nombre: "Fan", imagen: require('../../assets/fan1.png') , descripcion: "Has seguit a 5 usuaris"}, //18
+        { nombre: "Fan número 1", imagen: require('../../assets/fan.png'), descripcion: "Has seguit a 5 usuaris"}, //19 
+        { nombre: "Stalker", imagen: require('../../assets/stalker.png'), descripcion: "Has seguit a 5 usuaris"},// 20
         { nombre: "Xataprenent", imagen: require('../../assets/xatgrupal.png') ,  descripcion: "Participes en 5 xats diferents"}, //21 
         { nombre: "XatMaster", imagen: require('../../assets/grups4(1).jpg'),  descripcion: "Participes en 10 xats diferents" }, //22
         { nombre: "Xatadicte", imagen: require('../../assets/grupos7.jpg') ,  descripcion: "Participes en 15 xats diferents"}, //23
@@ -86,10 +86,10 @@ export default function InfoCompleta (props) {
         if (assistencies_passades < 10 && assistencies_passades > 4) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Principiant": true}));
         else if (assistencies_passades >=10 && assistencies_passades <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Amateur": true}));
         else if (assistencies_passades >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Culturista": true}));
-        if (interessos_esdeveniments >= 5&& interessos_esdeveniments<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Explorador": true}));
+        if (interessos_esdeveniments >= 5&& interessos_esdeveniments<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Dora la Exploradora": true}));
         else if (interessos_esdeveniments >= 10 && interessos_esdeveniments<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Tadeo Jones": true}));
         else if (interessos_esdeveniments >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Indiana Jones": true}));
-        if (interessos_tematiques >= 5 && interessos_tematiques<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze nerviós": true}));
+        if (interessos_tematiques >= 5 && interessos_tematiques<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze tímid": true}));
         else if (interessos_tematiques >= 10&& interessos_tematiques<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze content": true}));
         else if (interessos_tematiques >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze d'or": true}));
         if (missatges_enviats >= 5 && missatges_enviats<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Cotorra": true}));
