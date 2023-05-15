@@ -80,7 +80,7 @@ const cat = {
     trophys: "Escultures",
     favourites: "Preferits",
     users: "Usuarios",
-    createGroup: "Crear groupo",
+    createGroup: "Crear grupo",
     groupName: "Nombre del grupo",
     name: "Nombre",
     create: "Crear",
