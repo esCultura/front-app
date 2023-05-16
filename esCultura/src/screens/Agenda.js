@@ -6,7 +6,7 @@ import Screen from "../components/Screen.js";
 import { simpleFetch } from "../utils/utilFunctions";
 import React, { useState, useEffect } from "react";
 
-export default function Agenda(updated, handleTabPress) {
+export default function Agenda(props, updated, handleTabPress) {
   const [screenLoaded, setScreenLoaded] = useState(true);
   const [jo, setJo] = useState(null);
 

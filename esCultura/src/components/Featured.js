@@ -20,6 +20,7 @@ export default function Featured(props) {
       .then((data) => {
         // console.log(data[0].imatges_list);
         // setDestacat(data[0]);
+        // setTimeout(() => roll(), 5000);
         setDestacats([
           {
             imatges_list: [
@@ -41,9 +42,9 @@ export default function Featured(props) {
       .catch((err) => console.error(err));
   }, []);
 
-  if (destacats.length > 0) {
-    setTimeout(() => roll(), 5000);
-  }
+  // if (destacats.length > 0) {
+  // setTimeout(() => roll(), 5000);
+  // }
 
   return (
     <View style={styles.container}>
