@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, ScrollView, Linking } from "react-native";
 import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import Categoria from "./Categoria";
+import Valoracio from "./ValoracioComp";
+import {simpleFetch} from '../utils/utilFunctions';
 
 
 const bgcolor = '#3BDE4B';
@@ -12,11 +14,23 @@ import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
   
   
 export default function InfoCompleta (props) {
+    const[valoracions,setValoracions]= useState([])
+    
+    const fetchvaloracions = async() => {
+        console.log("codi_esdev", props.codi)
+        let endpoint = 'valoracions/?esdeveniment__codi='+props.codi
+        simpleFetch(endpoint,"GET","").then((data) =>setValoracions(data))
+       
+    }
     
 
     const mesinfo = async () => {
         await Linking.openURL(props.source);
     }
+    
+    useEffect(()=> {
+        fetchvaloracions();
+    },[])
 
     return (
         <Modal visible={props.visible} animationType="slide">
@@ -58,8 +72,27 @@ export default function InfoCompleta (props) {
                             </View>
                         </View>
                     </View>
+                    
                 </View>
+                <View>
+                {
+                    valoracions.map((valoracio, v) => {
+                        console.log(valoracio)
+                        return(
+                        <Valoracio 
+                                key ={v}
+                                usuari ={valoracio.creador} 
+                                text={valoracio.text} 
+                                punt = {valoracio.puntuacio}
+                                data = {valoracio.data}>
+                                    
+                                </Valoracio>
+                                )
+                    })
+                }
             </View>
+            </View>
+            
         </Modal>
     )
 }

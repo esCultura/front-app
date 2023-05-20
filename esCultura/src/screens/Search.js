@@ -84,7 +84,7 @@ export default function Search(props) {
                 title={esd.nom}
                 perfil={jo}
                 source={
-                  "http://agenda.cultura.gencat.cat" + esd.imatges_list[0]
+                  "http://agenda.cultura.gencat.cat" 
                 }
                 desc={esd.descripcio.replaceAll("&nbsp;", "\n")}
                 back={() => handleInfoCompletaClose()}
