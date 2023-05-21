@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { StyleSheet, Image, Platform } from 'react-native';
+import { NewCalendarList } from 'react-native-calendars';
 import { simpleFetch } from "../utils/utilFunctions";
 
 export default function ProfileForm (props, onSave) {
@@ -10,32 +11,15 @@ export default function ProfileForm (props, onSave) {
     const[data, setdata] = useState('');
     console.log("aquest", props);
 
+    //const formData = new FormData(); 
+    //formData.append('bio', bio);
     const handleSave = async () => {
       console.log("bio2", bio);
       let endPoint = 'usuaris/perfils/jo/';
-      const response = await simpleFetch(endPoint, "PUT", {bio: bio});
-      console.log("reposn", response);
-      /*try {
-        const response = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/usuaris/perfils/jo/' ,{
-          method: 'PUT', 
-          headers: {
-            'Content-Type': 'application/json', 
-            'authorization': 'Token 4399aea952484e30ad0208cd72bf64a083c9b8c4', 
-          },
-          body: JSON.stringify({ 
-            bio: "bio",
-            //esdeveniment: "20230315095",
-          }),                  
-         
-        });
-        const data = await response.json();
-        console.log(data);
-        if (!response.ok) {
-          throw new Error('Error al obtenir les assistencies');
-        }    
-      } catch (error) {
-        console.error(error);
-      }*/
+      //let endPoint = 'usuaris/perfils/19/';
+      const response = await simpleFetch(endPoint, "PUT", {bio: bio}).then(data => console.log("data: ", data));
+      console.log("reposn", response);bio
+     
     };
 
     function handleChange(value) {

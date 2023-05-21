@@ -49,6 +49,7 @@ export async function simpleFetch(endPoint, method, bodyData) {
         })
     }
     else {
+        console.log("objectttttttttttttt: ", bodyData);
         result = await fetch(host+endPoint,  {   
             method: method,
             headers: {
