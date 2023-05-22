@@ -81,6 +81,7 @@ export default function InfoCompleta (props) {
                         return(
                         <Valoracio 
                                 key ={v}
+                                id={valoracio.id}
                                 usuari ={valoracio.creador} 
                                 text={valoracio.text} 
                                 punt = {valoracio.puntuacio}
