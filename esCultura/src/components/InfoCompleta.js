@@ -38,59 +38,60 @@ export default function InfoCompleta (props) {
                     <Image source={{uri: props.source}} style={styles.image}/>
                     <Text style={styles.like}><LikeButton id={props.perfil} codi={props.codi} ></LikeButton></Text>
                 </View>
-                <View style={styles.card_info}>
-                    <View style={styles.mainInfo}>
-                        <ScrollView contentContainerStyle={styles.typesContainer}>
-                            {
-                                props.type.map((type, i) => {
-                                    return (<Categoria key={i} tipus={type}> </Categoria>);
-                                })
-                            }
-                        </ScrollView>
-                        <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== 'Online' && props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
-                    </View>
-                    <View style={{maxHeight: 390}}>
-                        <ScrollView>
-                            <Text style={styles.complet}>{props.complet}</Text>
-                        </ScrollView>
-                    </View>
-                    <View style={styles.botInfo}>
-                        {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
-                        <View style={{flexDirection: 'row', gap: 10}}>
-                            <View >
-                            <Text ><Reservar id={props.perfil} codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
-                            </View>
-                            <View style={{width: '50%'}}>
-                            <TouchableOpacity style={styles.button} onPress={mesinfo}>
-                                <Text style={{color: 'white', fontSize: 18, textAlign: 'center',}}>Més Informació</Text>
-                            </TouchableOpacity>
+                <ScrollView>
+                    <View style={styles.card_info}>
+                        <View style={styles.mainInfo}>
+                            <ScrollView contentContainerStyle={styles.typesContainer}>
+                                {
+                                    props.type.map((type, i) => {
+                                        return (<Categoria key={i} tipus={type}> </Categoria>);
+                                    })
+                                }
+                            </ScrollView>
+                            <Text style={styles.title}>{props.title}</Text>
+                            <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== 'Online' && props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
+                        </View>
+                        <View style={{maxHeight: 390}}>
+                            <ScrollView>
+                                <Text style={styles.complet}>{props.complet}</Text>
+                            </ScrollView>
+                        </View>
+                        <View style={styles.botInfo}>
+                            {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
+                            <View style={{flexDirection: 'row', gap: 10}}>
+                                <View >
+                                <Text ><Reservar id={props.perfil} codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
+                                </View>
+                                <View style={{width: '50%'}}>
+                                <TouchableOpacity style={styles.button} onPress={mesinfo}>
+                                    <Text style={{color: 'white', fontSize: 18, textAlign: 'center',}}>Més Informació</Text>
+                                </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
 
-                <AddValoracio esdeveniment={props.codi}></AddValoracio>        
-                    
-                <View>
-                {
-                    valoracions.map((valoracio, v) => {
-                        console.log(valoracio)
-                        return(
-                            <Valoracio 
-                                key ={v}
-                                id={valoracio.id}
-                                usuari ={valoracio.creador} 
-                                text={valoracio.text} 
-                                punt = {valoracio.puntuacio}
-                                data = {valoracio.data}
-                            />
-                        )
-                    })
-                }
-                </View>
+                    <AddValoracio esdeveniment={props.codi}></AddValoracio>        
+                        
+                    <View>
+                    {
+                        valoracions.map((valoracio, v) => {
+                            console.log(valoracio)
+                            return(
+                                <Valoracio 
+                                    key ={v}
+                                    id={valoracio.id}
+                                    usuari ={valoracio.creador} 
+                                    text={valoracio.text} 
+                                    punt = {valoracio.puntuacio}
+                                    data = {valoracio.data}
+                                />
+                            )
+                        })
+                    }
+                    </View>
+                </ScrollView>
             </View>
-            
         </Modal>
     )
 }

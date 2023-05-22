@@ -25,17 +25,17 @@ export default function Valoracio (props){
     },[])
     
     return (
-        <View>
-            <View style ={styles.card}>
-                <Text style={styles.username}>{props.usuari.username}</Text>
-                <Text>{props.punt}</Text>
-                <Text>{props.text}</Text>
+        <View style ={styles.card}>
+            <View style={styles.textMargin}>
+                <Text>User: {props.usuari.username}</Text>
+                <Text>Puntuacio: {props.punt}</Text>
+                <Text>Comentari: {props.text}</Text>
                 <Text>{props.data}</Text>
-                <TouchableOpacity onPress={like}>
-                    <Text>likeeee</Text>
-                </TouchableOpacity>
-            </View>
+            </View> 
             
+            <TouchableOpacity onPress={like} style={styles.like}>
+                <Text>likeeee</Text>
+            </TouchableOpacity>
         </View>
     )
     
@@ -48,13 +48,19 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         borderWidth:1,
         alignSelf:'center',
-        justifyContent:'center',
         borderRadius:10,
-        
+        marginVertical: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    username:{
+    textMargin:{
         marginLeft:10,
-        marginTop:5
+        marginTop:5,
+    },
+    like: {
+        marginRight: 10,
+        marginTop: 5,
     }
     
 })
