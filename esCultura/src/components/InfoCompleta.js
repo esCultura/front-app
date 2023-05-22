@@ -5,22 +5,18 @@ import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import Categoria from "./Categoria";
 import Valoracio from "./ValoracioComp";
+import AddValoracio from "./AddValoracio";
 import {simpleFetch} from '../utils/utilFunctions';
-
-
-const bgcolor = '#3BDE4B';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
-
-  
+const bgcolor = '#3BDE4B';
   
 export default function InfoCompleta (props) {
-    const[valoracions,setValoracions]= useState([])
+    const [valoracions, setValoracions]= useState([]);
     
     const fetchvaloracions = async() => {
-        console.log("codi_esdev", props.codi)
-        let endpoint = 'valoracions/?esdeveniment__codi='+props.codi
-        simpleFetch(endpoint,"GET","").then((data) =>setValoracions(data))
-       
+        console.log("codi_esdev", props.codi);
+        let endpoint = 'valoracions/?esdeveniment__codi='+props.codi;
+        simpleFetch(endpoint,"GET","").then((data) =>setValoracions(data));
     }
     
 
@@ -72,26 +68,27 @@ export default function InfoCompleta (props) {
                             </View>
                         </View>
                     </View>
-                    
                 </View>
+
+                <AddValoracio esdeveniment={props.codi}></AddValoracio>        
+                    
                 <View>
                 {
                     valoracions.map((valoracio, v) => {
                         console.log(valoracio)
                         return(
-                        <Valoracio 
+                            <Valoracio 
                                 key ={v}
                                 id={valoracio.id}
                                 usuari ={valoracio.creador} 
                                 text={valoracio.text} 
                                 punt = {valoracio.puntuacio}
-                                data = {valoracio.data}>
-                                    
-                                </Valoracio>
-                                )
+                                data = {valoracio.data}
+                            />
+                        )
                     })
                 }
-            </View>
+                </View>
             </View>
             
         </Modal>
