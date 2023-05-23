@@ -13,6 +13,7 @@ export default function InfoCompleta (props) {
     const assistencies_passades = props.assistencies_passades;
     const interessos_esdeveniments= props.interessos_esdeveniments;
     const interessos_tematiques= props.interessos_tematiques;
+    const interessos_valoracions= props.interessos_valoracions;
     const missatges_enviats= props.missatges_enviats;
     const reserves_enviats= props.reserves_enviats;
     const seguidors= props.seguidors;
@@ -30,6 +31,9 @@ export default function InfoCompleta (props) {
         "El polze tímid": false,  
         "El poze content": false, 
         "El poze d'or": false, 
+        "Valoració consistent": false,  
+        "Influència positiva": false, 
+        "Aprenent ràpid": false, 
         "Cotorra": false,
         "Lloro": false,
         "Xarlatan": false,
@@ -61,6 +65,9 @@ export default function InfoCompleta (props) {
         { nombre: "El polze tímid", imagen: require('../../assets/niño.jpg') , descripcion: "Has donat like a 5 categories"}, //6
         { nombre: "El polze content", imagen: require('../../assets/niña.jpg') , descripcion: "Has donat like a 10 categories"}, //7
         { nombre: "El polze d'or", imagen: require('../../assets/recommended.png') , descripcion: "Has donat like a 15 categories"}, //8
+        { nombre: "Valoració consistent", imagen: require('../../assets/likev1.jpg') , descripcion: "Has donat like a 5 valoracions"}, //6
+        { nombre: "Influència positiva", imagen: require('../../assets/likev2.jpg') , descripcion: "Has donat like a 10 valoracions"}, //7
+        { nombre: "Aprenent ràpid", imagen: require('../../assets/likev3.png') , descripcion: "Has donat like a 15 valoracions"}, //8
         { nombre: "Cotorra", imagen: require('../../assets/cotorra.jpeg') , descripcion: "Has enviat a 5 missatges"}, //9
         { nombre: "Lloro", imagen: require('../../assets/loro.jpeg'), descripcion: "Has enviat a 10 missatges" }, //10
         { nombre: "Xarlatan", imagen: require('../../assets/muchoschats.png') , descripcion: "Has enviat a 15 missatges"},  //11
@@ -98,6 +105,9 @@ export default function InfoCompleta (props) {
         if (interessos_tematiques >= 5 && interessos_tematiques<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze tímid": true}));
         else if (interessos_tematiques >= 10&& interessos_tematiques<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze content": true}));
         else if (interessos_tematiques >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "El polze d'or": true}));
+        if (interessos_valoracions >= 5 && interessos_valoracions<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Valoració consistent": true}));
+        else if (interessos_valoracions >= 10&& interessos_valoracions<15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Influència positiva": true}));
+        else if (interessos_valoracions >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Aprenent ràpid": true}));
         if (missatges_enviats >= 5 && missatges_enviats<10) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Cotorra": true}));
         else if (missatges_enviats >= 10 && missatges_enviats <15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Lloro": true}));
         else if (missatges_enviats >= 15) setPremiosOtorgados(prevPremios => ({ ...prevPremios, "Xarlatan": true}));
