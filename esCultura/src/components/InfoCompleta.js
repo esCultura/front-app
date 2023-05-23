@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, ScrollView, Linking } from "react-native";
 import LikeButton from "./LikeButton";
+import BanejarButton from "./BanejarButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import Categoria from "./Categoria";
@@ -37,6 +38,10 @@ export default function InfoCompleta (props) {
                 <View>
                     <Image source={{uri: props.source}} style={styles.image}/>
                     <Text style={styles.like}><LikeButton id={props.perfil} codi={props.codi} ></LikeButton></Text>
+                </View>
+                <View>
+                    <Image source={{uri: props.source}} style={styles.image}/>
+                    <Text style={styles.like}><BanejarButton id={props.perfil} codi={props.codi} ></BanejarButton></Text>
                 </View>
                 <ScrollView>
                     <View style={styles.card_info}>
