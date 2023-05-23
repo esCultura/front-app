@@ -59,17 +59,6 @@ export default function Login({navigation, onLogin}) {
         console.log("login amb google");
     }
 
-    async function _storeData() {
-      try {
-        await AsyncStorage.setItem(
-          "userInfo",
-          data,
-        );
-      } catch (error) {
-        console.log("error to save in local store, error: ", error);
-      }
-    };
-
     function login() {
         console.log("login");
         
@@ -84,29 +73,10 @@ export default function Login({navigation, onLogin}) {
             .then(res => res.json())
             .then(data => {
                 setData(data);
-                //console.log("token: ", data.token);
-
-                //save data local
-                /*
-                    Info que he de guardar en local
-                    - data.imatge                                   --> imatge
-                    - data.user                                     --> userID
-                    - data.bio                                      --> userBio
-                    - data.email                                    --> userEmail
-                    - data.estadistiques.assistencies_passades      --> userAssis
-                    - data.estadistiques.interessos_esdeveniments   --> userIntEsde
-                    - data.estadistiques.interessis_tematiques      --> userIntTema
-                    - data.estadistiques.missatges_enviats          --> userMsg
-                    - data.estadistiques.reserves_futures           --> userRes
-                    - data.estadistiques.seguidors                  --> userSeguidors
-                    - data.estadistiques.seguits                    --> userSeguits
-                    - data.estadistiques.xats_participant           --> userXats
-                */
                 
                 if (data.token) {
-                    setToken(data.token);
+                    setToken(JSON.stringify(data));
                     onLogin(true);
-                    _storeData();
                 }
                 if (data.non_field_errors) {
                     setErrorMesage(data.non_field_errors);
