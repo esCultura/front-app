@@ -39,10 +39,6 @@ export default function InfoCompleta (props) {
                     <Image source={{uri: props.source}} style={styles.image}/>
                     <Text style={styles.like}><LikeButton id={props.perfil} codi={props.codi} ></LikeButton></Text>
                 </View>
-                <View>
-                    <Image source={{uri: props.source}} style={styles.image}/>
-                    <Text style={styles.like}><BanejarButton id={props.perfil} codi={props.codi} ></BanejarButton></Text>
-                </View>
                 <ScrollView>
                     <View style={styles.card_info}>
                         <View style={styles.mainInfo}>
@@ -71,6 +67,9 @@ export default function InfoCompleta (props) {
                                 <TouchableOpacity style={styles.button} onPress={mesinfo}>
                                     <Text style={{color: 'white', fontSize: 18, textAlign: 'center',}}>Més Informació</Text>
                                 </TouchableOpacity>
+                                </View>
+                                <View>
+                                    <Text style={styles.banejar}><BanejarButton id={props.perfil} codi={props.codi} ></BanejarButton></Text>
                                 </View>
                             </View>
                         </View>
