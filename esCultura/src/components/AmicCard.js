@@ -10,10 +10,14 @@ export default function AmicCard(props) {
         <Image
           style={styles.profileImage}
           source={{
-            uri: "https://i.kym-cdn.com/entries/icons/mobile/000/027/879/yobammarere.jpg",
+            uri: props.info.p_imatge
+              ? props.info.p_imatge
+              : "https://static.wikia.nocookie.net/amogus/images/4/4d/OBUNGUS.jpg/revision/latest?cb=20220210101127",
           }}
         />
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Yobama</Text>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+          {props.info.p_nom}
+        </Text>
       </View>
       <View
         style={{
@@ -30,15 +34,15 @@ export default function AmicCard(props) {
             textAlign: "left",
           }}
         >
-          Paolo Fresu & Omar Sosa
+          {props.info.e_titol}
         </Text>
-        {Number.parseInt(props.info.data.slice(0, 4)) < 2050 ? (
+        {Number.parseInt(props.info.e_data.slice(0, 4)) < 2050 ? (
           <>
             <Text style={{ fontWeight: "300", textAlign: "left" }}>
-              🗓️ {props.info.data.slice(0, 10)}
+              🗓️ {props.info.e_data.slice(0, 10)}
             </Text>
             <Text style={{ fontWeight: "300", textAlign: "left" }}>
-              📌 Nova Jazz Cava, Terrassa
+              📌 {props.info.e_loc}
             </Text>
           </>
         ) : (

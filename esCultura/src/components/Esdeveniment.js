@@ -8,7 +8,6 @@ const colored_types = ["musical", "teatre", "exposicions", "concert"];
 const type_colors = ["#3BDE4B", "#3BDE4B", "#3BDE4B", "#3BDE4B"];
 
 export default function Esdeveniment(props) {
-  console.log(props.source);
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState(0);
   let type = props.type[0];
@@ -18,15 +17,15 @@ export default function Esdeveniment(props) {
       : props.dateIni
   );
 
-  useEffect(() => {
-    console.log("hello");
-    fetch(
-      "https://agenda.cultura.gencat.cat/content/dam/agenda/articles/2023/04/18/024/girona-temps-de-flors-cartell2023.jpg"
-    )
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  }, []);
+  // useEffect(() => {
+  //   console.log("hello");
+  //   fetch(
+  //     "https://agenda.cultura.gencat.cat/content/dam/agenda/articles/2023/04/18/024/girona-temps-de-flors-cartell2023.jpg"
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data))
+  //     .catch((err) => console.error(err));
+  // }, []);
 
   return (
     <>
@@ -36,7 +35,7 @@ export default function Esdeveniment(props) {
       >
         <Image
           source={{
-            uri: "",
+            uri: props.source,
           }}
           style={styles.image}
         />
@@ -89,7 +88,7 @@ export default function Esdeveniment(props) {
 const styles = StyleSheet.create({
   card: {
     width: "95%",
-    height: 150,
+    height: 165,
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: {
       width: 0,
@@ -102,6 +101,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderColor: "black",
     borderWidth: 1,
+    backgroundColor: "#ffffff",
   },
   type: {
     position: "absolute",

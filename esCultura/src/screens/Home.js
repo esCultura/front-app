@@ -17,6 +17,59 @@ import { simpleFetch } from "../utils/utilFunctions";
 import AmicCard from "../components/AmicCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+async function CarregarAssistencies(token, user) {
+  let host = "http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/";
+  let hh = {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Token " + token,
+    },
+  };
+  return new Promise((resolve, reject) => {
+    fetch(host + `seguiments/?seguidor=${28}`, hh)
+      .then((res) => res.json())
+      .then(async (seguiments) => {
+        let assistencies = [];
+        let userAssists = [];
+        for (let i = 0; i < seguiments.length; i++) {
+          let res = await fetch(
+            host + `assistencies/?perfil=${seguiments[i].seguit}`,
+            hh
+          );
+          let assists = await res.json();
+          userAssists.push(...assists);
+        }
+
+        for (let i = 0; i < userAssists.length; i++) {
+          let esdR = await fetch(
+            host + `esdeveniments/${userAssists[i].esdeveniment}`,
+            hh
+          );
+          let esd = await esdR.json();
+          let pfR = await fetch(
+            host + `usuaris/perfils/${userAssists[i].perfil}`,
+            hh
+          );
+          let pf = await pfR.json();
+
+          assistencies.push({
+            e_codi: esd.codi,
+            e_data: esd.dataIni,
+            e_titol: esd.nom,
+            e_loc: esd.espai,
+            p_user: pf.user,
+            p_imatge: pf.imatge,
+            p_nom: pf.username,
+          });
+        }
+        resolve(assistencies);
+      })
+      .catch((err) => console.error(err));
+  });
+}
+
 export default function Home(props) {
   const [showDetails, setShowDetails] = useState(true);
   const [llista, setLlista] = useState(0); // Esdeveniments destacats
@@ -38,32 +91,17 @@ export default function Home(props) {
       }
     };
 
-    const fetchAmics = async () => {
-      const seguiments = await simpleFetch(
-        `seguiments/?seguidor=${28}`,
-        "GET",
-        ""
-      );
-      let a = [];
-      let perfils = {};
-      seguiments.forEach(async (seguiment) => {
-        let assistencies = await simpleFetch(
-          `assistencies/?perfil=${seguiment.seguit}`
-        );
-        a.push(...assistencies);
-      });
-      setAmics(a);
-    };
-
-    // fetchEsdev();
-    // fetchAmics();
     fetchEsdev();
     async function _retrieveData() {
       try {
         const value = await AsyncStorage.getItem("token");
         if (value !== null) {
           let result = JSON.parse(value);
-          console.log("token stored: ", result);
+          CarregarAssistencies(result.token, result.user).then(
+            (assistencies) => {
+              setAmics(assistencies);
+            }
+          );
         }
       } catch (error) {
         console.log("error en agafar dades locals, token error: ", error);
