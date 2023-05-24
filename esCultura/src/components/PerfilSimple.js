@@ -39,7 +39,7 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
-        console.log("entra aqui ?");
+        console.log("entra perfil simple");
         const fetchJo = async () => {
             let endPoint = `usuaris/perfils/jo/`;
             const data = await simpleFetch(endPoint, "GET", "")
@@ -48,7 +48,7 @@ export default function PerfilSimple(props, updated) {
         }
 
         const fetchPreferits = async () => {
-            console.log("jo1", props.id);
+            console.log("perfil", props.id);
             let endPoint = `interessos/esdeveniments/?perfil=${props.id}`;
             const data = await simpleFetch(endPoint, "GET", "");
             const reserves = [];
@@ -186,7 +186,9 @@ export default function PerfilSimple(props, updated) {
             </View>
             
             <View style={styles.followButton}>
-            <FollowButton jo= {jo} seguit={props.id} onFollowChange={handleFollowChange}> </FollowButton>
+            {jo !== null && (
+                <FollowButton jo={jo} seguit={props.id} onFollowChange={handleFollowChange} />
+                )}
             </View>
             
             <Text> {t('Username')}: {infoPerfil.username} </Text>

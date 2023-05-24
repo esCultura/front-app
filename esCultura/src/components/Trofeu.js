@@ -67,7 +67,7 @@ export default function InfoCompleta (props) {
         { nombre: "El polze d'or", imagen: require('../../assets/recommended.png') , descripcion: "Has donat like a 15 categories"}, //8
         { nombre: "Valoració consistent", imagen: require('../../assets/likev1.jpg') , descripcion: "Has donat like a 5 valoracions"}, //6
         { nombre: "Influència positiva", imagen: require('../../assets/likev2.jpg') , descripcion: "Has donat like a 10 valoracions"}, //7
-        { nombre: "Aprenent ràpid", imagen: require('../../assets/likev3.png') , descripcion: "Has donat like a 15 valoracions"}, //8
+        { nombre: "Aprenent ràpid", imagen: require('../../assets/likev3.jpg') , descripcion: "Has donat like a 15 valoracions"}, //8
         { nombre: "Cotorra", imagen: require('../../assets/cotorra.jpeg') , descripcion: "Has enviat a 5 missatges"}, //9
         { nombre: "Lloro", imagen: require('../../assets/loro.jpeg'), descripcion: "Has enviat a 10 missatges" }, //10
         { nombre: "Xarlatan", imagen: require('../../assets/muchoschats.png') , descripcion: "Has enviat a 15 missatges"},  //11
