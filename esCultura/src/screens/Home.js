@@ -15,6 +15,7 @@ import Screen from "../components/Screen";
 import Featured from "../components/Featured";
 import { simpleFetch } from "../utils/utilFunctions";
 import AmicCard from "../components/AmicCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home(props) {
   const [showDetails, setShowDetails] = useState(true);
@@ -56,6 +57,19 @@ export default function Home(props) {
 
     // fetchEsdev();
     // fetchAmics();
+    fetchEsdev();
+    async function _retrieveData() {
+      try {
+        const value = await AsyncStorage.getItem("token");
+        if (value !== null) {
+          let result = JSON.parse(value);
+          console.log("token stored: ", result);
+        }
+      } catch (error) {
+        console.log("error en agafar dades locals, token error: ", error);
+      }
+    }
+    _retrieveData();
   }, []);
 
   const handlePress = () => {
