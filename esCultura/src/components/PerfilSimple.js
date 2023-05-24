@@ -189,9 +189,8 @@ export default function PerfilSimple(props, updated) {
             <FollowButton jo= {jo} seguit={props.id} onFollowChange={handleFollowChange}> </FollowButton>
             </View>
             
-            <Text> {t('Username')}: {infoPerfil.username} </Text>
+            <Text> Username: {infoPerfil.username} </Text>
             <Text> Email: {infoPerfil.email} </Text>
-            <Text> Bio: {infoPerfil.bio}</Text>
 
 
             <Text> {t('trophys')} </Text>
@@ -291,7 +290,7 @@ export default function PerfilSimple(props, updated) {
             </View>
             </View>
             
-            <Text> {t('Username')}: {infoPerfil.username} </Text>
+            <Text> Username: {infoPerfil.username} </Text>
             <Text> Email: {infoPerfil.email} </Text>
             <Text> Bio: {infoPerfil.bio}</Text>
 

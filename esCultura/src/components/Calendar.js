@@ -176,7 +176,6 @@ const CustomCalendar = (props) => {
                   setScreenLoaded(!screenLoaded);
                   }
                 }
-                perfil={props.perfil}
                 type={selectedReserva.info.type} 
                 complet={selectedReserva.info.desc}
                 source={selectedReserva.info.source}

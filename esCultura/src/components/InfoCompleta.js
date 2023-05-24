@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, ScrollView, Lin
 import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import Categoria from "./Categoria";
 
 
 const bgcolor = '#3BDE4B';
@@ -12,7 +11,6 @@ import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
   
   
 export default function InfoCompleta (props) {
-    
 
     const mesinfo = async () => {
         await Linking.openURL(props.source);
@@ -33,7 +31,7 @@ export default function InfoCompleta (props) {
                         <ScrollView contentContainerStyle={styles.typesContainer}>
                             {
                                 props.type.map((type, i) => {
-                                    return (<Categoria key={i} tipus={type}> </Categoria>);
+                                    return (<Text key={i} style={styles.type}>{type.nom}</Text>);
                                 })
                             }
                         </ScrollView>

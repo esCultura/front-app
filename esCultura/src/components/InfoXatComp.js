@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     },
     icono:{
         position:'absolute',
-        left:180,
+        left:220,
         width:60,
         height:60,
         borderRadius:50,
