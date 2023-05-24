@@ -1,12 +1,17 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet,ScrollView, Image, Modal,  TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {shareAsync} from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
+import { simpleFetch } from "../utils/utilFunctions";
+import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
 
-export default function BtnPdf({ navigation, children }) {
+export default function BtnPdf({ navigation, children, props }) {
     const { t } = useTranslation();
+    const [jo, setJo] = useState('3');
+    const [llistaVisible, setLlistaVisible] = useState(false);
+    const [esdeveniments, setEsdeveniments] = useState([]);
       
     const saveBlob = async (blob, filename) => {
         try {
@@ -25,21 +30,42 @@ export default function BtnPdf({ navigation, children }) {
         }
     };
 
-    const fetchEntrades = async () => {
+    useEffect(() => {
+
+        const fetchLlista = async () => {
+            let endPoint = `assistencies/?perfil=${jo}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            //const r = await data.json();
+            console.log(data);
+            const reserves = [];
+            for (let i = 0; i < data.length; i++) {
+                const assistencies = data[i];
+                reserves.push(assistencies);
+                console.log("res", assistencies);
+              }
+
+              setEsdeveniments(reserves);          
+      };
+      fetchLlista();
+      }, []);
+
+      const fetchQR = async (uuid) => {
+        let endPoint = `assistencies/${uuid}`;
+        const data = await simpleFetch(endPoint, "GET", "")
+        //const r = await data.json();
+        console.log(data);
+        fetchEntrades(data);
+             
+  };
+
+    const fetchEntrades = async (data) => {
         try {
             const response = await fetch('https://us-central1-apilicicat.cloudfunctions.net/generatePDF', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                  qr: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZoAAAGaAQAAAAAefbjOAAADDUlEQVR4nO2cS27bShBFT6UJeEgBbwFeCrUzI0vKDsilaAEGmkMDFO4bdHWTjkeJDEqhigODHx2oGyrU51bRJv74mH78OQMBBRRQQAEFFNAxIfOjw87lssPsBHaeO2CuHzjfZXkB7Q8NkqQMTCfQCGjkahrL8yRJ0mdov+UFtD80NwfA1c+GnGT2+mGA+427LS+gu0FSTmLIHkk0zh5Jvv2bAvo3oJI4TK8fBv2CnUlfFYt/bE8B/Q3US2v2wHDpAJLKJYCk5X7LC2hvaDIzLy6KU0hiuHTYW04CrqXUuNfyAtoPKtniGhgES40am3ufI8eD7ymgWyBKVTmsIaFfSjG6eUqvkm2WKnV88D0FdAvEqjNo7CU3hn7xxMHtwM+KKhEWcWSo+ohcswf6hWIRYyszytNqL2ERh4aaj/DfXGP5s6Cxr55hxIWK8BHHh2ogaE5hyOBRo2pVGklyAwmLODrUcsdlaxvKqXoLoDiP8BHPAVU7IHmnq1UdUqb5jeQpRFjE00C9y9b6ecKbXGeS7C1fzZ/O0Q1/Imi4vIjJOmDta7Rjsg6m11CxnwcyOwH0kr1J0rgxi+TJREk577K8gHZXsaF/N4aLocnSwqBrJ+YOwYeVy2n1Gg++p4BugZqKrSpOfc4xi1KZkzzHjMzy6FCrOVsjI9MiRNKqYrtMFRZxdGjT6fK+Rv5Nkqodjo1k8eB7CugWqM1OJhl0i2DpoM/A/CImA6YzMPzqsGHcd3kB7Q61ThfeyGh5hKtW+tIcDx9xaGg7AVEShxo/vK/RBic8foRFHBxCn49yc2MW+m1mIizi4FDJI6rUkBaG0bUHGy4G9O8dzP8tsE5lP/ieAvoGqLSxMuWdLnvL4PN17Sz6Gs8B1VpjPsHwC2B+kQGI+eQTt0Wu7HP1JQ++p4Bugbqvt67G9CqMfukoZWn/3om5ydgPvqeAvhPyOZnZX/ArrVBI8mbYnZcX0G5Qm5casr/EtTY7i21E7/M5oM10PrRelitU67t9dS43qs/DQxb/mSyggAIKKKCAAvpL6H8z7GIAtV7FHAAAAABJRU5ErkJggg==",
-                  foto: "https://www.atrapalo.com/houdinis/wp-content/uploads/2021/06/billyelliot-cartel.jpg",
-                  esdeveniment: "Cicle de conferències",
-                  data: "23 / 03 / 2023",
-                  hora: "00:00h",
-                  nom: "Pauuuuu!!!"
-                }),
+                body:  data,
             });
             if (response.ok) {
                 //const r = await response.text();
@@ -56,66 +82,28 @@ export default function BtnPdf({ navigation, children }) {
         }
     }
 
-    /*
-    const downloadPDF = async () => {
-        const filename = "entrada.pdf";
-        const host = 'https://us-central1-apilicicat.cloudfunctions.net/generatePDF';
-        const result = await FileSystem.downloadAsync(
-            host, 
-            FileSystem.documentDirectory + filename,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    qr: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZoAAAGaAQAAAAAefbjOAAADDUlEQVR4nO2cS27bShBFT6UJeEgBbwFeCrUzI0vKDsilaAEGmkMDFO4bdHWTjkeJDEqhigODHx2oGyrU51bRJv74mH78OQMBBRRQQAEFFNAxIfOjw87lssPsBHaeO2CuHzjfZXkB7Q8NkqQMTCfQCGjkahrL8yRJ0mdov+UFtD80NwfA1c+GnGT2+mGA+427LS+gu0FSTmLIHkk0zh5Jvv2bAvo3oJI4TK8fBv2CnUlfFYt/bE8B/Q3US2v2wHDpAJLKJYCk5X7LC2hvaDIzLy6KU0hiuHTYW04CrqXUuNfyAtoPKtniGhgES40am3ufI8eD7ymgWyBKVTmsIaFfSjG6eUqvkm2WKnV88D0FdAvEqjNo7CU3hn7xxMHtwM+KKhEWcWSo+ohcswf6hWIRYyszytNqL2ERh4aaj/DfXGP5s6Cxr55hxIWK8BHHh2ogaE5hyOBRo2pVGklyAwmLODrUcsdlaxvKqXoLoDiP8BHPAVU7IHmnq1UdUqb5jeQpRFjE00C9y9b6ecKbXGeS7C1fzZ/O0Q1/Imi4vIjJOmDta7Rjsg6m11CxnwcyOwH0kr1J0rgxi+TJREk577K8gHZXsaF/N4aLocnSwqBrJ+YOwYeVy2n1Gg++p4BugZqKrSpOfc4xi1KZkzzHjMzy6FCrOVsjI9MiRNKqYrtMFRZxdGjT6fK+Rv5Nkqodjo1k8eB7CugWqM1OJhl0i2DpoM/A/CImA6YzMPzqsGHcd3kB7Q61ThfeyGh5hKtW+tIcDx9xaGg7AVEShxo/vK/RBic8foRFHBxCn49yc2MW+m1mIizi4FDJI6rUkBaG0bUHGy4G9O8dzP8tsE5lP/ieAvoGqLSxMuWdLnvL4PN17Sz6Gs8B1VpjPsHwC2B+kQGI+eQTt0Wu7HP1JQ++p4Bugbqvt67G9CqMfukoZWn/3om5ydgPvqeAvhPyOZnZX/ArrVBI8mbYnZcX0G5Qm5casr/EtTY7i21E7/M5oM10PrRelitU67t9dS43qs/DQxb/mSyggAIKKKCAAvpL6H8z7GIAtV7FHAAAAABJRU5ErkJggg==",
-                    foto: "https://www.atrapalo.com/houdinis/wp-content/uploads/2021/06/billyelliot-cartel.jpg",
-                    esdeveniment: "Cicle de conferències",
-                    data: "23 / 03 / 2023",
-                    hora: "00:00h",
-                    nom: "Pauuuuu!!!"
-                }),
-            }
-        );
-        console.log("result: ", result);
-        save(result.uri, filename, result.headers["Content-Type"]);
-    }
-    const save = async (uri, filename, mimetype) => {
-        console.log("Plataform: ", Platform.OS);
-        if (Platform.OS === "android") {
-            const base64 = await FileSystem.readAsStringAsync(uri, {encoding: FileSystem.EncodingType.Base64});
-            const fileUri = FileSystem.cacheDirectory + 'entrada.pdf';
-            await shareAsync(fileUri);
-            console.log("file saved to Downloads folders successfully!");
-            //const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-            
-           if (permissions.granted) {
-                console.log("Permissions: granted");    
-                await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, filename, mimetype)
-                    .then(async () => {
-                        await FileSystem.writeAsStringAsync(fileUri, base64, {encoding: FileSystem.EncodingType.Base64}); 
-                    })
-                    .catch(e => console.log("error: ", e));
-                    
-            }
-            else {
-                shareAsync(uri);
-            }
-        }
-        else {
-            shareAsync(uri);
-        }
-    };
-    */
-
-
-    return (
+        return (
+        <>
         <View>
-            <TouchableOpacity style={styles.editButton} onPress={() => { fetchEntrades()}}>
+            <TouchableOpacity style={styles.editButton} onPress={() => { setLlistaVisible(true);}}>
                 <Text > {t('Descarrega pdf')} </Text>
             </TouchableOpacity>
         </View>
+        <Modal visible={llistaVisible } animationType="slide">
+                
+        <TouchableOpacity onPress={() => {setLlistaVisible(false); }} style={styles.back}>
+            <XCircleFill color="red" width={145} height={145} />
+        </TouchableOpacity>
+        <ScrollView  contentContainerStyle={styles.llistat}>
+                {
+                esdeveniments.map(s => 
+                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { fetchQR(s.uuid); }}>
+                    <Text style={styles.usuari}>  {s.uuid} esdev  </Text>
+                    </TouchableOpacity>
+                )}
+            </ScrollView>
+        </Modal>
+        </>
     );
 }
 
@@ -126,5 +114,28 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         marginVertical: 10,
         padding: 20,
-    }
+    },
+    llistat: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 20,
+    },
+    back: {
+        zIndex: 1,
+        position: 'absolute',
+        top: 6,
+        left: 6,
+        width: 16,
+        height: 16,
+    },
+    listItem: {
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderBottomColor: '#ccc',
+        borderBottomWidth: 1,
+      },
+      usuari: {
+        fontSize: 16,
+      },
 });

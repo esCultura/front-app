@@ -58,57 +58,6 @@ export default function Chat(props) {
     setResultXats(newXats);
   }
 
-  
-    
-  
-  /*const convertToPDF = async (r) => {
-      const page1 = PDFPage
-      .create()
-      .setMediaBox(200, 200)
-      .drawText(r , {
-        x: 5,
-        y: 235,
-        color: '#007386',
-      });
-      console.log(page1);
-
-      //const docsDir = await PDFLib.getDocumentsDirectory();
-      const pdfPath = `/home/tania/pes/sample.pdf`;
-      PDFDocument
-        .create(pdfPath)
-        .addPages(page1)
-        .write() // Returns a promise that resolves with the PDF's path
-        .then(path => {
-          console.log('PDF created at: ' + path);
-          // Do stuff with your shiny new PDF!
-        });
-
-    }*/
-
-    /*const convertToPDF = async (r) => {
-      //console.log("r", r);
-      const pdfDoc = await PDFDocument.create();
-      console.log("pdfDoc", pdfDoc);
-      const page = pdfDoc.addPage();
-      console.log("page", page);
-      const text = page.drawText(r, {
-        x: 10,
-        y: page.getHeight() - 50,
-        size: 12,
-      });
-  
-      // Guardar el archivo PDF en la ruta deseada
-      const pdfBytes = await pdfDoc.save();
-
-      const filePath = RNFS.DocumentDirectoryPath + '/archivo.pdf';
-
-      try {
-        await RNFS.writeFile(filePath, pdfBytes, 'base64');
-        console.log('Archivo PDF guardado correctamente en:', filePath);
-      } catch (error) {
-        console.error('Error al guardar el archivo PDF:', error);
-      }
-    };**/
 
 
   return (
@@ -144,7 +93,7 @@ export default function Chat(props) {
         })}
       </View>
       <View> 
-        <BtnPdf></BtnPdf> 
+        <BtnPdf  ></BtnPdf> 
       </View>
     </Screen>
   );
