@@ -16,7 +16,7 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
 export default function Search(props) {
   const url =
     "http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/";
-  const offset = useRef(0);
+  const offset = useRef(1);
   const loading = useRef(false);
   const [esdeveniments, setEsdeveniments] = useState([]);
   const [jo, setJo] = useState(null);
@@ -25,17 +25,19 @@ export default function Search(props) {
 
   function componenDidMount() {
     loading.current = true;
-    fetch(url + `?limit=15&offset=${offset.current}`, { method: "GET" })
+    fetch(url + `?limit=1&offset=${offset.current}`, { method: "GET" })
       .then((data) => data.json())
       .then((obj) => {
+        console.log(obj);
         offset.current = 15;
-        setEsdeveniments(obj);
         loading.current = false;
+        setEsdeveniments(obj);
       })
       .catch((err) => console.error(err));
   }
 
   function loadMore() {
+    return;
     loading.current = true;
     fetch(url + `?limit=15&offset=${offset.current}`, { method: "GET" })
       .then((data) => data.json())
@@ -57,7 +59,7 @@ export default function Search(props) {
     };
 
     componenDidMount();
-    fetchJo();
+    // fetchJo();
   }, []);
 
   const onQueryChange = (query) => {
@@ -83,9 +85,7 @@ export default function Search(props) {
                 key={i}
                 title={esd.nom}
                 perfil={jo}
-                source={
-                  "http://agenda.cultura.gencat.cat" + esd.imatges_list[0]
-                }
+                source={esd}
                 desc={esd.descripcio.replaceAll("&nbsp;", "\n")}
                 back={() => handleInfoCompletaClose()}
                 dateIni={esd.dataIni.slice(0, 10)}

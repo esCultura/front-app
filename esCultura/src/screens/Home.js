@@ -5,16 +5,21 @@ import {
   View,
   TouchableOpacity,
   Button,
+  Image,
+  ScrollView,
 } from "react-native";
 import Esdeveniment from "../components/Esdeveniment";
 import { StatusBar } from "react-native";
 import React, { useState, useEffect } from "react";
 import Screen from "../components/Screen";
 import Featured from "../components/Featured";
+import { simpleFetch } from "../utils/utilFunctions";
+import AmicCard from "../components/AmicCard";
 
 export default function Home(props) {
   const [showDetails, setShowDetails] = useState(true);
-  const [llista, setLlista] = useState(0);
+  const [llista, setLlista] = useState(0); // Esdeveniments destacats
+  const [amics, setAmics] = useState([]);
 
   useEffect(() => {
     const fetchEsdev = async () => {
@@ -31,7 +36,26 @@ export default function Home(props) {
         console.error(error);
       }
     };
-    fetchEsdev();
+
+    const fetchAmics = async () => {
+      const seguiments = await simpleFetch(
+        `seguiments/?seguidor=${28}`,
+        "GET",
+        ""
+      );
+      let a = [];
+      let perfils = {};
+      seguiments.forEach(async (seguiment) => {
+        let assistencies = await simpleFetch(
+          `assistencies/?perfil=${seguiment.seguit}`
+        );
+        a.push(...assistencies);
+      });
+      setAmics(a);
+    };
+
+    // fetchEsdev();
+    // fetchAmics();
   }, []);
 
   const handlePress = () => {
@@ -41,6 +65,25 @@ export default function Home(props) {
   return (
     <Screen navigation={props.navigation}>
       <Featured />
+      <View style={styles.viewAmics}>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            textAlign: "left",
+            width: "100%",
+          }}
+        >
+          Què fan els amics?
+        </Text>
+        <ScrollView contentContainerStyle={styles.scrollAmics}>
+          {amics.length > 0 ? (
+            amics.map((amic, i) => <AmicCard info={amic} key={i} />)
+          ) : (
+            <Text>Carregant ...</Text>
+          )}
+        </ScrollView>
+      </View>
       <StatusBar style="auto" />
     </Screen>
   );
@@ -61,5 +104,18 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+  },
+  scrollAmics: {
+    width: "100%",
+    display: "flex",
+    gap: 15,
+  },
+  viewAmics: {
+    width: "90%",
+    display: "flex",
+    gap: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 15,
   },
 });

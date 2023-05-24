@@ -8,7 +8,9 @@ const colored_types = ["musical", "teatre", "exposicions", "concert"];
 const type_colors = ["#3BDE4B", "#3BDE4B", "#3BDE4B", "#3BDE4B"];
 
 export default function Esdeveniment(props) {
+  console.log(props.source);
   const [modalVisible, setModalVisible] = useState(false);
+  const [image, setImage] = useState(0);
   let type = props.type[0];
   const [dataIni, setDataIni] = useState(
     props.dateIni === "2222-02-02" || props.dateIni === "9999-09-09"
@@ -16,13 +18,28 @@ export default function Esdeveniment(props) {
       : props.dateIni
   );
 
+  useEffect(() => {
+    console.log("hello");
+    fetch(
+      "https://agenda.cultura.gencat.cat/content/dam/agenda/articles/2023/04/18/024/girona-temps-de-flors-cartell2023.jpg"
+    )
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <>
       <TouchableOpacity
         style={styles.card}
         onPress={() => setModalVisible(true)}
       >
-        <Image source={{ uri: props.source }} style={styles.image} />
+        <Image
+          source={{
+            uri: "",
+          }}
+          style={styles.image}
+        />
         <Text style={styles.type}>{type}</Text>
 
         <View style={styles.card_info}>
