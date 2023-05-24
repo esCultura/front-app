@@ -6,7 +6,8 @@ async function _retrieveData () {
   try {
     const value = await AsyncStorage.getItem('token');
     if (value !== null) {
-        token = value;
+        let result = JSON.parse(value);
+        token = result.token;
     }
     console.log("token stored: ", token);
   } catch (error) {
