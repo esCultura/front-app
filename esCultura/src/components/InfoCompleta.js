@@ -12,6 +12,7 @@ const bgcolor = '#3BDE4B';
   
 export default function InfoCompleta (props) {
     const [valoracions, setValoracions]= useState([]);
+    const [update, setUpdate] = useState([]);
     
     const fetchvaloracions = async() => {
         console.log("codi_esdev", props.codi);
@@ -23,10 +24,13 @@ export default function InfoCompleta (props) {
     const mesinfo = async () => {
         await Linking.openURL(props.source);
     }
+    function recarrega() {
+        setUpdate((prevState) => !prevState);
+      }
     
     useEffect(()=> {
         fetchvaloracions();
-    },[])
+    },[update])
 
     return (
         <Modal visible={props.visible} animationType="slide">
@@ -44,7 +48,7 @@ export default function InfoCompleta (props) {
                             <ScrollView contentContainerStyle={styles.typesContainer}>
                                 {
                                     props.type.map((type, i) => {
-                                        return (<Categoria key={i} tipus={type}> </Categoria>);
+                                        return (<Categoria key={i} id={props.perfil} tipus={type}> </Categoria>);
                                     })
                                 }
                             </ScrollView>
@@ -71,7 +75,7 @@ export default function InfoCompleta (props) {
                         </View>
                     </View>
 
-                    <AddValoracio esdeveniment={props.codi}></AddValoracio>        
+                    <AddValoracio esdeveniment={props.codi} canvia={recarrega}></AddValoracio>        
                         
                     <View>
                     {
@@ -81,10 +85,12 @@ export default function InfoCompleta (props) {
                                 <Valoracio 
                                     key ={v}
                                     id={valoracio.id}
+                                    id_usuari={props.perfil}
                                     usuari ={valoracio.creador} 
                                     text={valoracio.text} 
                                     punt = {valoracio.puntuacio}
                                     data = {valoracio.data}
+                                    canvia={recarrega}
                                 />
                             )
                         })

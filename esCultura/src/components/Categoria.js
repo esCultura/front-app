@@ -16,7 +16,7 @@ export default function Categoria (props){
     const bgcolor = '#3BDE4B'
     
     const fetchSeguidors = async () =>{
-        let endpoint='interessos/tematiques/?tematica='+props.tipus+'&perfil=6'
+        let endpoint='interessos/tematiques/?tematica='+props.tipus+'&perfil='+props.id
         console.log("aaaaaaaa", endpoint)
         simpleFetch(endpoint,"GET","").then((data) =>setSeguidors(data))
         console.log('hellooooooo',seguidors)
@@ -39,7 +39,7 @@ export default function Categoria (props){
     
     const seguir = async () =>{
         let endpoint = 'interessos/tematiques/'
-        simpleFetch(endpoint,"POST",{perfil:6,tematica:props.tipus}).then((data) =>setData(data))
+        simpleFetch(endpoint,"POST",{perfil:props.id,tematica:props.tipus}).then((data) =>setData(data))
         console.log('segueix')
         
         setSeguit(true)
@@ -48,7 +48,7 @@ export default function Categoria (props){
     }
     
     const deixarDeSeguir = async () =>{
-        let endpoint = 'interessos/tematiques/?tematica='+props.tipus+'&perfil=6'
+        let endpoint = 'interessos/tematiques/?tematica='+props.tipus+'&perfil='+props.id
         simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
        
         setSeguit(false)
