@@ -83,7 +83,7 @@ export default function SingUp({navigation, onLogin}) {
                 //console.log("token singup: ", data.token);
                 
                 if (data.token) {
-                    setToken(data.token);
+                    setToken(JSON.stringify(data));
                     onLogin(true);
                 }
                 if (data.email) {

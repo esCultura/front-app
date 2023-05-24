@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput, Pressable,Image, Alert} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal,TextInput, Pressable,Image, Alert,ScrollView} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import People from 'react-native-bootstrap-icons/icons/people-fill' 
 import { simpleFetch } from "../utils/utilFunctions";
@@ -19,6 +19,7 @@ export default function NewGrup (props){
     const [update,setUpdate] = useState(false);
     const [data,setData] = useState('');
     const {t} = useTranslation();
+    
     
     let urlImatge =require('../../assets/profile-base-icon.png');
     
@@ -43,6 +44,7 @@ export default function NewGrup (props){
         if(selected.length){
             return(
                 <View>
+                    <ScrollView >
                     {
                     selected.map((usu,u) => {
                         return (
@@ -55,6 +57,7 @@ export default function NewGrup (props){
                         )
                     ;})
                     }
+                    </ScrollView>
                 </View>
             )
         }
