@@ -1,12 +1,13 @@
-import { StyleSheet, View, TextInput } from "react-native";
+import { StyleSheet, View, TextInput, TouchableOpacity, Text} from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../components/Screen";
 import Search from "react-native-bootstrap-icons/icons/search";
 import NewXat from "../components/NewXatButton";
 import Xat from "../components/XatComp";
 import { simpleFetch } from "../utils/utilFunctions";
-
 import { useTranslation } from "react-i18next";
+//import FileSaver from 'file-saver';
+import BtnPdf from "../components/BtnPdf";
 
 export default function Chat(props) {
   const [xats, setXats] = useState([]);
@@ -14,6 +15,7 @@ export default function Chat(props) {
   const [idUser, setIdUser] = useState([]);
   const [update, setUpdate] = useState([]);
   const [searchText, setSearchText] = useState([]);
+  const [texto, setTexto] = useState([]);
 
   const { t } = useTranslation();
 
@@ -55,6 +57,8 @@ export default function Chat(props) {
     }
     setResultXats(newXats);
   }
+
+
 
   return (
     <Screen navigation={props.navigation}>

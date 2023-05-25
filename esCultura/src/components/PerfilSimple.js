@@ -5,13 +5,16 @@ import { StyleSheet, Image, Platform } from 'react-native';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
 import * as ImagePicker from 'expo-image-picker';
-import ProfileForm  from '../components/ProfileForm'; 
+import ProfileForm  from '../components/ProfileForm';
+import BtnPdf  from '../components/BtnPdf'; 
 import FollowButton  from '../components/FollowButton'; 
 import Esdeveniment  from '../components/Esdeveniment'; 
 import Trofeu  from '../components/Trofeu'; 
 import {setToken} from '../utils/utilFunctions';
 import TranslateSelector from "./TranslateSelector";
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 export default function PerfilSimple(props, updated) {
@@ -39,13 +42,19 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
-        console.log("entra aqui ?");
-        const fetchJo = async () => {
-            let endPoint = `usuaris/perfils/jo/`;
-            const data = await simpleFetch(endPoint, "GET", "")
-            console.log("datos1", data);
-            setJo(data.user);
-        }
+        async function _retrieveData() {
+            try {
+              const value = await AsyncStorage.getItem("token");
+              if (value !== null) {
+                let result = JSON.parse(value);
+                console.log("result", result);
+                setJo(result.user);
+              }
+            } catch (error) {
+              console.log("error en agafar dades locals, token error: ", error);
+            }
+          }
+          _retrieveData();
 
         const fetchPreferits = async () => {
             console.log("jo1", props.id);
@@ -105,7 +114,6 @@ export default function PerfilSimple(props, updated) {
         setSeguidors(seg);
       }
 
-      fetchJo();
       fetchPreferits();
       fetchSeguits();
       fetchSeguidors();
@@ -152,7 +160,7 @@ export default function PerfilSimple(props, updated) {
       };
 
       
-    if (jo != props.id) {
+    if (jo != props.id && jo != null) {
     return (
         <>
          <View style={styles.container} > 
@@ -298,6 +306,10 @@ export default function PerfilSimple(props, updated) {
             <TouchableOpacity style={styles.PreferitsButton} onPress={() => {setLlistaVisible(true); }}>
                 <Text > {t('LlistaPreferits')} </Text>
             </TouchableOpacity>
+
+            <View> 
+                <BtnPdf ></BtnPdf> 
+            </View>
 
             <Text> {t('trophys')} </Text>
             <ScrollView  contentContainerStyle={styles.llistat}>
