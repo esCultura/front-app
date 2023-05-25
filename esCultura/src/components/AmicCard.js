@@ -1,57 +1,105 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Esdeveniment from "./Esdeveniment";
 import { simpleFetch } from "../utils/utilFunctions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import InfoCompleta from "./InfoCompleta";
+import XCircleFill from "react-native-bootstrap-icons/icons/x-circle-fill";
+import PerfilSimple from "./PerfilSimple";
 
 export default function AmicCard(props) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalPerfil, setModalPerfil] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.userContainer}>
-        <Image
-          style={styles.profileImage}
-          source={{
-            uri: props.info.p_imatge
-              ? props.info.p_imatge
-              : "https://static.wikia.nocookie.net/amogus/images/4/4d/OBUNGUS.jpg/revision/latest?cb=20220210101127",
-          }}
-        />
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          {props.info.p_nom}
-        </Text>
-      </View>
-      <View
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          padding: 15,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "bold",
-            maxWidth: 150,
-            textAlign: "left",
+    <>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.userContainer}
+          onPress={() => {
+            setModalPerfil(true);
           }}
         >
-          {props.info.e_titol}
-        </Text>
-        {Number.parseInt(props.info.e_data.slice(0, 4)) < 2050 ? (
-          <>
-            <Text style={{ fontWeight: "300", textAlign: "left" }}>
-              🗓️ {props.info.e_data.slice(0, 10)}
-            </Text>
-            <Text style={{ fontWeight: "300", textAlign: "left" }}>
-              📌 {props.info.e_loc}
-            </Text>
-          </>
-        ) : (
-          <Text style={{ fontWeight: "300", textAlign: "left" }}>
-            🌐 Online
+          <Image
+            style={styles.profileImage}
+            source={{
+              uri: props.info.p_imatge
+                ? props.info.p_imatge
+                : "https://static.wikia.nocookie.net/amogus/images/4/4d/OBUNGUS.jpg/revision/latest?cb=20220210101127",
+            }}
+          />
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            {props.info.p_nom}
           </Text>
-        )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: 15,
+          }}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              maxWidth: 150,
+              textAlign: "left",
+            }}
+          >
+            {props.info.e_titol}
+          </Text>
+          {Number.parseInt(props.info.e_data.slice(0, 4)) < 2050 ? (
+            <>
+              <Text style={{ fontWeight: "300", textAlign: "left" }}>
+                🗓️ {props.info.e_data.slice(0, 10)}
+              </Text>
+              <Text style={{ fontWeight: "300", textAlign: "left" }}>
+                📌 {props.info.e_loc}
+              </Text>
+            </>
+          ) : (
+            <Text style={{ fontWeight: "300", textAlign: "left" }}>
+              🌐 Online
+            </Text>
+          )}
+        </TouchableOpacity>
       </View>
-    </View>
+      <InfoCompleta
+        visible={modalVisible}
+        back={() => {
+          setModalVisible(false);
+        }}
+        perfil={props.info.e_perfil}
+        type={props.info.e_type}
+        title={props.info.e_titol}
+        preu={props.info.e_preu}
+        complet={props.info.e_desc}
+        dateIni={props.info.e_data}
+        dateFi={props.info.e_dataFi}
+        location={props.info.e_loc}
+        source={props.info.e_source}
+        codi={props.info.e_codi}
+      />
+      <Modal visible={modalPerfil}>
+        <TouchableOpacity
+          onPress={() => {
+            setModalPerfil(false);
+          }}
+          style={styles.backperfil}
+        >
+          <XCircleFill color="red" width={145} height={145} />
+        </TouchableOpacity>
+        <PerfilSimple id={props.info.p_user}> </PerfilSimple>
+      </Modal>
+    </>
   );
 }
 

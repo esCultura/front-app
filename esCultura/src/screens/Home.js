@@ -28,7 +28,7 @@ async function CarregarAssistencies(token, user) {
     },
   };
   return new Promise((resolve, reject) => {
-    fetch(host + `seguiments/?seguidor=${28}`, hh)
+    fetch(host + `seguiments/?seguidor=${user}`, hh)
       .then((res) => res.json())
       .then(async (seguiments) => {
         let assistencies = [];
@@ -56,9 +56,14 @@ async function CarregarAssistencies(token, user) {
 
           assistencies.push({
             e_codi: esd.codi,
-            e_data: esd.dataIni,
             e_titol: esd.nom,
             e_loc: esd.espai,
+            e_type: esd.tematiques.map((tema) => tema.nom),
+            e_data: esd.dataIni,
+            e_dataFi: esd.dataFi,
+            e_imatge: esd.imatges_list[0],
+            e_preu: esd.preu,
+            e_desc: esd.descripcio,
             p_user: pf.user,
             p_imatge: pf.imatge,
             p_nom: pf.username,
@@ -130,7 +135,9 @@ export default function Home(props) {
         </Text>
         <ScrollView contentContainerStyle={styles.scrollAmics}>
           {amics.length > 0 ? (
-            amics.map((amic, i) => <AmicCard info={amic} key={i} />)
+            amics.map((amic, i) => (
+              <AmicCard info={amic} navigation={props.navigation} key={i} />
+            ))
           ) : (
             <Text>Carregant ...</Text>
           )}
