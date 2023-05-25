@@ -5,14 +5,53 @@ import {shareAsync} from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
 import { simpleFetch } from "../utils/utilFunctions";
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function BtnPdf({ navigation, children, props }) {
+export default function BtnPdf({ navigation, children }) {
     const { t } = useTranslation();
-    const [jo, setJo] = useState('19');
+    const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
       
+    useEffect(() => {
+      async function _retrieveData() {
+        try {
+          const value = await AsyncStorage.getItem("token");
+          if (value !== null) {
+            let result = JSON.parse(value);
+            await setJo(result.user);
+            console.log("es guarda", result.user);
+            let endPoint = `assistencies/?perfil=${result.user}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            const reserves = [];
+            for (let i = 0; i < data.length; i++) {
+                const assistencies = data[i];
+                reserves.push(assistencies);
+              }
+
+              setEsdeveniments(reserves);        
+              }
+        } catch (error) {
+          console.log("error en agafar dades locals, token error: ", error);
+        }
+      }
+      _retrieveData();
+    }, []);
+    
+    const fetchLlista = async () => {
+      console.log("jooooooooooo", jo);
+        let endPoint = `assistencies/?perfil=${jo}`;
+        const data = await simpleFetch(endPoint, "GET", "")
+        const reserves = [];
+        for (let i = 0; i < data.length; i++) {
+            const assistencies = data[i];
+            reserves.push(assistencies);
+          }
+
+          setEsdeveniments(reserves);          
+  };
+    
     const saveBlob = async (blob, filename) => {
         try {
           const reader = new FileReader();
@@ -29,24 +68,6 @@ export default function BtnPdf({ navigation, children, props }) {
           console.log('Error saving blob:', error);
         }
     };
-
-    useEffect(() => {
-        const fetchLlista = async () => {
-            let endPoint = `assistencies/?perfil=${jo}`;
-            const data = await simpleFetch(endPoint, "GET", "")
-            //const r = await data.json();
-            console.log(data);
-            const reserves = [];
-            for (let i = 0; i < data.length; i++) {
-                const assistencies = data[i];
-                reserves.push(assistencies);
-                console.log("res", assistencies);
-              }
-
-              setEsdeveniments(reserves);          
-      };
-      fetchLlista();
-      }, []);
 
       const fetchQR = async (uuid) => {
         let endPoint = `assistencies/${uuid}`;

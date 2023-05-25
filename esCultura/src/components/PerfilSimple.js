@@ -13,6 +13,7 @@ import Trofeu  from '../components/Trofeu';
 import {setToken} from '../utils/utilFunctions';
 import TranslateSelector from "./TranslateSelector";
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -24,7 +25,7 @@ export default function PerfilSimple(props, updated) {
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
       };
-    const [jo, setJo] = useState(false);
+    const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [estadistiques, setEstadistiques] = useState([]);
@@ -41,7 +42,20 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
-        setJo(props.jo);
+        async function _retrieveData() {
+            try {
+              const value = await AsyncStorage.getItem("token");
+              if (value !== null) {
+                let result = JSON.parse(value);
+                console.log("result", result);
+                setJo(result.user);
+              }
+            } catch (error) {
+              console.log("error en agafar dades locals, token error: ", error);
+            }
+          }
+          _retrieveData();
+
         const fetchPreferits = async () => {
             console.log("jo1", props.id);
             let endPoint = `interessos/esdeveniments/?perfil=${props.id}`;
@@ -146,7 +160,7 @@ export default function PerfilSimple(props, updated) {
       };
 
       
-    if (jo != true) {
+    if (jo != props.id && jo != null) {
     return (
         <>
          <View style={styles.container} > 
@@ -294,7 +308,7 @@ export default function PerfilSimple(props, updated) {
             </TouchableOpacity>
 
             <View> 
-                <BtnPdf  jo={props.id}></BtnPdf> 
+                <BtnPdf ></BtnPdf> 
             </View>
 
             <Text> {t('trophys')} </Text>
