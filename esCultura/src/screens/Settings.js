@@ -26,7 +26,7 @@ export default function Settings({onLogin, navigation}) {
     return (
         <>
             <Button title={"ENRERE"} onPress={() => navigation.goBack()} />
-            {jo !== null  && (<PerfilSimple onLogin={onLogin} id={jo} screenLoaded={screenLoaded}  > </PerfilSimple>)}
+            {jo !== null  && (<PerfilSimple onLogin={onLogin} id={jo} screenLoaded={screenLoaded} jo={true} > </PerfilSimple>)}
         </>
     )
 }

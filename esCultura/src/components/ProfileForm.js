@@ -18,7 +18,7 @@ export default function ProfileForm (props, onSave) {
       let endPoint = 'usuaris/perfils/jo/';
       //let endPoint = 'usuaris/perfils/19/';
       const response = await simpleFetch(endPoint, "PUT", {bio: bio}).then(data => console.log("data: ", data));
-      console.log("reposn", response);bio
+      console.log("reposn", response);
      
     };
 
