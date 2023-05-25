@@ -4,15 +4,6 @@ import Esdeveniment from "../components/Esdeveniment";
 import SearchFilter from "../components/SearchFilter";
 import Screen from "../components/Screen";
 import { simpleFetch } from "../utils/utilFunctions";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const imagePool = [
-  "https://i.kym-cdn.com/entries/icons/mobile/000/027/879/yobammarere.jpg",
-  "https://i.redd.it/nlli0s4e3gu21.jpg",
-  "https://static.wikia.nocookie.net/evade-nextbot/images/7/75/Obunga.png/revision/latest?cb=20230312113830",
-  "https://i.kym-cdn.com/photos/images/masonry/001/468/978/c80.png",
-  "https://pbs.twimg.com/media/EwoRbsMWEAA8w6n.jpg",
-];
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
@@ -28,7 +19,7 @@ export default function Search(props) {
   const offset = useRef(0);
   const loading = useRef(false);
   const [esdeveniments, setEsdeveniments] = useState([]);
-  const jo = useRef(null);
+  const [jo, setJo] = useState(null);
 
   const handleInfoCompletaClose = () => {};
 
@@ -38,8 +29,8 @@ export default function Search(props) {
       .then((data) => data.json())
       .then((obj) => {
         offset.current = 15;
-        loading.current = false;
         setEsdeveniments(obj);
+        loading.current = false;
       })
       .catch((err) => console.error(err));
   }
@@ -49,6 +40,7 @@ export default function Search(props) {
     fetch(url + `?limit=15&offset=${offset.current}`, { method: "GET" })
       .then((data) => data.json())
       .then((obj) => {
+        console.log(offset.current);
         offset.current += 15;
         loading.current = false;
         setEsdeveniments((current) => [...current, ...obj]);
@@ -57,21 +49,15 @@ export default function Search(props) {
   }
 
   useEffect(() => {
-    async function _retrieveData() {
-      try {
-        const value = await AsyncStorage.getItem("token");
-        if (value !== null) {
-          let result = JSON.parse(value);
-          console.log("token stored: ", result);
-          jo.current = result.user;
-        }
-      } catch (error) {
-        console.log("error en agafar dades locals, token error: ", error);
-      }
-    }
-    _retrieveData();
+    const fetchJo = async () => {
+      let endPoint = `usuaris/perfils/jo/`;
+      const data = await simpleFetch(endPoint, "GET", "");
+      setJo(data.user);
+      console.log("josearch", data.user);
+    };
 
     componenDidMount();
+    fetchJo();
   }, []);
 
   const onQueryChange = (query) => {
@@ -92,13 +78,14 @@ export default function Search(props) {
         <SearchFilter onVariableChange={onQueryChange} isList={true} />
         {jo !== null &&
           esdeveniments.map((esd, i) => {
-            if (esd.tematiques == null || esd.tematiques.length == 0) return;
             return (
               <Esdeveniment
                 key={i}
                 title={esd.nom}
                 perfil={jo}
-                source={imagePool[i % imagePool.length]}
+                source={
+                  "http://agenda.cultura.gencat.cat" + esd.imatges_list[0]
+                }
                 desc={esd.descripcio.replaceAll("&nbsp;", "\n")}
                 back={() => handleInfoCompletaClose()}
                 dateIni={esd.dataIni.slice(0, 10)}
