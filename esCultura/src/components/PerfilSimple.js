@@ -5,13 +5,15 @@ import { StyleSheet, Image, Platform } from 'react-native';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
 import * as ImagePicker from 'expo-image-picker';
-import ProfileForm  from '../components/ProfileForm'; 
+import ProfileForm  from '../components/ProfileForm';
+import BtnPdf  from '../components/BtnPdf'; 
 import FollowButton  from '../components/FollowButton'; 
 import Esdeveniment  from '../components/Esdeveniment'; 
 import Trofeu  from '../components/Trofeu'; 
 import {setToken} from '../utils/utilFunctions';
 import TranslateSelector from "./TranslateSelector";
 import { useTranslation } from 'react-i18next';
+
 
 
 export default function PerfilSimple(props, updated) {
@@ -22,7 +24,7 @@ export default function PerfilSimple(props, updated) {
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
       };
-    const [jo, setJo] = useState(null);
+    const [jo, setJo] = useState(false);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [estadistiques, setEstadistiques] = useState([]);
@@ -39,14 +41,7 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
-        console.log("entra aqui ?");
-        const fetchJo = async () => {
-            let endPoint = `usuaris/perfils/jo/`;
-            const data = await simpleFetch(endPoint, "GET", "")
-            console.log("datos1", data);
-            setJo(data.user);
-        }
-
+        setJo(props.jo);
         const fetchPreferits = async () => {
             console.log("jo1", props.id);
             let endPoint = `interessos/esdeveniments/?perfil=${props.id}`;
@@ -105,7 +100,6 @@ export default function PerfilSimple(props, updated) {
         setSeguidors(seg);
       }
 
-      fetchJo();
       fetchPreferits();
       fetchSeguits();
       fetchSeguidors();
@@ -152,7 +146,7 @@ export default function PerfilSimple(props, updated) {
       };
 
       
-    if (jo != props.id) {
+    if (jo != true) {
     return (
         <>
          <View style={styles.container} > 
@@ -298,6 +292,10 @@ export default function PerfilSimple(props, updated) {
             <TouchableOpacity style={styles.PreferitsButton} onPress={() => {setLlistaVisible(true); }}>
                 <Text > {t('LlistaPreferits')} </Text>
             </TouchableOpacity>
+
+            <View> 
+                <BtnPdf  jo={props.id}></BtnPdf> 
+            </View>
 
             <Text> {t('trophys')} </Text>
             <ScrollView  contentContainerStyle={styles.llistat}>

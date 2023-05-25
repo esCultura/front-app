@@ -9,7 +9,7 @@ import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 
 export default function BtnPdf({ navigation, children, props }) {
     const { t } = useTranslation();
-    const [jo, setJo] = useState('3');
+    const [jo, setJo] = useState('19');
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
       
@@ -31,7 +31,6 @@ export default function BtnPdf({ navigation, children, props }) {
     };
 
     useEffect(() => {
-
         const fetchLlista = async () => {
             let endPoint = `assistencies/?perfil=${jo}`;
             const data = await simpleFetch(endPoint, "GET", "")
@@ -53,19 +52,27 @@ export default function BtnPdf({ navigation, children, props }) {
         let endPoint = `assistencies/${uuid}`;
         const data = await simpleFetch(endPoint, "GET", "")
         //const r = await data.json();
-        console.log(data);
+        console.log(data.hora);
         fetchEntrades(data);
              
   };
 
     const fetchEntrades = async (data) => {
+      console.log(data);
         try {
             const response = await fetch('https://us-central1-apilicicat.cloudfunctions.net/generatePDF', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body:  data,
+                body:  JSON.stringify({
+                  qr: data.qr,
+                  foto: data.foto,
+                  esdeveniment: data.esdeveniment,
+                  data: data.data,
+                  hora: data.hora,
+                  nom: data.nom,
+                }),
             });
             if (response.ok) {
                 //const r = await response.text();
@@ -78,7 +85,7 @@ export default function BtnPdf({ navigation, children, props }) {
               console.error('Error en la respuesta del servidor:', response.status);
             }
         } catch (error) {
-          console.error(error);
+          console.error("aaaaaa: ", error);
         }
     }
 
@@ -110,7 +117,6 @@ export default function BtnPdf({ navigation, children, props }) {
 const styles = StyleSheet.create({
     editButton: {
         backgroundColor: 'aqua',
-        marginLeft: 'auto',
         marginRight: 'auto',
         marginVertical: 10,
         padding: 20,

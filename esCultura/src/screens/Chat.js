@@ -92,9 +92,6 @@ export default function Chat(props) {
           );
         })}
       </View>
-      <View> 
-        <BtnPdf  ></BtnPdf> 
-      </View>
     </Screen>
   );
 }

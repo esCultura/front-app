@@ -83,7 +83,7 @@ export default function InfoXat (props){
                 <TouchableOpacity onPress={() => {setModalPerfil(false); }} style={styles.backperfil}>
                     <XCircleFill color="red" width={145} height={145} />
                 </TouchableOpacity>
-                    <PerfilSimple id={perfil}> </PerfilSimple>
+                    <PerfilSimple id={perfil}> jo={false} </PerfilSimple>
         </Modal>
     </>
     )
