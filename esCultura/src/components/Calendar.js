@@ -50,20 +50,18 @@ const CustomCalendar = (props) => {
     
     const fetchReserves = async () => {
       try {
-        const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${user}` ,{
+        /*const response = await fetch( `http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/assistencies/?perfil=${user}` ,{
             headers: {
                 'Content-Type': 'application/json', 
-          }});
-        if (!response.ok) {
-          throw new Error('Error al obtenir les assistencies');
-        }    
-        const data = await response.json();
-        console.log(data);
+          }});*/
+          let endPoint = `assistencies/?perfil=${user}`;
+        const response = await simpleFetch(endPoint, "GET", "");
+        console.log(response[0].data);
         const prevMarkedDates = { ...newMarkedDates };
         const nextMarkedDates = {};
-        for (let i = 0; i < data.length; i++) {
-          const assistencies = data[i].esdeveniment;
-          const date = data[i].data.slice(0,10);
+        for (let i = 0; i < response.length; i++) {
+          const assistencies = response[i].esdeveniment;
+          const date = response[i].data.slice(0,10);
           const responseDates = await fetch( 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/esdeveniments/?codi='+assistencies ,{
             headers: {
                 'Content-Type': 'application/json', 
@@ -73,8 +71,8 @@ const CustomCalendar = (props) => {
           }
           const dates = await responseDates.json();      
           
-
-          const reserva = {key: data[i].id, color: getColorReserva(dates[0].tematiques[0]), selectedDotColor: 'blue', selected: true, marked: true,
+          console.log("arriba");
+          const reserva = {key: response[i].uuid, color: getColorReserva(dates[0].tematiques[0]), selectedDotColor: 'blue', selected: true, marked: true,
                     info: {
                       source: "http://agenda.cultura.gencat.cat"+dates[0].imatges_list[0],
                       desc: dates[0].descripcio.replaceAll("&nbsp;", "\n"),
