@@ -18,6 +18,7 @@ export default function NewXat (props){
     const [updateUsuaris, setUpdateUsuaris]=useState(false)
     const [nomGrup,setNomGrup]=useState('');
     const [textMissatge, setTextMissatge] = useState('');
+
     
     const {t} = useTranslation();
 
@@ -94,7 +95,7 @@ export default function NewXat (props){
                                     <Pressable testID="newXatButton" style={styles.info_xat} onPress={() =>crearXat(usu.user)} >
                                         <Image 
                                             style={styles.foto}
-                                            source={urlImatge}
+                                            source={usu.imatge ? { uri: usu.imatge } : require('../../assets/profile-base-icon.png')}
                                             />
                                         <Text style={styles.nom}>{usu.username}</Text>
                                     </Pressable>

@@ -17,11 +17,12 @@ export default function NewGrup (props){
     const [selected,setSelected] =useState([]);
     const [hihaselected,setHiHaSelected] = useState(false);
     const [update,setUpdate] = useState(false);
+    const [urlImatge, setUrlImatge]=useState(null);
     const [data,setData] = useState('');
     const {t} = useTranslation();
     
     
-    let urlImatge =require('../../assets/profile-base-icon.png');
+  
     
     //Canvi input
     function handleTextChange(value) {
@@ -43,22 +44,22 @@ export default function NewGrup (props){
     renderSeleccionats = () =>{
         if(selected.length){
             return(
-                <View>
-                    <ScrollView >
+                
+                    <ScrollView scrollEnabled={true} >
                     {
                     selected.map((usu,u) => {
                         return (
                             <View key={u}>
                             <Image
                                 style={styles.foto}
-                                source={urlImatge}/>
+                                source={urlImatge ? { uri: urlImatge } : require('../../assets/profile-base-icon.png')}/>
                                 <Text style={styles.user_seleccionat}>{usu.username}</Text>
                             </View>
                         )
                     ;})
                     }
                     </ScrollView>
-                </View>
+                
             )
         }
     }
@@ -135,7 +136,7 @@ export default function NewGrup (props){
                         <Text style={styles.text}>{t('create')}</Text>
                     </TouchableOpacity>
                         
-                    <View>
+                    <ScrollView >
                     {
                     props.usuaris.map((usu,u) => {
                         let index =getIndex(usu.user)
@@ -143,6 +144,10 @@ export default function NewGrup (props){
                             return (
                                 <View key={u}>
                                     <TouchableOpacity   style={styles.usuari} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
+                                    <Image 
+                                            style={styles.foto}
+                                            source={usu.imatge ? { uri: usu.imatge } : require('../../assets/profile-base-icon.png')}
+                                            />
                                         <Text style={styles.nom}>{usu.username}</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -152,6 +157,10 @@ export default function NewGrup (props){
                             return (
                                 <View key={u}>
                                     <TouchableOpacity   style={styles.usuari_selected} onPress={()=>seleccionarUsuaris(usu.user,usu.username)}>
+                                    <Image 
+                                            style={styles.foto}
+                                            source={usu.imatge ? { uri: usu.imatge } : require('../../assets/profile-base-icon.png')}
+                                            />
                                         <Text style={styles.nom}>{usu.username}</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -159,7 +168,7 @@ export default function NewGrup (props){
                         }
                     ;})
                     }
-                    </View>
+                    </ScrollView>
                 </View>
             </Modal>
         </View>
@@ -277,6 +286,13 @@ const styles = StyleSheet.create({
     nomgrup:{
         marginLeft:15,
         marginTop:10
-    } 
+    } ,
+    foto: {
+        width:50,
+        height:50,
+        borderRadius:50,
+        marginLeft:10,
+        marginVertical:10,
+    },
 })
 

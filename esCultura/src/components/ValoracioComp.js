@@ -46,7 +46,7 @@ export default function Valoracio (props){
     const renderimatge = () => {
         const foto =  []
         if(imatge !== null){
-                foto.push(<Image  style ={styles.foto} key ={imatge}source={{uri: 'https://storagepes.s3.amazonaws.com/media/1366_2000.jpg'}}/>)
+                foto.push(<Image  style ={styles.foto} key ={imatge}source={{uri: imatge}}/>)
         }
         return foto
         
@@ -55,7 +55,7 @@ export default function Valoracio (props){
     const eliminarValoracio = async () =>{
         let endpoint = 'valoracions/'+props.id+'/'
         simpleFetch(endpoint,"DELETE","")
-        console.log("eliminat")
+
         props.canvia()
     }
     
@@ -71,7 +71,7 @@ export default function Valoracio (props){
         
         let endpoint = 'interessos/valoracions/?valoracio='+props.id+'&perfil='+props.id_usuari
         simpleFetch(endpoint,"DELETE","")
-        console.log("borrat")
+ 
         setLiked(false);
         //setNumLikes((prevnum)=> prevnum-1)
         setUpdate((prevState) => !prevState);

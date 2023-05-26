@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Xat (props){
     const [modalVisible, setModalVisible] = useState(false);
-    const [urlImatge, setUrlImatge]=useState(require('../../assets/profile-base-icon.png'));
+    const [urlImatge, setUrlImatge]=useState(null);
     const [missatges,setMissatges]=useState([]);
     const [textMissatge, setTextMissatge] = useState('');
     const [data,setData] = useState('');
@@ -21,11 +21,6 @@ export default function Xat (props){
     const {t} = useTranslation();
     
     //Imatge perfil
-    function imatgePerfil(props) {
-        if (props.imatge != null) {
-            setUrlImatge(props.imatge);
-        }
-    };
     
     //Canvi text input
     function handleTextChange(value) {
@@ -49,6 +44,7 @@ export default function Xat (props){
     
     useEffect(()=> {
         nomXat();
+ 
     })
   
     useEffect(() => {
@@ -67,7 +63,12 @@ export default function Xat (props){
         let array = props.part;
         if (props.nom == null) {
             array.forEach(item =>{
-                if(item.user != props.user.user) setNom(item.username);
+                if(item.user != props.user.user){
+                    setNom(item.username);
+                    if(item.imatge != null){
+                        setUrlImatge(item.imatge)
+                    }
+                } 
             })   
         }
         else {
@@ -88,7 +89,7 @@ export default function Xat (props){
             <TouchableOpacity style={styles.info_xat} onPress={veureXat} >
                 <Image 
                     style={styles.foto}
-                    source={urlImatge}
+                    source={urlImatge ? { uri: urlImatge } : require('../../assets/profile-base-icon.png')}
                     />
                 <Text style={styles.nom}>{nom}</Text>
                 <Text style={styles.ultim_miss}>{ultim_mis}</Text>
@@ -99,10 +100,12 @@ export default function Xat (props){
                     <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
                         <ArrowLeftShort color="black"></ArrowLeftShort>
                     </TouchableOpacity>
-                     
+                    
                     <Image
                     style={styles.fot}
-                    source={urlImatge}/>
+                    source={
+                        urlImatge ? { uri: urlImatge } : require('../../assets/profile-base-icon.png')
+                    }/>
                    
                     <View style={styles.nomtop}>
                         <Text>{nom}</Text>
