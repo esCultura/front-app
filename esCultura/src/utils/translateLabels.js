@@ -43,6 +43,7 @@ const en = {
     EsdevenimentOnline: "Online event",
     EsdevenimentTancat: "Closed event",
     editphoto: "Edit photo",
+    Descarregapdf: "Reservations list"
 }
 
 
@@ -91,6 +92,7 @@ const es = {
     EsdevenimentOnline: "Evento online",
     EsdevenimentTancat: "Evento cerrado",
     editphoto: "Editar foto",
+    Descarregapdf: "Lista reservas"
 
 
 }
@@ -140,6 +142,7 @@ const cat = {
     EsdevenimentOnline: "Event online",
     EsdevenimentTancat: "Event tancat",
     editphoto: "Editar foto",
+    Descarregapdf: "LLista reserves"
 
 }
 

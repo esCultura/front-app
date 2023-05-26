@@ -14,11 +14,13 @@ import BanejarButton from "./BanejarButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import Categoria from "./Categoria";
+import { useTranslation } from "react-i18next";
 
 const bgcolor = "#3BDE4B";
 import XCircleFill from "react-native-bootstrap-icons/icons/x-circle-fill";
 
 export default function InfoCompleta(props) {
+  const { t } = useTranslation();
   const mesinfo = async () => {
     await Linking.openURL(props.source);
   };
@@ -46,7 +48,7 @@ export default function InfoCompleta(props) {
             <Text style={styles.info}>
               🗓️ {props.dateIni}{" "}
               {props.dateIni !== "Online" && props.dateIni !== props.dateFi && (
-                <Text> fins {props.dateFi} </Text>
+                <Text> {t('fins')} {props.dateFi} </Text>
               )}{" "}
               📌 {props.location}
             </Text>
@@ -81,7 +83,11 @@ export default function InfoCompleta(props) {
                     Més Informació
                   </Text>
                 </TouchableOpacity>
+                
               </View>
+              <View>
+                    <Text style={styles.banejar}><BanejarButton id={props.perfil} codi={props.codi} ></BanejarButton></Text>
+                  </View>
             </View>
           </View>
         </View>

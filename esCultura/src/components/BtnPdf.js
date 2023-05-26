@@ -114,7 +114,7 @@ export default function BtnPdf({ navigation, children }) {
         <>
         <View>
             <TouchableOpacity style={styles.editButton} onPress={() => { setLlistaVisible(true);}}>
-                <Text > {t('Descarrega pdf')} </Text>
+                <Text > {t('Descarregapdf')} </Text>
             </TouchableOpacity>
         </View>
         <Modal visible={llistaVisible } animationType="slide">

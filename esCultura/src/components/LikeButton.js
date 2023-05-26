@@ -4,8 +4,7 @@ import { simpleFetch } from "../utils/utilFunctions";
 import React, { useEffect, useState } from 'react';
 
 const LikeButton =  ( props ) => {
-  const [jo, setJo] = useState(props.id);
-  console.log("jo", props.id);
+  const [jo, setJo] = useState(props.id.current);
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(0);
     const likeValue = liked ? -1 : 1;
@@ -19,7 +18,6 @@ const LikeButton =  ( props ) => {
         setLikes(data.length);
         let endPoint2 = `interessos/esdeveniments/?perfil=${jo}&esdeveniment=${esdeveniment}`;
         const data2 = await simpleFetch(endPoint2, "GET", "")
-        console.log("like", data2.length);
         if (data2.length === 0)  setLiked(false);
         else    setLiked(true);
         

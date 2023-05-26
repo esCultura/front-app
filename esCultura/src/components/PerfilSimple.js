@@ -41,6 +41,12 @@ export default function PerfilSimple(props, updated) {
     const [perfilVisible, setPerfilVisible] = useState(false);
     const [perfil, setPerfil] = useState(null);
 
+    const cerrarFormulario = () => {
+        console.log("entraaaaaaaa");
+        setFormVisible(false);
+        setScreenLoaded(!screenLoaded);
+      };
+
     useEffect(() => {
         async function _retrieveData() {
             try {
@@ -380,7 +386,7 @@ export default function PerfilSimple(props, updated) {
             <TouchableOpacity onPress={() => {setFormVisible(false); setScreenLoaded(!screenLoaded)}} style={styles.back}>
                     <XCircleFill color="red" width={145} height={145} />
                 </TouchableOpacity>
-                <ProfileForm infoPerfil={infoPerfil} />
+                <ProfileForm infoPerfil={infoPerfil} onClose={cerrarFormulario} />
             </Modal>
 
             <Modal visible={llistaVisible } animationType="slide">
