@@ -5,13 +5,17 @@ import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import StarFill from 'react-native-bootstrap-icons/icons/star-fill';
 
+
 export default function Valoracio (props){
-    const[valoracions,setValoracions]= useState('')
+    
+    const {t} = useTranslation();
+    
     const[numlikes, setNumLikes] = useState(0)
     const[liked,setLiked] = useState(false)
     const[info,setInfo] = useState([])
     const likeValue = liked ? -1 : 1;
-    const [interes,setInteres] = useState(0)
+    const[imatge,setImatge] = useState(props.imatge)
+ 
     const [update, setUpdate] = useState([]);
     
     const fetchtotallike =async() =>{
@@ -39,6 +43,15 @@ export default function Valoracio (props){
             return punt
         }
     }
+    const renderimatge = () => {
+        const foto =  []
+        if(imatge !== null){
+                foto.push(<Image  style ={styles.foto} key ={imatge}source={{uri: 'https://storagepes.s3.amazonaws.com/media/1366_2000.jpg'}}/>)
+        }
+        return foto
+        
+    }
+    
     const eliminarValoracio = async () =>{
         let endpoint = 'valoracions/'+props.id+'/'
         simpleFetch(endpoint,"DELETE","")
@@ -95,7 +108,10 @@ export default function Valoracio (props){
                 <View style={styles.stars}>
                     {renderpuntuacio(props.punt)}
                 </View>
-                <Text>Comentari: {props.text}</Text>
+                <Text>{t('comentari')}: {props.text}</Text>
+                <View>
+                    {renderimatge()}
+                </View>
                 <Text>{props.data.slice(0, 10)}</Text>
             </View> 
             
@@ -114,7 +130,10 @@ export default function Valoracio (props){
                 <View style={styles.stars}>
                     {renderpuntuacio(props.punt)}
                 </View>
-                <Text>Comentari: {props.text}</Text>
+                <Text>{t('comentari')}: {props.text}</Text>
+                <View>
+                    {renderimatge()}
+                </View>
                 <Text>{props.data.slice(0, 10)}</Text>
             </View>
             
@@ -166,6 +185,10 @@ const styles = StyleSheet.create({
     },
     likeview:{
         //alignSelf:'center'
+    },
+    foto:{
+        width: 200,
+        height: 200,
     }
     
 })

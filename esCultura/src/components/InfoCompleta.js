@@ -90,6 +90,7 @@ export default function InfoCompleta (props) {
                                     usuari ={valoracio.creador} 
                                     text={valoracio.text} 
                                     punt = {valoracio.puntuacio}
+                                    imatge ={valoracio.imatge}
                                     data = {valoracio.data}
                                     canvia={recarrega}
                                 />
