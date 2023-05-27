@@ -59,7 +59,7 @@ export default function InfoCompleta(props) {
             </ScrollView>
           </View>
           <View style={styles.botInfo}>
-            {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
+            {props.preu && <Text style={styles.preu}>{t('Preu')} {props.preu}</Text>}
             <View style={{ flexDirection: "row", gap: 10 }}>
               <View>
                 <Text>

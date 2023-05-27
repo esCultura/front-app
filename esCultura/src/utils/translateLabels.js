@@ -43,7 +43,10 @@ const en = {
     EsdevenimentOnline: "Online event",
     EsdevenimentTancat: "Closed event",
     editphoto: "Edit photo",
-    Descarregapdf: "Reservations list"
+    Descarregapdf: "Reservations list",
+    fins: "Until",
+    Preu: "Price:",
+    MésInformació: "More information",
 }
 
 
@@ -92,7 +95,10 @@ const es = {
     EsdevenimentOnline: "Evento online",
     EsdevenimentTancat: "Evento cerrado",
     editphoto: "Editar foto",
-    Descarregapdf: "Lista reservas"
+    Descarregapdf: "Lista reservas",
+    fins: "Hasta",
+    Preu: "Precio:",
+    MésInformació: "Más información",
 
 
 }
@@ -142,7 +148,10 @@ const cat = {
     EsdevenimentOnline: "Event online",
     EsdevenimentTancat: "Event tancat",
     editphoto: "Editar foto",
-    Descarregapdf: "LLista reserves"
+    Descarregapdf: "LLista reserves",
+    fins: "fins",
+    Preu: "Preu:",
+    MésInformació: "Més informació",
 
 }
 

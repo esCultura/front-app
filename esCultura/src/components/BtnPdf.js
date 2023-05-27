@@ -137,10 +137,18 @@ export default function BtnPdf({ navigation, children }) {
 
 const styles = StyleSheet.create({
     editButton: {
-        backgroundColor: 'aqua',
-        marginRight: 'auto',
-        marginVertical: 10,
-        padding: 20,
+      backgroundColor: '#b2cafa',
+      borderRadius: 10,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 2, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      width: 170,
+      marginRight: 20, 
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     llistat: {
         display: 'flex',
