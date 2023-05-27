@@ -19,7 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function PerfilSimple(props, updated) {
-
+    let urlImatge =require('../../assets/profile-base-icon.png');
     const {t} = useTranslation();
 
 
@@ -244,9 +244,14 @@ export default function PerfilSimple(props, updated) {
                 <ScrollView  contentContainerStyle={styles.llistat}>
                 {
                 seguits.map(s => 
-                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text> {t('user')} {s}  </Text>
-                    </TouchableOpacity>
+                    <TouchableOpacity key={s} style={styles.info_xat} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                    <Image 
+                        style={styles.foto}
+                        source={urlImatge}
+                        />
+                    <Text style={styles.nom}>{s}</Text>
+                
+                </TouchableOpacity>
                 )}
                 </ScrollView>
 
@@ -260,9 +265,14 @@ export default function PerfilSimple(props, updated) {
                 <ScrollView  contentContainerStyle={styles.llistat}>
                 {
                 seguidors.map(s => 
-                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text> {t('user')} {s}  </Text>
-                    </TouchableOpacity>
+                    <TouchableOpacity key={s} style={styles.info_xat} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                    <Image 
+                        style={styles.foto}
+                        source={urlImatge}
+                        />
+                    <Text style={styles.nom}>{s}</Text>
+                
+    </TouchableOpacity>
                 )}
                 </ScrollView>
 
@@ -386,8 +396,13 @@ export default function PerfilSimple(props, updated) {
                 <ScrollView  contentContainerStyle={styles.llistat}>
                 {
                 seguits.map(s => 
-                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text style={styles.usuari}>  {t('user')} {s}  </Text>
+                    <TouchableOpacity key={s} style={styles.info_xat} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                                    <Image 
+                                        style={styles.foto}
+                                        source={urlImatge}
+                                        />
+                                    <Text style={styles.nom}>{s}</Text>
+                                
                     </TouchableOpacity>
                 )}
                 </ScrollView>
@@ -402,8 +417,13 @@ export default function PerfilSimple(props, updated) {
                 <ScrollView  contentContainerStyle={styles.llistat}>
                 {
                 seguidors.map(s => 
-                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text style={styles.usuari}>  {t('user')} {s}  </Text>
+                    <TouchableOpacity key={s} style={styles.info_xat} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
+                                    <Image 
+                                        style={styles.foto}
+                                        source={urlImatge}
+                                        />
+                                    <Text style={styles.nom}>{s}</Text>
+                                
                     </TouchableOpacity>
                 )}
                 </ScrollView>
@@ -622,4 +642,31 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         flexDirection: 'row',
       },
+      info_xat: {
+        width: '100%',
+        height: 70,
+        overflow: 'hidden',
+        //marginVertical: 10,
+        borderColor: '#A9A9A9',
+        //borderWidth: 1,
+        borderBottomWidth:1,
+        backgroundColor:'#DCDCDC'
+    },
+    foto: {
+        width:50,
+        height:50,
+        borderRadius:50,
+        marginLeft:10,
+        marginVertical:10,
+
+    },
+    nom:{
+        position: 'absolute',
+        left:80,
+        top: 20,
+        alignSelf: 'flex-start',
+        fontSize: 20,
+        fontStyle: "normal",
+        fontWeight: 'bold'
+    },
 });
