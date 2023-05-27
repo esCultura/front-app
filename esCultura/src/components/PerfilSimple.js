@@ -25,7 +25,7 @@ export default function PerfilSimple(props, updated) {
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
       };
-    const [jo, setJo] = useState(false);
+    const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
     const [estadistiques, setEstadistiques] = useState([]);
@@ -63,7 +63,7 @@ export default function PerfilSimple(props, updated) {
           _retrieveData();
 
         const fetchPreferits = async () => {
-            console.log("perfil", props.id);
+            console.log("jo1", props.id);
             let endPoint = `interessos/esdeveniments/?perfil=${props.id}`;
             const data = await simpleFetch(endPoint, "GET", "");
             const reserves = [];
@@ -126,8 +126,7 @@ export default function PerfilSimple(props, updated) {
       fetchPerfil();
   }, [screenLoaded, updated]);
 
- 
-  const editFoto = async () => {
+ const editFoto = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -144,6 +143,7 @@ export default function PerfilSimple(props, updated) {
 
   const onImatgeChange = async (newImage) => {
         let endPoint = 'usuaris/perfils/jo/';
+
           const formData = new FormData();
             formData.append('imatge', {
                 uri: newImage,
@@ -151,11 +151,9 @@ export default function PerfilSimple(props, updated) {
                 name: 'image.jpg', 
             });
 
-              console.log("form", formData);
-        const response = await simpleFetch(endPoint, "PUT", {imatge:formData})
-        const r = await response.text();
-        console.log("res", r);
-      }
+
+        const response = await simpleFetch(endPoint, "PUT", { imatge:formData});
+    }
 
     const doLogout = () =>  {
         setToken("");
@@ -202,9 +200,7 @@ export default function PerfilSimple(props, updated) {
             </View>
             
             <View style={styles.followButton}>
-            {jo !== null && (
-                <FollowButton jo={jo} seguit={props.id} onFollowChange={handleFollowChange} />
-                )}
+            <FollowButton jo= {jo} seguit={props.id} onFollowChange={handleFollowChange}> </FollowButton>
             </View>
             
             <Text> {t('Username')}: {infoPerfil.username} </Text>
@@ -218,13 +214,11 @@ export default function PerfilSimple(props, updated) {
                     assistencies_passades={estadistiques[0]}
                     interessos_esdeveniments={estadistiques[1]}
                     interessos_tematiques={estadistiques[2]}
-                    interessos_valoracions={estadistiques[3]}
-                    missatges_enviats={estadistiques[4]}
-                    reserves_enviats={estadistiques[5]}
-                    seguidors={estadistiques[6]}
-                    seguits={estadistiques[7]}
-                    xats_participants={estadistiques[8]}
-                    valoracions={estadistiques[9]}
+                    missatges_enviats={estadistiques[3]}
+                    reserves_enviats={estadistiques[4]}
+                    seguidors={estadistiques[5]}
+                    seguits={estadistiques[6]}
+                    xats_participants={estadistiques[7]}
                 />
             </ScrollView>
 
@@ -289,20 +283,20 @@ export default function PerfilSimple(props, updated) {
                 }
                 style={styles.imatgePerfil}
             />
-            <TouchableOpacity style={styles.FotoButton} onPress={() => editFoto() }>
+            <TouchableOpacity style={styles.FotoButton} onPress={editFoto}>
                 { <Text> {t('editphoto')} </Text> }
             </TouchableOpacity>
             </View>
 
             <View style={styles.rightContainer} >
-                <TouchableOpacity onPress={() => setSeguitsVisible(true) }>
+                <TouchableOpacity onPress={() => {setSeguitsVisible(true) }}>
                 <View> 
                    <Text style={styles.num}>  {seguits.length}  </Text>
                    <Text style={styles.text}> {t('following')} </Text>
                    </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => setSeguidorsVisible(true) }>
+                <TouchableOpacity onPress={() => {setSeguidorsVisible(true) }}>
                 <View> 
                    <Text style={styles.num}>  {seguidors.length}  </Text>
                    <Text style={styles.text}> {t('followers')} </Text>
@@ -315,7 +309,7 @@ export default function PerfilSimple(props, updated) {
             <Text> Email: {infoPerfil.email} </Text>
             <Text> Bio: {infoPerfil.bio}</Text>
 
-            <TouchableOpacity style={styles.PreferitsButton} onPress={() => setLlistaVisible(true)}>
+            <TouchableOpacity style={styles.PreferitsButton} onPress={() => {setLlistaVisible(true); }}>
                 <Text > {t('LlistaPreferits')} </Text>
             </TouchableOpacity>
 
@@ -325,6 +319,7 @@ export default function PerfilSimple(props, updated) {
 
             <Text> {t('trophys')} </Text>
             <ScrollView  contentContainerStyle={styles.llistat}>
+                {estadistiques[0]!== undefined && (
                 <Trofeu 
                     assistencies_passades={estadistiques[0]}
                     interessos_esdeveniments={estadistiques[1]}
@@ -336,6 +331,7 @@ export default function PerfilSimple(props, updated) {
                     xats_participants={estadistiques[7]}
                             />
                                 
+                )}
             </ScrollView>
 
             <View style={styles.bottomContainer}>
@@ -343,12 +339,12 @@ export default function PerfilSimple(props, updated) {
 
             <TranslateSelector> </TranslateSelector>
             
-            <TouchableOpacity style={styles.editButton} onPress={() => setFormVisible(true)}>
+            <TouchableOpacity style={styles.editButton} onPress={() => { setFormVisible(true)}}>
                 <Text > {t('edit')} </Text>
             </TouchableOpacity>
 
 
-            <TouchableOpacity style={styles.logoutButton} onPress={() => doLogout()}>
+            <TouchableOpacity style={styles.logoutButton} onPress={() => {doLogout()}}>
                 <Text > {t('logout')}</Text>
             </TouchableOpacity>
                 
@@ -363,7 +359,7 @@ export default function PerfilSimple(props, updated) {
                 {
                 seguits.map(s => 
                     <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text style={styles.usuari}> {t('user')} {s}  </Text>
+                    <Text style={styles.usuari}> Usuari {s}  </Text>
                     </TouchableOpacity>
                 )}
                 </ScrollView>
@@ -379,7 +375,7 @@ export default function PerfilSimple(props, updated) {
                 {
                 seguidors.map(s => 
                     <TouchableOpacity key={s} style={styles.listItem} onPress={() => { setPerfilVisible(true); setPerfil(s)}}>
-                    <Text style={styles.usuari}> {t('user')} {s}  </Text>
+                    <Text style={styles.usuari}> Usuari {s}  </Text>
                     </TouchableOpacity>
                 )}
                 </ScrollView>

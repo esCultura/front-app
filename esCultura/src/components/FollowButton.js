@@ -4,16 +4,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { simpleFetch } from "../utils/utilFunctions";
 
 const FollowButton =  ( props ) => {
-    const [follow, setFollow] = useState(null);
+    const [follow, setFollow] = useState(0);
     const followValue = follow ? -1 : 1;
-    const user = props.jo;
+    const user = props.jo
     const pers = props.seguit;
-    console.log("qui soc jo", user);
-    console.log("perfil extern", pers);
+    console.log("props", props.jo);
     
    useEffect(() => {
     const fetchFollows = async () => {
-    console.log("a qui segueixo", user);
         let endPoint = `seguiments/?seguidor=${user}&seguit=${pers}`;
         const data = await simpleFetch(endPoint, "GET", "")
         if (data.length === 0)  setFollow(false);

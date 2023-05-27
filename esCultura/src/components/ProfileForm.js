@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { StyleSheet, Image, Platform } from 'react-native';
-import { NewCalendarList } from 'react-native-calendars';
 import { simpleFetch } from "../utils/utilFunctions";
 
 export default function ProfileForm (props, onClose) {
@@ -11,13 +10,10 @@ export default function ProfileForm (props, onClose) {
     const[data, setdata] = useState('');
     console.log("aquest", props);
 
-    //const formData = new FormData(); 
-    //formData.append('bio', bio);
     const handleSave = async () => {
       console.log("bio2", bio);
       let endPoint = 'usuaris/perfils/jo/';
-      //let endPoint = 'usuaris/perfils/19/';
-      const response = await simpleFetch(endPoint, "PUT", {bio: bio}).then(data => console.log("data: ", data));
+      const response = await simpleFetch(endPoint, "PUT", {bio: bio});
       console.log("reposn", response);
 
       onClose;
