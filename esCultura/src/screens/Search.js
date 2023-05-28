@@ -5,6 +5,7 @@ import SearchFilter from "../components/SearchFilter";
 import Screen from "../components/Screen";
 import { simpleFetch } from "../utils/utilFunctions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Ordenar from "../components/Ordenar";
 
 const imagePool = [
   "https://i.kym-cdn.com/entries/icons/mobile/000/027/879/yobammarere.jpg",
@@ -29,15 +30,24 @@ export default function Search(props) {
   const loading = useRef(false);
   const [esdeveniments, setEsdeveniments] = useState([]);
   const jo = useRef(null);
+  const dataEvent = useRef("");
+  const dataOrd = useRef("");
 
   const handleInfoCompletaClose = () => {};
 
   function componenDidMount() {
     loading.current = true;
-    fetch(url + `?limit=15&offset=${offset.current}`, { method: "GET" })
+    let endpoint = `?limit=15&offset=${offset.current}`;
+    if (dataEvent.current.length != 0) {
+      endpoint += `&${dataEvent.current}`;
+    }
+    if (dataOrd.current.length != 0) {
+      endpoint += `&${dataOrd.current}`;
+    }
+    fetch(url + endpoint, { method: "GET" })
       .then((data) => data.json())
       .then((obj) => {
-        offset.current = 15;
+        offset.current = obj.length;
         loading.current = false;
         setEsdeveniments(obj);
       })
@@ -75,11 +85,21 @@ export default function Search(props) {
   }, []);
 
   const onQueryChange = (query) => {
-    console.log("Final endpoint Query: ", query);
+    if (query.length == 0) return;
+    offset.current = 0;
+    dataEvent.current = query;
+    componenDidMount();
+  };
+
+  const onOrderChange = (ord) => {
+    dataOrd.current = ord;
+    componenDidMount();
   };
 
   return (
     <Screen navigation={props.navigation}>
+      <SearchFilter onVariableChange={onQueryChange} isList={true} />
+      <Ordenar onChange={onOrderChange} />
       <ScrollView
         onScroll={({ nativeEvent }) => {
           if (isCloseToBottom(nativeEvent) && !loading.current) {
@@ -89,7 +109,6 @@ export default function Search(props) {
         scrollEventThrottle={400}
         contentContainerStyle={styles.llistat}
       >
-        <SearchFilter onVariableChange={onQueryChange} isList={true} />
         {jo !== null &&
           esdeveniments.map((esd, i) => {
             if (esd.tematiques == null || esd.tematiques.length == 0) return;
