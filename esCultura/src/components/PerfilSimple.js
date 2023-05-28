@@ -1,11 +1,11 @@
-import Screen from "../components/Screen";
 import { Text, ScrollView, View, Modal, TouchableOpacity } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Image, Platform } from 'react-native';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
 import * as ImagePicker from 'expo-image-picker';
-import ProfileForm  from '../components/ProfileForm';
+import * as FileSystem from 'expo-file-system';
+import ProfileForm  from '../components/ProfileForm'; 
 import BtnPdf  from '../components/BtnPdf'; 
 import FollowButton  from '../components/FollowButton'; 
 import Esdeveniment  from '../components/Esdeveniment'; 
@@ -21,10 +21,10 @@ export default function PerfilSimple(props, updated) {
 
     const {t} = useTranslation();
 
-
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
-      };
+    };
+
     const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
@@ -42,19 +42,13 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
-        async function _retrieveData() {
-            try {
-              const value = await AsyncStorage.getItem("token");
-              if (value !== null) {
-                let result = JSON.parse(value);
-                console.log("result", result);
-                setJo(result.user);
-              }
-            } catch (error) {
-              console.log("error en agafar dades locals, token error: ", error);
-            }
-          }
-          _retrieveData();
+        console.log("entra aqui ?");
+        const fetchJo = async () => {
+            let endPoint = `usuaris/perfils/jo/`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            console.log("datos1", data);
+            setJo(data.user);
+        }
 
         const fetchPreferits = async () => {
             console.log("jo1", props.id);
@@ -93,7 +87,6 @@ export default function PerfilSimple(props, updated) {
           setEstadistiques(e);
           console.log("info4", estadistiques[0]);
    
-          //setImageUri(data.imatge);
       }
 
       const fetchSeguits = async () => {
@@ -114,39 +107,90 @@ export default function PerfilSimple(props, updated) {
         setSeguidors(seg);
       }
 
+      fetchJo();
       fetchPreferits();
       fetchSeguits();
       fetchSeguidors();
       fetchPerfil();
   }, [screenLoaded, updated]);
 
- const editFoto = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
+    const askPermissions = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            console.log('Permission denied!');
+            return;
+        }
+    };
 
-    if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
-      console.log("foto", result.assets[0].uri);
-      onImatgeChange(result.assets[0].uri);
-    }
-  };
+    const editFoto = async () => {
 
-  const onImatgeChange = async (newImage) => {
+        await askPermissions();
+        
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+            
+            if (!result.canceled) {
+                console.log("result: ", result);
+                console.log("foto url", result.assets[0].uri);
+                const uri = result.assets[0].uri;
+                const imageData = await FileSystem.readAsStringAsync(uri, {
+                    encoding: FileSystem.EncodingType.Base64,
+                });
+                onImatgeChange(imageData);
+            }
+        }
+        catch(error) {
+            console.log("error in pick image: ", error);
+        }
+        
+    };
+
+    const onImatgeChange = async (newImage) => {
+        
+        console.log("image: ", newImage);
+
+        let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
         let endPoint = 'usuaris/perfils/jo/';
 
-          const formData = new FormData();
-            formData.append('imatge', {
-                uri: newImage,
-                type: 'image/jpeg', // o el tipo de imagen que sea
-                name: 'image.jpg', 
-            });
+        
+        let token;
 
+        async function _retrieveData () {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    let result = JSON.parse(value);
+                    token = result.token;
+                }
+                console.log("token stored: ", token);
+            } catch (error) {
+                console.log("error en agafar dades locals, token error: ", error);
+            }
+        };
+        _retrieveData ();
 
-        const response = await simpleFetch(endPoint, "PUT", { imatge:formData});
+        const formData = new FormData();
+        formData.append('image', new Blob([newImage], { type: 'image/jpeg' }));
+
+        let result = await fetch(host+endPoint,  {   
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Token '+ token, 
+            },
+            body: formData,
+            //JSON.stringify({ image: newImage })
+        })
+        console.log("result: ", result);
+        let resultJson = await result.json();
+        console.log("resultJson: ", resultJson);
+        //setImageUri(result.assets[0].uri);
     }
 
     const doLogout = () =>  {
@@ -154,11 +198,9 @@ export default function PerfilSimple(props, updated) {
         props.onLogin(false);
     }
 
-
     function handleFollowChange () {
         setScreenLoaded(!screenLoaded);
-      };
-
+    };
       
     if (jo != props.id && jo != null) {
     return (
@@ -423,7 +465,6 @@ export default function PerfilSimple(props, updated) {
 
     );
    }
- 
 }
 
 const styles = StyleSheet.create({
