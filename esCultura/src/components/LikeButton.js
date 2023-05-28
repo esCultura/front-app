@@ -4,7 +4,7 @@ import { simpleFetch } from "../utils/utilFunctions";
 import React, { useEffect, useState } from 'react';
 
 const LikeButton =  ( props ) => {
-  const [jo, setJo] = useState(props.id.current);
+  const [jo, setJo] = useState(props.id);
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(0);
     const likeValue = liked ? -1 : 1;

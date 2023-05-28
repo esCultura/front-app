@@ -457,6 +457,7 @@ export default function PerfilSimple(props, updated) {
                     location = {esd[0].espai}
                     codi = {esd[0].codi}
                     source = {"http://agenda.cultura.gencat.cat"+ esd[0].imatges_list[0]}
+                    perfil = {jo}
                             />
                     ))}
                     </ScrollView>
@@ -646,11 +647,12 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 70,
         overflow: 'hidden',
-        //marginVertical: 10,
+        //marginVertical: 2,
         borderColor: '#A9A9A9',
         //borderWidth: 1,
         borderBottomWidth:1,
-        backgroundColor:'#DCDCDC'
+        backgroundColor:'#DCDCDC',
+        marginTop: 5,
     },
     foto: {
         width:50,

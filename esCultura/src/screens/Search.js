@@ -97,7 +97,7 @@ export default function Search(props) {
               <Esdeveniment
                 key={i}
                 title={esd.nom}
-                perfil={jo}
+                perfil={jo.current}
                 source={imagePool[i % imagePool.length]}
                 desc={esd.descripcio.replaceAll("&nbsp;", "\n")}
                 back={() => handleInfoCompletaClose()}
