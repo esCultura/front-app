@@ -1,49 +1,47 @@
-import { Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { simpleFetch } from "../utils/utilFunctions";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-const LikeButton =  ( props ) => {
+const LikeButton = (props) => {
   const [jo, setJo] = useState(props.id);
   console.log("jo", props.id);
-    const [liked, setLiked] = useState(false);
-    const [likes, setLikes] = useState(0);
-    const likeValue = liked ? -1 : 1;
-    const esdeveniment = props.codi;
-    
-   useEffect(() => {
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const likeValue = liked ? -1 : 1;
+  const esdeveniment = props.codi;
 
+  useEffect(() => {
     const fetchLikes = async () => {
-        let endPoint = `interessos/esdeveniments/?esdeveniment=${esdeveniment}`;
-        const data = await simpleFetch(endPoint, "GET", "")
-        setLikes(data.length);
-        let endPoint2 = `interessos/esdeveniments/?perfil=${jo}&esdeveniment=${esdeveniment}`;
-        const data2 = await simpleFetch(endPoint2, "GET", "")
-        console.log("like", data2.length);
-        if (data2.length === 0)  setLiked(false);
-        else    setLiked(true);
-        
-  };
-  fetchLikes();
+      let endPoint = `interessos/esdeveniments/?esdeveniment=${esdeveniment}`;
+      const data = await simpleFetch(endPoint, "GET", "");
+      setLikes(data.length);
+      let endPoint2 = `interessos/esdeveniments/?perfil=${jo}&esdeveniment=${esdeveniment}`;
+      const data2 = await simpleFetch(endPoint2, "GET", "");
+      console.log("like", data2.length);
+      if (data2.length === 0) setLiked(false);
+      else setLiked(true);
+    };
+    fetchLikes();
   }, []);
 
- 
-
   const handleLike = async () => {
-    let endPoint = 'interessos/esdeveniments/';
-        const data = await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esdeveniment})
-        setLikes((prevLikes) => prevLikes + likeValue);
-        setLiked(true);
+    let endPoint = "interessos/esdeveniments/";
+    const data = await simpleFetch(endPoint, "POST", {
+      perfil: jo,
+      esdeveniment: esdeveniment,
+    });
+    setLikes((prevLikes) => prevLikes + likeValue);
+    setLiked(true);
   };
-  
+
   const handleUnlike = async () => {
     let endPoint = `interessos/esdeveniments/?perfil=${jo}&esdeveniment=${esdeveniment}`;
-        const data = await simpleFetch(endPoint, "DELETE", "")
-        setLikes((prevLikes) => prevLikes + likeValue);
-        setLiked(false);
-
+    const data = await simpleFetch(endPoint, "DELETE", "");
+    setLikes((prevLikes) => prevLikes + likeValue);
+    setLiked(false);
   };
-  
+
   const handlePress = () => {
     if (liked) {
       handleUnlike();
@@ -51,15 +49,27 @@ const LikeButton =  ( props ) => {
       handleLike();
     }
   };
-  
-    
-    return (
-      <TouchableOpacity onPress={handlePress}>
-        <Icon name={liked ? 'heart' : 'heart-o'} size={24} color={liked ? 'red' : 'black'} />
-        <Text> {likes} Likes </Text>
-      </TouchableOpacity>
 
-    );
-  };
+  return (
+    <TouchableOpacity onPress={handlePress}>
+      <Icon
+        name={liked ? "heart" : "heart-o"}
+        size={32}
+        color={liked ? "red" : "black"}
+      />
+      <Text
+        style={{
+          position: "absolute",
+          fontWeight: "bold",
+          left: 12,
+          top: 4,
+          color: "white",
+        }}
+      >
+        {likes}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
-  export default LikeButton;
+export default LikeButton;

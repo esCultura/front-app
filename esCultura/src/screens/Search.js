@@ -126,6 +126,7 @@ export default function Search(props) {
                 type={esd.tematiques.map((tema) => tema.nom)}
                 preu={esd.entrades}
                 codi={esd.codi}
+                enllac={esd.enllacos_list[0]}
               />
             );
           })}

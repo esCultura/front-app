@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
+  Share,
 } from "react-native";
 import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
@@ -16,17 +17,35 @@ import Categoria from "./Categoria";
 
 const bgcolor = "#3BDE4B";
 import XCircleFill from "react-native-bootstrap-icons/icons/x-circle-fill";
+import ShareFill from "react-native-bootstrap-icons/icons/share-fill";
+
+async function compartir(title, data, lloc, desc, enllac = "") {
+  desc = desc.split("\n")[0];
+  let info = `🗓️️${data} 📌${lloc}\n`;
+  if (Number.parseInt(data.slice(0, 4)) > 2050 || data == "Online") {
+    info = `🌐 Online`;
+  }
+  try {
+    await Share.share({
+      message: `*${title}*\n${info}\n${desc}\n${
+        enllac + "\n"
+      }\n_Compartit desde *esCultura*_`,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 export default function InfoCompleta(props) {
   const mesinfo = async () => {
-    await Linking.openURL(props.source);
+    await Linking.openURL(props.enllac);
   };
 
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={{ height: "100%" }}>
         <TouchableOpacity onPress={props.back} style={styles.back}>
-          <XCircleFill color="white" width={175} height={175} />
+          <XCircleFill color="white" width={40} height={40} />
         </TouchableOpacity>
         <View>
           <Image source={{ uri: props.source }} style={styles.image} />
@@ -41,13 +60,31 @@ export default function InfoCompleta(props) {
                 return <Categoria key={i} tipus={type} />;
               })}
             </ScrollView>
-            <Text style={styles.title}>{props.title}</Text>
+            <View
+              style={{ flexDirection: "row", gap: 5, alignItems: "center" }}
+            >
+              <Text style={styles.title}>{props.title}</Text>
+            </View>
             <Text style={styles.info}>
               🗓️ {props.dateIni}{" "}
               {props.dateIni !== "Online" && props.dateIni !== props.dateFi && (
                 <Text> fins {props.dateFi} </Text>
               )}{" "}
               📌 {props.location}
+              <TouchableOpacity
+                style={styles.sharebtn}
+                onPress={() =>
+                  compartir(
+                    props.title,
+                    props.dateIni,
+                    props.location,
+                    props.complet,
+                    props.enllac
+                  )
+                }
+              >
+                <ShareFill color="black" />
+              </TouchableOpacity>
             </Text>
           </View>
           <View style={{ maxHeight: 390 }}>
@@ -171,5 +208,8 @@ const styles = StyleSheet.create({
     left: 6,
     width: 16,
     height: 16,
+  },
+  sharebtn: {
+    padding: 5,
   },
 });

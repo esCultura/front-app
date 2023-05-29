@@ -80,6 +80,7 @@ export default function Esdeveniment(props) {
         location={props.location}
         source={props.source}
         codi={props.codi}
+        enllac={props.enllac}
       />
     </>
   );
