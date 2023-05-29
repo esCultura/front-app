@@ -17,6 +17,7 @@ export default function Xat (props){
     const [update, setUpdate]=useState(false);
     const [nom, setNom]=useState('');
     const [canvia, setCanvi] =useState('');
+    const [loading, setLoading] = useState(true);
 
     const {t} = useTranslation();
     
@@ -41,21 +42,35 @@ export default function Xat (props){
     function veureXat() {
         setModalVisible(true);
     }
+    const fetchMissatges = async () => {  
+        let endPoint = 'xats/'+props.id+'/missatges/';
+        simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data));
+        //console.log('fetchmissatges');
+        //console.log(missatges);
+    }
     
     useEffect(()=> {
         nomXat();
  
     })
-  
+   
+    const [render, setRender] = useState(false);
+ 
+    useEffect(() => {
+       setTimeout(() => {
+          setRender(!render);
+       }, 1000);
+    }, [render]);
+    
+    useEffect(() => {
+        fetchMissatges();
+    },[render])
     useEffect(() => {
         
-        const fetchMissatges = async () => {  
-            let endPoint = 'xats/'+props.id+'/missatges/';
-            simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data));
-            //console.log('fetchmissatges');
-            //console.log(missatges);
-        }
-        fetchMissatges();
+        
+        
+        
+        //fetchMissatges();
         ultimMissatge();
     }, [update]);
       
