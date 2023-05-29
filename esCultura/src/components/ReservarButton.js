@@ -50,7 +50,6 @@ export default function Reservar(props) {
       }
     }
     setFechas(fechas);
-    console.log(fechas);
 
     //fetchJo();
     fetchReserves();
