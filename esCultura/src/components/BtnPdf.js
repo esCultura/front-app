@@ -6,6 +6,9 @@ import * as FileSystem from 'expo-file-system';
 import { simpleFetch } from "../utils/utilFunctions";
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Esdeveniment  from '../components/Esdeveniment'; 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 
 export default function BtnPdf({ navigation, children }) {
@@ -13,7 +16,13 @@ export default function BtnPdf({ navigation, children }) {
     const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
+    const [infoEsdev, setInfoEsdev] = useState([]);
+    const [screenLoaded, setScreenLoaded] = useState(false);
       
+    const handleInfoCompletaClose = () => {
+      setScreenLoaded(!screenLoaded);
+    };
+
     useEffect(() => {
       async function _retrieveData() {
         try {
@@ -25,11 +34,18 @@ export default function BtnPdf({ navigation, children }) {
             let endPoint = `assistencies/?perfil=${result.user}`;
             const data = await simpleFetch(endPoint, "GET", "")
             const reserves = [];
+            const esdev = [];
             for (let i = 0; i < data.length; i++) {
                 const assistencies = data[i];
+                console.log("assis", data[i]);
                 reserves.push(assistencies);
+                endPoint = 'esdeveniments?codi='+data[i].esdeveniment;
+                const esd = await simpleFetch(endPoint, "GET", "");
+                esd.uuid = data[i].uuid;
+                esdev.push(esd);
               }
-
+              setInfoEsdev(esdev);
+              console.log("esdev", esdev);
               setEsdeveniments(reserves);        
               }
         } catch (error) {
@@ -39,6 +55,11 @@ export default function BtnPdf({ navigation, children }) {
       _retrieveData();
     }, []);
     
+   const fetchEsdevenimnent = async () => {
+      let endPoint= ""
+
+   }
+   
     const fetchLlista = async () => {
       console.log("jooooooooooo", jo);
         let endPoint = `assistencies/?perfil=${jo}`;
@@ -46,6 +67,7 @@ export default function BtnPdf({ navigation, children }) {
         const reserves = [];
         for (let i = 0; i < data.length; i++) {
             const assistencies = data[i];
+            console.log("assis", data[i]);
             reserves.push(assistencies);
           }
 
@@ -124,10 +146,27 @@ export default function BtnPdf({ navigation, children }) {
         </TouchableOpacity>
         <ScrollView  contentContainerStyle={styles.llistat}>
                 {
-                esdeveniments.map(s => 
-                    <TouchableOpacity key={s} style={styles.listItem} onPress={() => { fetchQR(s.uuid); }}>
-                    <Text style={styles.usuari}>  {s.uuid} esdev  </Text>
-                    </TouchableOpacity>
+                infoEsdev.map(s => 
+                  < View style={[styles.row]} >
+                   
+                    <Esdeveniment 
+                    key ={s[0].codi}
+                    back={() => handleInfoCompletaClose()}
+                    type={s[0].tematiques.map(tema => tema.nom)}
+                    desc={s[0].descripcio}
+                    title={s[0].nom}
+                    preu={s[0].entrades}
+                    dateFi = {s[0].dataFi.slice(0,10)}
+                    dateIni = {s[0].dataIni.slice(0,10)}
+                    location = {s[0].espai}
+                    codi = {s[0].codi}
+                    source = {"http://agenda.cultura.gencat.cat"+ s[0].imatges_list[0]}
+                    perfil = {jo}
+                            />
+                    <TouchableOpacity key={s} style={styles.button} onPress={() => { fetchQR(s.uuid); }}>
+                         <Icon name="download" size={24} color={'black'} />
+                     </TouchableOpacity>
+                  </View >
                 )}
             </ScrollView>
         </Modal>
@@ -172,5 +211,18 @@ const styles = StyleSheet.create({
       },
       usuari: {
         fontSize: 16,
+      },
+      card: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      row: {
+        position: 'relative',
+        // Estilos para el contenedor de la tarjeta del evento
+      },
+      button: {
+        position: 'absolute',
+        top: 120, // Ajusta el valor según sea necesario
+        right: 10,
       },
 });

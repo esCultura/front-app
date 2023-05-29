@@ -14,7 +14,7 @@ export default function Reservar (props){
     const esd = props.codi;
     const [fechas, setFechas] = useState([]);
     const [jo, setJo] = useState(props.id);
-
+    console.log("reserva", props.id);
       useEffect(() => {
       /*  const fetchJo = async () => {
           let endPoint = `usuaris/perfils/jo/`;
@@ -52,7 +52,6 @@ export default function Reservar (props){
           }
         }
         setFechas(fechas);
-        console.log(fechas);
 
       //fetchJo();
       fetchReserves();
@@ -63,9 +62,11 @@ export default function Reservar (props){
       let endPoint = 'assistencies/';
       if (fechaIni == fechaFi) {
         const data = await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esd, data: fechaFi});
+        console.log(data);
       }
       else {
         const data = await simpleFetch(endPoint, "POST", {perfil: jo, esdeveniment:esd, data: fechaSeleccionada});
+        console.log(data);
       }
       setReservat(true);
 }
