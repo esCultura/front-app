@@ -14,7 +14,7 @@ import {setToken} from '../utils/utilFunctions';
 import TranslateSelector from "./TranslateSelector";
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { decode } from 'base-64';
 
 
 export default function PerfilSimple(props, updated) {
@@ -42,11 +42,10 @@ export default function PerfilSimple(props, updated) {
     const [perfil, setPerfil] = useState(null);
 
     useEffect(() => {
-        console.log("entra aqui ?");
         const fetchJo = async () => {
             let endPoint = `usuaris/perfils/jo/`;
-            const data = await simpleFetch(endPoint, "GET", "")
-            console.log("datos1", data);
+            await simpleFetch(endPoint, "GET", "").then((data) => console.log("jo info data: ", data));
+            setImageUri(data.imatge);
             setJo(data.user);
         }
 
@@ -67,14 +66,13 @@ export default function PerfilSimple(props, updated) {
 
         const fetchPerfil = async () => {
 
-          let endPoint = `usuaris/perfils/${props.id}`;
-          const data = await simpleFetch(endPoint, "GET", "")
-          console.log("datos11", data);
-          setInfoPerfil(data);
-          console.log("info5", infoPerfil);
-          const e = [];
+            let endPoint = `usuaris/perfils/${props.id}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            console.log("info perfils: ", data);
+            setImageUri(data.imatge);
+            setInfoPerfil(data);
+            const e = [];
 
-          console.log("datos", data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.interessos_esdeveniments);
             e.push(data.estadistiques.interessos_tematiques);
@@ -83,36 +81,31 @@ export default function PerfilSimple(props, updated) {
             e.push(data.estadistiques.seguidors);
             e.push(data.estadistiques.seguits);
             e.push(data.estadistiques.xats_participant);
-          console.log("info3", e);
-          setEstadistiques(e);
-          console.log("info4", estadistiques[0]);
-   
-      }
+            setEstadistiques(e);
+        }
 
-      const fetchSeguits = async () => {
-        let endPoint = `seguiments/?seguidor=${props.id}`;
-        const data = await simpleFetch(endPoint, "GET", "")
-        console.log("datos2", data);
-        const seg = []; 
-        for (let j = 0; j < data.length; j++) seg.push(data[j].seguit);
-        setSeguits(seg);
-        console.log("info2", seguits); 
-      }
-    
-      const fetchSeguidors = async () => {
-        let endPoint = `seguiments/?seguit=${props.id}`;
-        const data = await simpleFetch(endPoint, "GET", "")
-        const seg = []; 
-        for (let j = 0; j < data.length; j++) seg.push(data[j].seguidor);
-        setSeguidors(seg);
-      }
+        const fetchSeguits = async () => {
+            let endPoint = `seguiments/?seguidor=${props.id}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            console.log("fetch seguidor: ", data);
+            const seg = []; 
+            for (let j = 0; j < data.length; j++) seg.push(data[j].seguit);
+        }
+      
+        const fetchSeguidors = async () => {
+            let endPoint = `seguiments/?seguit=${props.id}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            const seg = []; 
+            for (let j = 0; j < data.length; j++) seg.push(data[j].seguidor);
+            setSeguidors(seg);
+        }
 
-      fetchJo();
-      fetchPreferits();
-      fetchSeguits();
-      fetchSeguidors();
-      fetchPerfil();
-  }, [screenLoaded, updated]);
+        fetchJo();
+        fetchPreferits();
+        fetchSeguits();
+        fetchSeguidors();
+        fetchPerfil();
+    }, [screenLoaded, updated]);
 
     const askPermissions = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -135,12 +128,11 @@ export default function PerfilSimple(props, updated) {
             });
             
             if (!result.canceled) {
-                console.log("result: ", result);
-                console.log("foto url", result.assets[0].uri);
                 const uri = result.assets[0].uri;
                 const imageData = await FileSystem.readAsStringAsync(uri, {
                     encoding: FileSystem.EncodingType.Base64,
                 });
+                console.log("path: ", uri);
                 onImatgeChange(imageData);
             }
         }
@@ -151,51 +143,42 @@ export default function PerfilSimple(props, updated) {
     };
 
     const onImatgeChange = async (newImage) => {
+        console.log("start onImatgeChange: ");
         
-        console.log("image: ", newImage);
-
         let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
         let endPoint = 'usuaris/perfils/jo/';
+        let token = '4399aea952484e30ad0208cd72bf64a083c9b8c4';
 
-        
-        let token;
+        const binaryImageData = decode(newImage);
 
-        async function _retrieveData () {
-            try {
-                const value = await AsyncStorage.getItem('token');
-                if (value !== null) {
-                    let result = JSON.parse(value);
-                    token = result.token;
-                }
-                console.log("token stored: ", token);
-            } catch (error) {
-                console.log("error en agafar dades locals, token error: ", error);
-            }
-        };
-        _retrieveData ();
+        /*
+        const byteArray = new Uint8Array([...binaryImageData].map(char => char.charCodeAt(0)));
+        const imageBlob = new Blob([byteArray.buffer], { type: 'application/octet-stream' });
+        console.log("binaryImage: ", imageBlob);
+*/        
+        // Create a new Blob object with the binary data
 
         const formData = new FormData();
-        formData.append('image', new Blob([newImage], { type: 'image/jpeg' }));
+        formData.append('imatge', binaryImageData);
 
         let result = await fetch(host+endPoint,  {   
             method: "PUT",
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'multipart/form-data',
                 'Authorization': 'Token '+ token, 
             },
             body: formData,
-            //JSON.stringify({ image: newImage })
         })
         console.log("result: ", result);
         let resultJson = await result.json();
         console.log("resultJson: ", resultJson);
-        //setImageUri(result.assets[0].uri);
+        setImageUri(result.assets[0].uri);
     }
 
     const doLogout = () =>  {
         setToken("");
-        props.onLogin(false);
+        //props.onLogin(false);
+        console.log("url img: ", imageUri);
     }
 
     function handleFollowChange () {
