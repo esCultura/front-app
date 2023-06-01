@@ -123,6 +123,7 @@ export default function PerfilSimple(props, updated) {
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
+                base64: true,
                 aspect: [1, 1],
                 quality: 1,
             });
