@@ -100,9 +100,7 @@ export default function InfoCompleta (props) {
                     </View>
                 </ScrollView>
             </View>
-          </View>
-        </View>
-      </View>
+  
     </Modal>
   );
 }

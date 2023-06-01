@@ -36,33 +36,7 @@ export default function Categoria (props){
         setRefresh((prevState)=>!prevState)
     }
 
-    
-    useEffect(() =>{
-       
-       
-   },[update])
-    
-    const seguir = async () =>{
-        let endpoint = 'interessos/tematiques/'
-        simpleFetch(endpoint,"POST",{perfil:props.id,tematica:props.tipus}).then((data) =>setData(data))
-        console.log('segueix')
-        
-        setSeguit(true)
-        setUpdate((prevState) =>!prevState);
-        console.log(seguit)
-    }
-    
-    const deixarDeSeguir = async () =>{
-        let endpoint = 'interessos/tematiques/?tematica='+props.tipus+'&perfil='+props.id
-        simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
-       
-        setSeguit(false)
-        console.log('deixa de seguir')
-        setUpdate((prevState) =>!prevState);
-        console.log(seguit)
-        
-        
-    }
+  
     
     
     useEffect(()=>{
