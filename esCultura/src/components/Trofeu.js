@@ -15,6 +15,10 @@ const bgcolor = "#3BDE4B";
 import XCircleFill from "react-native-bootstrap-icons/icons/x-circle-fill";
 
 export default function InfoCompleta(props) {
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [premio, setPremio] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const assistencies_passades = props.assistencies_passades;
   const interessos_esdeveniments = props.interessos_esdeveniments;
   const interessos_tematiques = props.interessos_tematiques;
