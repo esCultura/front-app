@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Image, Pressable,Button} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal, FlatList,TextInput,Image, Pressable,Button, ScrollView} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' ;
 import Search from 'react-native-bootstrap-icons/icons/search';
 import NewGrup from "./GrupXatButton";
@@ -18,6 +18,7 @@ export default function NewXat (props){
     const [updateUsuaris, setUpdateUsuaris]=useState(false)
     const [nomGrup,setNomGrup]=useState('');
     const [textMissatge, setTextMissatge] = useState('');
+
     
     const {t} = useTranslation();
 
@@ -85,7 +86,7 @@ export default function NewXat (props){
 
                 <NewGrup function={tancaModal} usuaris ={usuaris} user={props.user} canvia={() =>props.canvia()}></NewGrup>
     
-                <View>
+                <ScrollView>
                     {
                     usuaris.map((usu,i) => {
                         if(existents.indexOf(usu.user) == -1){
@@ -94,7 +95,7 @@ export default function NewXat (props){
                                     <Pressable testID="newXatButton" style={styles.info_xat} onPress={() =>crearXat(usu.user)} >
                                         <Image 
                                             style={styles.foto}
-                                            source={urlImatge}
+                                            source={usu.imatge ? { uri: usu.imatge } : require('../../assets/profile-base-icon.png')}
                                             />
                                         <Text style={styles.nom}>{usu.username}</Text>
                                     </Pressable>
@@ -103,7 +104,7 @@ export default function NewXat (props){
                         }
                         })
                     }
-                </View>
+                </ScrollView>
             </Modal>
         </View>
     )

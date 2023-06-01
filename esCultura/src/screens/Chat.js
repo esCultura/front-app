@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, ScrollView, TouchableOpacity, Text} from "react-native";
+import { StyleSheet, View, TextInput, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../components/Screen";
 import Search from "react-native-bootstrap-icons/icons/search";

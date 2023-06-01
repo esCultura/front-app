@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet , TouchableOpacity,Modal, Image} from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity,Modal, Image, ScrollView} from "react-native";
 import ArrowLeftShort from 'react-native-bootstrap-icons/icons/arrow-left-short' 
 import Punts from 'react-native-bootstrap-icons/icons/three-dots-vertical' 
 import { simpleFetch } from "../utils/utilFunctions";
@@ -61,7 +61,7 @@ export default function InfoXat (props){
                 <View style={styles.textView}>
                     <Text style={styles.text}>{t('participants')}:</Text>
                 </View>
-                <View>
+                <ScrollView>
                     {
                     props.participants.map((usu,u) => { 
                         return (
@@ -76,7 +76,7 @@ export default function InfoXat (props){
                         </View>)
                         ;})
                     }
-                </View>
+                </ScrollView>
             </Modal>    
         </View>
         <Modal visible={modalPerfil} >

@@ -14,27 +14,62 @@ import { simpleFetch } from "../utils/utilFunctions";
 
 import { setDefaultNamespace } from "i18next";
 
-export default function Categoria(props) {
-  const [seguidors, setSeguidors] = useState("");
-  const [seguit, setSeguit] = useState("");
-  const [data, setData] = useState("");
-  const [update, setUpdate] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const bgcolor = "#3BDE4B";
+export default function Categoria (props){
+    const [seguidors, setSeguidors]= useState('')
+    const [seguit,setSeguit] =useState('')
+    const [data, setData] = useState('')
+    const [update,setUpdate] = useState(false)
+    const [refresh,setRefresh] =useState(false)
+    const bgcolor = '#3BDE4B'
+    
+    const fetchSeguidors = async () =>{
+        let endpoint='interessos/tematiques/?tematica='+props.tipus+'&perfil='+props.id
+        console.log("aaaaaaaa", endpoint)
+        simpleFetch(endpoint,"GET","").then((data) =>setSeguidors(data))
+        console.log('hellooooooo',seguidors)
+        if(seguidors != null) setSeguit(true)
+        setRefresh((prevState)=>!prevState)
+      
+    }
+    
+    function recarrega (){
+        setRefresh((prevState)=>!prevState)
+    }
 
-  const fetchSeguidors = async () => {
-    let endpoint =
-      "interessos/tematiques/?tematica=" + props.tipus + "&perfil=6";
-    console.log("aaaaaaaa", endpoint);
-    simpleFetch(endpoint, "GET", "").then((data) => setSeguidors(data));
-    console.log("hellooooooo", seguidors);
-    if (seguidors != null) setSeguit(true);
-    setRefresh((prevState) => !prevState);
-  };
-
-  function recarrega() {
-    setRefresh((prevState) => !prevState);
-  }
+    
+    useEffect(() =>{
+       
+       
+   },[update])
+    
+    const seguir = async () =>{
+        let endpoint = 'interessos/tematiques/'
+        simpleFetch(endpoint,"POST",{perfil:props.id,tematica:props.tipus}).then((data) =>setData(data))
+        console.log('segueix')
+        
+        setSeguit(true)
+        setUpdate((prevState) =>!prevState);
+        console.log(seguit)
+    }
+    
+    const deixarDeSeguir = async () =>{
+        let endpoint = 'interessos/tematiques/?tematica='+props.tipus+'&perfil='+props.id
+        simpleFetch(endpoint,"DELETE","").then((data)=> setData(data))
+       
+        setSeguit(false)
+        console.log('deixa de seguir')
+        setUpdate((prevState) =>!prevState);
+        console.log(seguit)
+        
+        
+    }
+    
+    
+    useEffect(()=>{
+        
+        console.log(seguit)
+        
+    },[update])
 
   useEffect(() => {}, [update]);
 

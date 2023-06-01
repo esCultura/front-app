@@ -1,86 +1,104 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Modal,
-  TouchableOpacity,
-  ScrollView,
-  Linking,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, ScrollView, Linking } from "react-native";
 import LikeButton from "./LikeButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import Categoria from "./Categoria";
+import Valoracio from "./ValoracioComp";
+import AddValoracio from "./AddValoracio";
+import {simpleFetch} from '../utils/utilFunctions';
+import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
+const bgcolor = '#3BDE4B';
+  
+export default function InfoCompleta (props) {
+    const [valoracions, setValoracions]= useState([]);
+    const [update, setUpdate] = useState([]);
+    
+    const fetchvaloracions = async() => {
+        console.log("codi_esdev", props.codi);
+        let endpoint = 'valoracions/?esdeveniment__codi='+props.codi;
+        simpleFetch(endpoint,"GET","").then((data) =>setValoracions(data));
+    }
+    
 
-const bgcolor = "#3BDE4B";
-import XCircleFill from "react-native-bootstrap-icons/icons/x-circle-fill";
+    const mesinfo = async () => {
+        await Linking.openURL(props.source);
+    }
+    function recarrega() {
+        setUpdate((prevState) => !prevState);
+      }
+    
+    useEffect(()=> {
+        fetchvaloracions();
+    },[update])
 
-export default function InfoCompleta(props) {
-  const mesinfo = async () => {
-    await Linking.openURL(props.source);
-  };
-
-  return (
-    <Modal visible={props.visible} animationType="slide">
-      <View style={{ height: "100%" }}>
-        <TouchableOpacity onPress={props.back} style={styles.back}>
-          <XCircleFill color="white" width={175} height={175} />
-        </TouchableOpacity>
-        <View>
-          <Image source={{ uri: props.source }} style={styles.image} />
-          <Text style={styles.like}>
-            <LikeButton id={props.perfil} codi={props.codi}></LikeButton>
-          </Text>
-        </View>
-        <View style={styles.card_info}>
-          <View style={styles.mainInfo}>
-            <ScrollView contentContainerStyle={styles.typesContainer}>
-              {props.type.map((type, i) => {
-                return <Categoria key={i} tipus={type} />;
-              })}
-            </ScrollView>
-            <Text style={styles.title}>{props.title}</Text>
-            <Text style={styles.info}>
-              🗓️ {props.dateIni}{" "}
-              {props.dateIni !== "Online" && props.dateIni !== props.dateFi && (
-                <Text> fins {props.dateFi} </Text>
-              )}{" "}
-              📌 {props.location}
-            </Text>
-          </View>
-          <View style={{ maxHeight: 390 }}>
-            <ScrollView>
-              <Text style={styles.complet}>{props.complet}</Text>
-            </ScrollView>
-          </View>
-          <View style={styles.botInfo}>
-            {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
-            <View style={{ flexDirection: "row", gap: 10 }}>
-              <View>
-                <Text>
-                  <Reservar
-                    id={props.perfil}
-                    codi={props.codi}
-                    dataIni={props.dateIni}
-                    dataFi={props.dateFi}
-                  ></Reservar>
-                </Text>
-              </View>
-              <View style={{ width: "50%" }}>
-                <TouchableOpacity style={styles.button} onPress={mesinfo}>
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 18,
-                      textAlign: "center",
-                    }}
-                  >
-                    Més Informació
-                  </Text>
+    return (
+        <Modal visible={props.visible} animationType="slide">
+            <View style={{height: '100%'}}>
+                <TouchableOpacity onPress={props.back} style={styles.back}>
+                    <XCircleFill color="white" width={175} height={175} />
                 </TouchableOpacity>
-              </View>
+                <View>
+                    <Image source={{uri: props.source}} style={styles.image}/>
+                    <Text style={styles.like}><LikeButton id={props.perfil} codi={props.codi} ></LikeButton></Text>
+                </View>
+                <ScrollView>
+                    <View style={styles.card_info}>
+                        <View style={styles.mainInfo}>
+                            <ScrollView contentContainerStyle={styles.typesContainer}>
+                                {
+                                    props.type.map((type, i) => {
+                                        return (<Categoria key={i} id={props.perfil} tipus={type}> </Categoria>);
+                                    })
+                                }
+                            </ScrollView>
+                            <Text style={styles.title}>{props.title}</Text>
+                            <Text style={styles.info}>🗓️ {props.dateIni} {props.dateIni !== 'Online' && props.dateIni !== props.dateFi &&  <Text> fins {props.dateFi} </Text>} 📌 {props.location}</Text>
+                        </View>
+                        <View style={{maxHeight: 390}}>
+                            <ScrollView>
+                                <Text style={styles.complet}>{props.complet}</Text>
+                            </ScrollView>
+                        </View>
+                        <View style={styles.botInfo}>
+                            {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
+                            <View style={{flexDirection: 'row', gap: 10}}>
+                                <View >
+                                <Text ><Reservar id={props.perfil} codi={props.codi} dataIni={props.dateIni} dataFi={props.dateFi}></Reservar></Text>
+                                </View>
+                                <View style={{width: '50%'}}>
+                                <TouchableOpacity style={styles.button} onPress={mesinfo}>
+                                    <Text style={{color: 'white', fontSize: 18, textAlign: 'center',}}>Més Informació</Text>
+                                </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+
+                    <AddValoracio esdeveniment={props.codi} canvia={recarrega}></AddValoracio>        
+                        
+                    <View>
+                    {
+                        valoracions.map((valoracio, v) => {
+                            console.log(valoracio)
+                            return(
+                                <Valoracio 
+                                    key ={v}
+                                    id={valoracio.id}
+                                    id_usuari={props.perfil}
+                                    esdeveniment={valoracio.esdeveniment}
+                                    usuari ={valoracio.creador} 
+                                    text={valoracio.text} 
+                                    punt = {valoracio.puntuacio}
+                                    imatge ={valoracio.imatge}
+                                    data = {valoracio.data}
+                                    canvia={recarrega}
+                                />
+                            )
+                        })
+                    }
+                    </View>
+                </ScrollView>
             </View>
           </View>
         </View>

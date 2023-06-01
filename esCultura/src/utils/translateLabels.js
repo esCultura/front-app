@@ -44,6 +44,7 @@ const en = {
     EsdevenimentTancat: "Closed event",
     editphoto: "Edit photo",
     Exporta: "Export",
+    comentari: "Comment"
 }
 
 
@@ -93,6 +94,7 @@ const es = {
     EsdevenimentTancat: "Evento cerrado",
     editphoto: "Editar foto",
     Exporta: "Exporta",
+    comentari: "Comentario",
 
 
 }
@@ -143,6 +145,7 @@ const cat = {
     EsdevenimentTancat: "Event tancat",
     editphoto: "Editar foto",
     Exporta: "Exporta",
+    comentari:"Comentari",
 
 }
 
