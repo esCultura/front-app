@@ -11,9 +11,11 @@ import {
   Share,
 } from "react-native";
 import LikeButton from "./LikeButton";
+import BanejarButton from "./BanejarButton";
 import Reservar from "./ReservarButton";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import Categoria from "./Categoria";
+import { useTranslation } from "react-i18next";
 
 const bgcolor = "#3BDE4B";
 import XCircleFill from "react-native-bootstrap-icons/icons/x-circle-fill";
@@ -37,6 +39,7 @@ async function compartir(title, data, lloc, desc, enllac = "") {
 }
 
 export default function InfoCompleta(props) {
+  const { t } = useTranslation();
   const mesinfo = async () => {
     await Linking.openURL(props.enllac);
   };
@@ -68,7 +71,7 @@ export default function InfoCompleta(props) {
             <Text style={styles.info}>
               🗓️ {props.dateIni}{" "}
               {props.dateIni !== "Online" && props.dateIni !== props.dateFi && (
-                <Text> fins {props.dateFi} </Text>
+                <Text> {t('fins')} {props.dateFi} </Text>
               )}{" "}
               📌 {props.location}
               <TouchableOpacity
@@ -93,7 +96,7 @@ export default function InfoCompleta(props) {
             </ScrollView>
           </View>
           <View style={styles.botInfo}>
-            {props.preu && <Text style={styles.preu}>Preu: {props.preu}</Text>}
+            {props.preu && <Text style={styles.preu}>{t('Preu')} {props.preu}</Text>}
             <View style={{ flexDirection: "row", gap: 10 }}>
               <View>
                 <Text>
@@ -117,7 +120,11 @@ export default function InfoCompleta(props) {
                     Més Informació
                   </Text>
                 </TouchableOpacity>
+                
               </View>
+              <View>
+                    <Text style={styles.banejar}><BanejarButton id={props.perfil} codi={props.codi} ></BanejarButton></Text>
+                  </View>
             </View>
           </View>
         </View>

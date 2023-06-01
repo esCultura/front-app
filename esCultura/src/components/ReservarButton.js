@@ -14,7 +14,7 @@ export default function Reservar(props) {
   const esd = props.codi;
   const [fechas, setFechas] = useState([]);
   const [jo, setJo] = useState(props.id);
-
+  console.log("reserva", props.id);
   useEffect(() => {
     /*  const fetchJo = async () => {
           let endPoint = `usuaris/perfils/jo/`;
@@ -29,26 +29,9 @@ export default function Reservar(props) {
         if (data[i].esdeveniment === esd) {
           setReservat(true);
         }
+        setFechas(fechas);
       }
     };
-
-    const hoy = new Date();
-    const fechas = [];
-    let fechaActual = new Date(fechaIni);
-    let fechaFinal = new Date(fechaFi);
-    if (hoy > fechaFinal) {
-      setAcabat(true);
-    } else {
-      if (fechaActual < hoy) {
-        fechaActual = new Date();
-      }
-      if (fechaActual != fechaFinal) {
-        while (fechaActual <= fechaFinal) {
-          fechas.push(new Date(fechaActual));
-          fechaActual.setDate(fechaActual.getDate() + 1);
-        }
-      }
-    }
     setFechas(fechas);
 
     //fetchJo();

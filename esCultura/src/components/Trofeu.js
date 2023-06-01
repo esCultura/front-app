@@ -328,6 +328,18 @@ export default function InfoCompleta(props) {
       <Modal visible={popupVisible} animationType="slide" transparent={true}>
         <View style={styles.popupContainer}>
           <Text style={styles.popupText}>{premio && premio.descripcion}</Text>
+          <TouchableOpacity
+            onPress={() => setPopupVisible(false)}
+            style={styles.closeButton1}
+          >
+            <XCircleFill color="red" />
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Modal visible={popupVisible} animationType="slide" transparent={true}>
+        <View style={styles.popupContainer}>
+          <Text style={styles.popupText}>{premio && premio.descripcion}</Text>
           <TouchableOpacity onPress={() => setPopupVisible(false)}>
             <Text style={styles.closeButton}>Cerrar</Text>
           </TouchableOpacity>

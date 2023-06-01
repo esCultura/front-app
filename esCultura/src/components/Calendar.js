@@ -20,7 +20,6 @@ const CustomCalendar = (props) => {
   const [esdeveniments, setEsdeveniments] = useState([]);
   const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
   const user = props.perfil;
-  console.log("joagenda", props.perfil);
  
 
   useEffect(() => {
@@ -56,7 +55,6 @@ const CustomCalendar = (props) => {
           }});*/
           let endPoint = `assistencies/?perfil=${user}`;
         const response = await simpleFetch(endPoint, "GET", "");
-        console.log(response[0].data);
         const prevMarkedDates = { ...newMarkedDates };
         const nextMarkedDates = {};
         for (let i = 0; i < response.length; i++) {
@@ -71,7 +69,6 @@ const CustomCalendar = (props) => {
           }
           const dates = await responseDates.json();      
           
-          console.log("arriba");
           const reserva = {key: response[i].uuid, color: getColorReserva(dates[0].tematiques[0]), selectedDotColor: 'blue', selected: true, marked: true,
                     info: {
                       source: "http://agenda.cultura.gencat.cat"+dates[0].imatges_list[0],
@@ -157,7 +154,6 @@ const CustomCalendar = (props) => {
               const reserva = newMarkedDates[day.dateString].dots[0];
               setSelectedReserva(reserva);
               setModalVisible(true);
-              console.log(reserva.info.source)
             }
           } 
         }}

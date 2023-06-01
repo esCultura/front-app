@@ -5,24 +5,24 @@ import React, { useEffect, useState } from "react";
 
 const LikeButton = (props) => {
   const [jo, setJo] = useState(props.id);
-  console.log("jo", props.id);
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(0);
-  const likeValue = liked ? -1 : 1;
-  const esdeveniment = props.codi;
+    const [liked, setLiked] = useState(false);
+    const [likes, setLikes] = useState(0);
+    const likeValue = liked ? -1 : 1;
+    const esdeveniment = props.codi;
+
 
   useEffect(() => {
     const fetchLikes = async () => {
-      let endPoint = `interessos/esdeveniments/?esdeveniment=${esdeveniment}`;
-      const data = await simpleFetch(endPoint, "GET", "");
-      setLikes(data.length);
-      let endPoint2 = `interessos/esdeveniments/?perfil=${jo}&esdeveniment=${esdeveniment}`;
-      const data2 = await simpleFetch(endPoint2, "GET", "");
-      console.log("like", data2.length);
-      if (data2.length === 0) setLiked(false);
-      else setLiked(true);
-    };
-    fetchLikes();
+        let endPoint = `interessos/esdeveniments/?esdeveniment=${esdeveniment}`;
+        const data = await simpleFetch(endPoint, "GET", "")
+        setLikes(data.length);
+        let endPoint2 = `interessos/esdeveniments/?perfil=${jo}&esdeveniment=${esdeveniment}`;
+        const data2 = await simpleFetch(endPoint2, "GET", "")
+        if (data2.length === 0)  setLiked(false);
+        else    setLiked(true);
+        
+  };
+  fetchLikes();
   }, []);
 
   const handleLike = async () => {
