@@ -43,14 +43,7 @@ export default function Valoracio (props){
             return punt
         }
     }
-    const renderimatge = () => {
-        const foto =  []
-        if(imatge !== null){
-                foto.push(<Image  style ={styles.foto} key ={imatge}source={{uri: imatge}}/>)
-        }
-        return foto
-        
-    }
+
     
     const eliminarValoracio = async () =>{
         let endpoint = 'valoracions/'+props.id+'/'
@@ -109,9 +102,7 @@ export default function Valoracio (props){
                     {renderpuntuacio(props.punt)}
                 </View>
                 <Text>{t('comentari')}: {props.text}</Text>
-                <View>
-                    {renderimatge()}
-                </View>
+
                 <Text>{props.data.slice(0, 10)}</Text>
             </View> 
             
@@ -131,9 +122,6 @@ export default function Valoracio (props){
                     {renderpuntuacio(props.punt)}
                 </View>
                 <Text>{t('comentari')}: {props.text}</Text>
-                <View>
-                    {renderimatge()}
-                </View>
                 <Text>{props.data.slice(0, 10)}</Text>
             </View>
             

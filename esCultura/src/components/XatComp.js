@@ -67,9 +67,6 @@ export default function Xat (props){
     },[render])
     useEffect(() => {
         
-        
-        
-        
         //fetchMissatges();
         ultimMissatge();
     }, [update]);
