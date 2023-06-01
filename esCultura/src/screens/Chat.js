@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, TouchableOpacity, Text} from "react-native";
+import { StyleSheet, View, TextInput, ScrollView, TouchableOpacity, Text} from "react-native";
 import React, { useEffect, useState } from "react";
 import Screen from "../components/Screen";
 import Search from "react-native-bootstrap-icons/icons/search";
@@ -76,7 +76,7 @@ export default function Chat(props) {
 
         <NewXat user={idUser} xats={xats} canvia={recarrega}></NewXat>
       </View>
-      <View>
+      <ScrollView>
         {resultXats.map((xat, i) => {
           return (
             <View key={i}>
@@ -91,7 +91,7 @@ export default function Chat(props) {
             </View>
           );
         })}
-      </View>
+      </ScrollView>
     </Screen>
   );
 }
