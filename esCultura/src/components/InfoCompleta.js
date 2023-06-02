@@ -6,20 +6,29 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 import Categoria from "./Categoria";
 import Valoracio from "./ValoracioComp";
 import AddValoracio from "./AddValoracio";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {simpleFetch} from '../utils/utilFunctions';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 const bgcolor = '#3BDE4B';
+import TranslateSelector from "./TranslateSelector";
+import { useTranslation } from 'react-i18next';
   
 export default function InfoCompleta (props) {
     const [valoracions, setValoracions]= useState([]);
     const [update, setUpdate] = useState([]);
-    
+    const [calendar, setCalendar] = useState(false);
+    const {t} = useTranslation();
+
     const fetchvaloracions = async() => {
         console.log("codi_esdev", props.codi);
         let endpoint = 'valoracions/?esdeveniment__codi='+props.codi;
         simpleFetch(endpoint,"GET","").then((data) =>setValoracions(data));
     }
     
+    const mesinfo2 = async (titol, data, location) => {
+      await Linking.openURL("https://www.google.com/calendar/event?action=TEMPLATE&text=" + titol + "&dates=" + data + "/" + data + "&location=" + location  );    
+    };
+  
 
     const mesinfo = async () => {
         await Linking.openURL(props.source);
@@ -29,6 +38,7 @@ export default function InfoCompleta (props) {
       }
     
     useEffect(()=> {
+        if (props.calendar != undefined) setCalendar(props.calendar);
         fetchvaloracions();
     },[update])
 
@@ -100,6 +110,18 @@ export default function InfoCompleta (props) {
                     </View>
                 </ScrollView>
             </View>
+            <Modal visible={calendar} animationType="slide" transparent={true}>
+              <View style={styles.popupContainer}>
+              <Text style={styles.text} >  {t('Exporta')} </Text>
+                <TouchableOpacity style={styles.button} onPress={() => {   
+                  mesinfo2(props.title, props.selected, props.location)}}>
+                  <Icon name="calendar" size={31} color="black" />
+                  </TouchableOpacity>
+                <TouchableOpacity onPress={() => setCalendar(false)} style={styles.closeButton1} >
+                <XCircleFill color="red" />
+                </TouchableOpacity>
+              </View>
+            </Modal>
   
     </Modal>
   );
@@ -187,5 +209,36 @@ const styles = StyleSheet.create({
     left: 6,
     width: 16,
     height: 16,
+  },
+  text: {
+    fontSize: 18,
+    color: 'white',
+    position: 'absolute',
+    textAlign: 'center', 
+    top: -13, // Ajusta el valor según sea necesario
+    left: 39, 
+  },
+  popupContainer: {
+    position: 'absolute',
+    alignSelf: 'flex-start',
+    top: '14%', // Ajusta la posición vertical del popup
+    width: '35%', // Ajusta el ancho del popup
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    padding: 39,
+    borderRadius: 10,
+    marginLeft: 5, 
+
+  },
+  closeButton1: {
+    position: 'absolute',
+    top: 10, // Ajusta el valor según sea necesario
+    left: 10, // Ajusta el valor según sea necesario
+    // Estilos para el botón de cierre
+  },
+  button: {
+    position: 'absolute',
+    top: 35, // Ajusta el valor según sea necesario
+    left: 58, // Ajusta el valor según sea necesario
+    // Estilos para el botón de cierre
   },
 });

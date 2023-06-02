@@ -165,14 +165,14 @@ const CustomCalendar = (props) => {
                   reserves.push(reserva);
                 }
                 setEsdeveniments(reserves);
-                setLlistaVisible(false);
+                setLlistaVisible(true);
                 setCalendar(true);
 
             }
             else {
               const reserva = newMarkedDates[day.dateString].dots[0];
               setSelectedReserva(reserva);
-              setModalVisible(false);
+              setModalVisible(true);
               setCalendar(true);
               console.log(reserva.info.source)
 
@@ -184,18 +184,7 @@ const CustomCalendar = (props) => {
         markingType={'multi-dot'}
         firstDay= {1} 
       />
-      <Modal visible={calendar} animationType="slide" transparent={true}>
-        <View style={styles.popupContainer}>
-        <Text style={styles.text} >  {t('Exporta')} </Text>
-          <TouchableOpacity style={styles.button} onPress={() => {   
-            mesinfo(selectedReserva.info.title, selected, selectedReserva.info.location)}}>
-            <Icon name="calendar" size={31} color="black" />
-            </TouchableOpacity>
-          <TouchableOpacity onPress={() => setCalendar(false)} style={styles.closeButton1} >
-           <XCircleFill color="red" />
-          </TouchableOpacity>
-        </View>
-      </Modal>
+
       
       
       {modalVisible && (
@@ -204,7 +193,7 @@ const CustomCalendar = (props) => {
                 back={() =>  {
                   setModalVisible(false),
                   setScreenLoaded(!screenLoaded);
-                  mesinfo(null);  
+                 
                 }
                 }
                 perfil={props.perfil}
@@ -217,6 +206,8 @@ const CustomCalendar = (props) => {
                 dateIni = {selectedReserva.info.dateIni}
                 location = {selectedReserva.info.location}
                 codi = {selectedReserva.info.codi}
+                calendar = {calendar}
+                selected = {selected}
             />
 
     )}
@@ -230,7 +221,7 @@ const CustomCalendar = (props) => {
             esdeveniments.map((esd) => (
             <Esdeveniment 
                   key ={esd.info.codi}
-                  back={() =>  {setLlistaVisible(false); mesinfo(esd)}}
+                  back={() =>  {setLlistaVisible(false);}}
                   type={esd.info.type}
                   desc={esd.info.desc}
                   title={esd.info.title}
@@ -240,6 +231,8 @@ const CustomCalendar = (props) => {
                   location = {esd.info.location}
                   codi = {esd.info.codi}
                   source = {esd.info.source}
+                  calendar = {calendar}
+                  selected = {selected}
               />
            ))}
         </View>
