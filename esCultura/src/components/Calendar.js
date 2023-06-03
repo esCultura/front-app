@@ -2,25 +2,37 @@ import React, {useState, useEffect} from 'react';
 import {Calendar, LocaleConfig, markedDates} from 'react-native-calendars';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View, Modal, TouchableOpacity } from 'react-native';
+import { Text, View, Modal, TouchableOpacity ,Linking} from 'react-native';
 import InfoCompleta from "./InfoCompleta";
 import Esdeveniment from './Esdeveniment';
 import { simpleFetch } from "../utils/utilFunctions";
+import moment from 'moment';
 
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
-
+import BtnPdf from './BtnPdf';
+import TranslateSelector from "./TranslateSelector";
+import { useTranslation } from 'react-i18next';
 
 
 const CustomCalendar = (props) => {
   const [selected, setSelected] = useState('');
   const [newMarkedDates, setnewMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+  const [calendar, setCalendar] = useState(false);
   const [llistaVisible, setLlistaVisible] = useState(false);
   const [selectedReserva, setSelectedReserva] = useState(null);
   const [esdeveniments, setEsdeveniments] = useState([]);
   const [screenLoaded, setScreenLoaded] = useState(props.screenLoaded);
   const user = props.perfil;
+
+  const {t} = useTranslation();
  
+
+  const mesinfo = async (titol, data, location) => {
+    await Linking.openURL("https://www.google.com/calendar/event?action=TEMPLATE&text=" + titol + "&dates=" + data + "/" + data + "&location=" + location  );    
+  };
+
+
 
   useEffect(() => {
 
@@ -139,7 +151,10 @@ const CustomCalendar = (props) => {
               
           }}
         onDayPress={day => {
-          setSelected(day.dateString)
+          
+          const fechaFormateada = moment(day.dateString).set('hour', 20).set('minute', 0).format('YYYYMMDDTHHmmss');
+          console.log(fechaFormateada);
+          setSelected(fechaFormateada);
           if (newMarkedDates.hasOwnProperty(day.dateString)) {
             if (newMarkedDates[day.dateString].dots.length > 1) {
               const reserves = [];
@@ -149,11 +164,16 @@ const CustomCalendar = (props) => {
                 }
                 setEsdeveniments(reserves);
                 setLlistaVisible(true);
+                setCalendar(true);
+
             }
             else {
               const reserva = newMarkedDates[day.dateString].dots[0];
               setSelectedReserva(reserva);
               setModalVisible(true);
+              setCalendar(true);
+              console.log(reserva.info.source)
+
             }
           } 
         }}
@@ -162,13 +182,17 @@ const CustomCalendar = (props) => {
         markingType={'multi-dot'}
         firstDay= {1} 
       />
+
+      
+      
       {modalVisible && (
       <InfoCompleta 
                 visible={modalVisible} 
                 back={() =>  {
                   setModalVisible(false),
                   setScreenLoaded(!screenLoaded);
-                  }
+                 
+                }
                 }
                 perfil={props.perfil}
                 type={selectedReserva.info.type} 
@@ -180,7 +204,10 @@ const CustomCalendar = (props) => {
                 dateIni = {selectedReserva.info.dateIni}
                 location = {selectedReserva.info.location}
                 codi = {selectedReserva.info.codi}
+                calendar = {calendar}
+                selected = {selected}
             />
+
     )}
     <Modal visible={llistaVisible } animationType="slide">
         
@@ -192,7 +219,7 @@ const CustomCalendar = (props) => {
             esdeveniments.map((esd) => (
             <Esdeveniment 
                   key ={esd.info.codi}
-                  back={() => setLlistaVisible(false)}
+                  back={() =>  {setLlistaVisible(false);}}
                   type={esd.info.type}
                   desc={esd.info.desc}
                   title={esd.info.title}
@@ -202,6 +229,8 @@ const CustomCalendar = (props) => {
                   location = {esd.info.location}
                   codi = {esd.info.codi}
                   source = {esd.info.source}
+                  calendar = {calendar}
+                  selected = {selected}
               />
            ))}
         </View>
@@ -266,6 +295,35 @@ const styles = StyleSheet.create({
         left: 6,
         width: 16,
         height: 16,
-    }
+    },
+    text: {
+      fontSize: 18,
+      color: 'white',
+      position: 'absolute',
+      textAlign: 'center', 
+      top: 9, // Ajusta el valor según sea necesario
+      left: 35, 
+    },
+    popupContainer: {
+      position: 'absolute',
+      alignSelf: 'center',
+      top: '74%', // Ajusta la posición vertical del popup
+      width: '39%', // Ajusta el ancho del popup
+      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+      padding: 39,
+      borderRadius: 10,
+    },
+    closeButton1: {
+      position: 'absolute',
+      top: 10, // Ajusta el valor según sea necesario
+      left: 10, // Ajusta el valor según sea necesario
+      // Estilos para el botón de cierre
+    },
+    button: {
+      position: 'absolute',
+      top: 40, // Ajusta el valor según sea necesario
+      left: 58, // Ajusta el valor según sea necesario
+      // Estilos para el botón de cierre
+    },
   });
 export default CustomCalendar;

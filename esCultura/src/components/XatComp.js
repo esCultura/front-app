@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Xat (props){
     const [modalVisible, setModalVisible] = useState(false);
-    const [urlImatge, setUrlImatge]=useState(require('../../assets/profile-base-icon.png'));
+    const [urlImatge, setUrlImatge]=useState(null);
     const [missatges,setMissatges]=useState([]);
     const [textMissatge, setTextMissatge] = useState('');
     const [data,setData] = useState('');
@@ -17,15 +17,11 @@ export default function Xat (props){
     const [update, setUpdate]=useState(false);
     const [nom, setNom]=useState('');
     const [canvia, setCanvi] =useState('');
+    const [loading, setLoading] = useState(true);
 
     const {t} = useTranslation();
     
     //Imatge perfil
-    function imatgePerfil(props) {
-        if (props.imatge != null) {
-            setUrlImatge(props.imatge);
-        }
-    };
     
     //Canvi text input
     function handleTextChange(value) {
@@ -46,20 +42,32 @@ export default function Xat (props){
     function veureXat() {
         setModalVisible(true);
     }
+    const fetchMissatges = async () => {  
+        let endPoint = 'xats/'+props.id+'/missatges/';
+        simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data));
+        //console.log('fetchmissatges');
+        //console.log(missatges);
+    }
     
     useEffect(()=> {
         nomXat();
+ 
     })
-  
+   
+    const [render, setRender] = useState(false);
+ 
+    useEffect(() => {
+       setTimeout(() => {
+          setRender(!render);
+       }, 1000);
+    }, [render]);
+    
+    useEffect(() => {
+        fetchMissatges();
+    },[render])
     useEffect(() => {
         
-        const fetchMissatges = async () => {  
-            let endPoint = 'xats/'+props.id+'/missatges/';
-            simpleFetch(endPoint, "GET", "").then((data) => setMissatges(data));
-            //console.log('fetchmissatges');
-            //console.log(missatges);
-        }
-        fetchMissatges();
+        //fetchMissatges();
         ultimMissatge();
     }, [update]);
       
@@ -67,7 +75,12 @@ export default function Xat (props){
         let array = props.part;
         if (props.nom == null) {
             array.forEach(item =>{
-                if(item.user != props.user.user) setNom(item.username);
+                if(item.user != props.user.user){
+                    setNom(item.username);
+                    if(item.imatge != null){
+                        setUrlImatge(item.imatge)
+                    }
+                } 
             })   
         }
         else {
@@ -88,7 +101,7 @@ export default function Xat (props){
             <TouchableOpacity style={styles.info_xat} onPress={veureXat} >
                 <Image 
                     style={styles.foto}
-                    source={urlImatge}
+                    source={urlImatge ? { uri: urlImatge } : require('../../assets/profile-base-icon.png')}
                     />
                 <Text style={styles.nom}>{nom}</Text>
                 <Text style={styles.ultim_miss}>{ultim_mis}</Text>
@@ -99,10 +112,12 @@ export default function Xat (props){
                     <TouchableOpacity style={styles.back} onPress={() => setModalVisible(false)}>
                         <ArrowLeftShort color="black"></ArrowLeftShort>
                     </TouchableOpacity>
-                     
+                    
                     <Image
                     style={styles.fot}
-                    source={urlImatge}/>
+                    source={
+                        urlImatge ? { uri: urlImatge } : require('../../assets/profile-base-icon.png')
+                    }/>
                    
                     <View style={styles.nomtop}>
                         <Text>{nom}</Text>

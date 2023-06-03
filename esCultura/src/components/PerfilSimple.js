@@ -1,4 +1,3 @@
-import Screen from "../components/Screen";
 import { Text, ScrollView, View, Modal, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React, {useState, useEffect} from 'react';
@@ -6,7 +5,8 @@ import { StyleSheet, Image, Platform } from 'react-native';
 import XCircleFill from 'react-native-bootstrap-icons/icons/x-circle-fill';
 import { simpleFetch } from "../utils/utilFunctions";
 import * as ImagePicker from 'expo-image-picker';
-import ProfileForm  from '../components/ProfileForm';
+import * as FileSystem from 'expo-file-system';
+import ProfileForm  from '../components/ProfileForm'; 
 import BtnPdf  from '../components/BtnPdf'; 
 import FollowButton  from '../components/FollowButton'; 
 import Esdeveniment  from '../components/Esdeveniment'; 
@@ -15,17 +15,17 @@ import {setToken} from '../utils/utilFunctions';
 import TranslateSelector from "./TranslateSelector";
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { decode } from 'base-64';
 
 
 export default function PerfilSimple(props, updated) {
     let urlImatge =require('../../assets/profile-base-icon.png');
     const {t} = useTranslation();
 
-
     const handleInfoCompletaClose = () => {
         setScreenLoaded(!screenLoaded);
-      };
+    };
+
     const [jo, setJo] = useState(null);
     const [llistaVisible, setLlistaVisible] = useState(false);
     const [esdeveniments, setEsdeveniments] = useState([]);
@@ -49,19 +49,12 @@ export default function PerfilSimple(props, updated) {
       };
 
     useEffect(() => {
-        async function _retrieveData() {
-            try {
-              const value = await AsyncStorage.getItem("token");
-              if (value !== null) {
-                let result = JSON.parse(value);
-                console.log("result", result);
-                setJo(result.user);
-              }
-            } catch (error) {
-              console.log("error en agafar dades locals, token error: ", error);
-            }
-          }
-          _retrieveData();
+        const fetchJo = async () => {
+            let endPoint = `usuaris/perfils/jo/`;
+            await simpleFetch(endPoint, "GET", "").then((data) => console.log("jo info data: ", data));
+            setImageUri(data.imatge);
+            setJo(data.user);
+        }
 
         const fetchPreferits = async () => {
             console.log("jo1", props.id);
@@ -80,14 +73,13 @@ export default function PerfilSimple(props, updated) {
 
         const fetchPerfil = async () => {
 
-          let endPoint = `usuaris/perfils/${props.id}`;
-          const data = await simpleFetch(endPoint, "GET", "")
-          console.log("datos11", data);
-          setInfoPerfil(data);
-          console.log("info5", infoPerfil);
-          const e = [];
+            let endPoint = `usuaris/perfils/${props.id}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            console.log("info perfils: ", data);
+            setImageUri(data.imatge);
+            setInfoPerfil(data);
+            const e = [];
 
-          console.log("datos", data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.assistencies_passades);
             e.push(data.estadistiques.interessos_esdeveniments);
             e.push(data.estadistiques.interessos_tematiques);
@@ -98,63 +90,101 @@ export default function PerfilSimple(props, updated) {
             e.push(data.estadistiques.seguits);
             e.push(data.estadistiques.xats_participant);
             e.push(data.estadistiques.valoracions)
-          console.log("info3", e);
-          setEstadistiques(e);
-   
+            console.log("info3", e);
+            setEstadistiques(e);
           //setImageUri(data.imatge);
       }
 
-      const fetchSeguits = async () => {
-        let endPoint = `seguiments/?seguidor=${props.id}`;
-        const data = await simpleFetch(endPoint, "GET", "")
-        console.log("datos2", data);
-        const seg = []; 
-        for (let j = 0; j < data.length; j++) seg.push(data[j].seguit);
-        setSeguits(seg);
-        console.log("info2", seguits); 
-      }
-    
-      const fetchSeguidors = async () => {
-        let endPoint = `seguiments/?seguit=${props.id}`;
-        const data = await simpleFetch(endPoint, "GET", "")
-        const seg = []; 
-        for (let j = 0; j < data.length; j++) seg.push(data[j].seguidor);
-        setSeguidors(seg);
-      }
+        const fetchSeguits = async () => {
+            let endPoint = `seguiments/?seguidor=${props.id}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            console.log("fetch seguidor: ", data);
+            const seg = []; 
+            for (let j = 0; j < data.length; j++) seg.push(data[j].seguit);
+        }
+      
+        const fetchSeguidors = async () => {
+            let endPoint = `seguiments/?seguit=${props.id}`;
+            const data = await simpleFetch(endPoint, "GET", "")
+            const seg = []; 
+            for (let j = 0; j < data.length; j++) seg.push(data[j].seguidor);
+            setSeguidors(seg);
+        }
 
-      fetchPreferits();
-      fetchSeguits();
-      fetchSeguidors();
-      fetchPerfil();
-  }, [screenLoaded, updated]);
+        fetchJo();
+        fetchPreferits();
+        fetchSeguits();
+        fetchSeguidors();
+        fetchPerfil();
+    }, [screenLoaded, updated]);
 
- const editFoto = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
+    const askPermissions = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            console.log('Permission denied!');
+            return;
+        }
+    };
 
-    if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
-      console.log("foto", result.assets[0].uri);
-      onImatgeChange(result.assets[0].uri);
-    }
-  };
+    const editFoto = async () => {
 
-  const onImatgeChange = async (newImage) => {
-        let endPoint = 'usuaris/perfils/jo/';
-
-          const formData = new FormData();
-            formData.append('imatge', {
-                uri: newImage,
-                type: 'image/jpeg', // o el tipo de imagen que sea
-                name: 'image.jpg', 
+        await askPermissions();
+        
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                base64: true,
+                aspect: [1, 1],
+                quality: 1,
             });
+            
+            if (!result.canceled) {
+                const uri = result.assets[0].uri;
+                const imageData = await FileSystem.readAsStringAsync(uri, {
+                    encoding: FileSystem.EncodingType.Base64,
+                });
+                console.log("path: ", uri);
+                onImatgeChange(imageData);
+            }
+        }
+        catch(error) {
+            console.log("error in pick image: ", error);
+        }
+        
+    };
 
+    const onImatgeChange = async (newImage) => {
+        console.log("start onImatgeChange: ");
+        
+        let host = 'http://deploy-env.eba-6a6b2amf.us-west-2.elasticbeanstalk.com/';
+        let endPoint = 'usuaris/perfils/jo/';
+        let token = '4399aea952484e30ad0208cd72bf64a083c9b8c4';
 
-        const response = await simpleFetch(endPoint, "PUT", { imatge:formData});
+        const binaryImageData = decode(newImage);
+
+        /*
+        const byteArray = new Uint8Array([...binaryImageData].map(char => char.charCodeAt(0)));
+        const imageBlob = new Blob([byteArray.buffer], { type: 'application/octet-stream' });
+        console.log("binaryImage: ", imageBlob);
+*/        
+        // Create a new Blob object with the binary data
+
+        const formData = new FormData();
+        formData.append('imatge', binaryImageData);
+
+        let result = await fetch(host+endPoint,  {   
+            method: "PUT",
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Token '+ token, 
+            },
+            body: formData,
+        })
+        console.log("result: ", result);
+        let resultJson = await result.json();
+        console.log("resultJson: ", resultJson);
+        setImageUri(result.assets[0].uri);
     }
 
     const doLogout = () =>  {
@@ -162,11 +192,9 @@ export default function PerfilSimple(props, updated) {
         props.onLogin(false);
     }
 
-
     function handleFollowChange () {
         setScreenLoaded(!screenLoaded);
-      };
-
+    };
       
     if (jo != props.id && jo != null) {
     return (
@@ -478,7 +506,6 @@ export default function PerfilSimple(props, updated) {
 
     );
    }
- 
 }
 
 const styles = StyleSheet.create({
