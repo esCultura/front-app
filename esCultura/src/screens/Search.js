@@ -111,14 +111,15 @@ export default function Search(props) {
       >
         {jo !== null &&
           esdeveniments.map((esd, i) => {
-            if (esd.tematiques == null || esd.tematiques.length == 0) return;
+            if (esd.tematiques == null || esd.tematiques.length == 0 || esd.descripcio === null ) return;
+            console.log("esd: ", esd.descripcio);
             return (
               <Esdeveniment
                 key={i}
                 title={esd.nom}
                 perfil={jo.current}
                 source={imagePool[i % imagePool.length]}
-                desc={esd.descripcio.replaceAll("&nbsp;", "\n")}
+                desc={esd.descripcio.split("&nbsp;").join("\n")}
                 back={() => handleInfoCompletaClose()}
                 dateIni={esd.dataIni.slice(0, 10)}
                 dateFi={esd.dataFi.slice(0, 10)}
