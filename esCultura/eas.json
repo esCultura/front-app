@@ -3,6 +3,9 @@
     "version": ">= 3.10.2"
   },
   "build": {
+    "ios": {
+      "releaseChannel": "default"
+    },
     "development": {
       "distribution": "internal",
       "android": {
