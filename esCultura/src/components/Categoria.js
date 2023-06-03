@@ -14,27 +14,36 @@ import { simpleFetch } from "../utils/utilFunctions";
 
 import { setDefaultNamespace } from "i18next";
 
-export default function Categoria(props) {
-  const [seguidors, setSeguidors] = useState("");
-  const [seguit, setSeguit] = useState("");
-  const [data, setData] = useState("");
-  const [update, setUpdate] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const bgcolor = "#3BDE4B";
+export default function Categoria (props){
+    const [seguidors, setSeguidors]= useState('')
+    const [seguit,setSeguit] =useState('')
+    const [data, setData] = useState('')
+    const [update,setUpdate] = useState(false)
+    const [refresh,setRefresh] =useState(false)
+    const bgcolor = '#3BDE4B'
+    
+    const fetchSeguidors = async () =>{
+        let endpoint='interessos/tematiques/?tematica='+props.tipus+'&perfil='+props.id
+        console.log("aaaaaaaa", endpoint)
+        simpleFetch(endpoint,"GET","").then((data) =>setSeguidors(data))
+        console.log('hellooooooo',seguidors)
+        if(seguidors != null) setSeguit(true)
+        setRefresh((prevState)=>!prevState)
+      
+    }
+    
+    function recarrega (){
+        setRefresh((prevState)=>!prevState)
+    }
 
-  const fetchSeguidors = async () => {
-    let endpoint =
-      "interessos/tematiques/?tematica=" + props.tipus + "&perfil=6";
-    console.log("aaaaaaaa", endpoint);
-    simpleFetch(endpoint, "GET", "").then((data) => setSeguidors(data));
-    console.log("hellooooooo", seguidors);
-    if (seguidors != null) setSeguit(true);
-    setRefresh((prevState) => !prevState);
-  };
-
-  function recarrega() {
-    setRefresh((prevState) => !prevState);
-  }
+  
+    
+    
+    useEffect(()=>{
+        
+        console.log(seguit)
+        
+    },[update])
 
   useEffect(() => {}, [update]);
 

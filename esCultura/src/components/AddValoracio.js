@@ -31,6 +31,7 @@ export default function AddValoracio(props) {
                 "esdeveniment": props.esdeveniment
             }
         );
+        props.canvia()
     }
 
     function setP0() {

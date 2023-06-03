@@ -172,7 +172,6 @@ export default function SingUp({navigation, onLogin}) {
             >
                 <Image source={require('../../assets/icon-google.png')} style={styles.iconaGoogle}/>
             </Pressable>
-            <Text>{accessToken}</Text>
             <Pressable 
                 title="login"
                 onPress={()=>navigation.navigate("Login")}

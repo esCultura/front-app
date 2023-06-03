@@ -16,7 +16,7 @@ const initI18n = i18n;
 
 export default function App() {
   //isSignedIn
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     console.log("isSignedIn: ", isSignedIn);

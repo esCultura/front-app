@@ -47,6 +47,8 @@ const en = {
     fins: "Until",
     Preu: "Price:",
     MésInformació: "More information",
+    Exporta: "Export",
+    comentari: "Comment"
 }
 
 
@@ -99,6 +101,8 @@ const es = {
     fins: "Hasta",
     Preu: "Precio:",
     MésInformació: "Más información",
+    Exporta: "Exporta",
+    comentari: "Comentario",
 
 
 }
@@ -152,6 +156,8 @@ const cat = {
     fins: "fins",
     Preu: "Preu:",
     MésInformació: "Més informació",
+    Exporta: "Exporta",
+    comentari:"Comentari",
 
 }
 

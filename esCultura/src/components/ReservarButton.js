@@ -3,20 +3,20 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { simpleFetch } from "../utils/utilFunctions";
 
-export default function Reservar (props){
-    const [fechaIni, setFechaIni] = useState(props.dataIni);
-    const [fechaFi, setFechaFi] = useState(props.dataFi);
-    const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
-    const [desplegableAbierto, setDesplegableAbierto] = useState(false); 
-    const [fechasVisibles, setFechasVisibles] = useState([]); 
-    const [reservat, setReservat] = useState(false);
-    const [acabat, setAcabat] = useState(false);
-    const esd = props.codi;
-    const [fechas, setFechas] = useState([]);
-    const [jo, setJo] = useState(props.id);
-    console.log("reserva", props.id);
-      useEffect(() => {
-      /*  const fetchJo = async () => {
+export default function Reservar(props) {
+  const [fechaIni, setFechaIni] = useState(props.dataIni);
+  const [fechaFi, setFechaFi] = useState(props.dataFi);
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
+  const [desplegableAbierto, setDesplegableAbierto] = useState(false);
+  const [fechasVisibles, setFechasVisibles] = useState([]);
+  const [reservat, setReservat] = useState(false);
+  const [acabat, setAcabat] = useState(false);
+  const esd = props.codi;
+  const [fechas, setFechas] = useState([]);
+  const [jo, setJo] = useState(props.id);
+  console.log("reserva", props.id);
+  useEffect(() => {
+    /*  const fetchJo = async () => {
           let endPoint = `usuaris/perfils/jo/`;
           const data = await simpleFetch(endPoint, "GET", "")
           setJo(data.user);
@@ -31,12 +31,12 @@ export default function Reservar (props){
         }
         setFechas(fechas);
       }
-    }
+    };
+    setFechas(fechas);
 
-      //fetchJo();
-      fetchReserves();
-      }, []);
-    
+    //fetchJo();
+    fetchReserves();
+  }, []);
 
   const crearReserva = async () => {
     console.log("entra aqui1");
