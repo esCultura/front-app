@@ -33,7 +33,10 @@ export default function Ordenar({ onChange }, props) {
   };
 
   const generate = () => {
-    if (ord + 1 == 3) return "";
+    const now = new Date(Date.now());
+    const forever = new Date(new Date(Date.now()).setFullYear(2300));
+    if (ord + 1 == 3)
+      return `dateIni__range=${now.toISOString()},${forever.toISOString()}&ordering=dateIni`;
     let g = `ordering=${ord + 1 == 2 ? "-" : ""}`;
     if (oAssistents.current) g += `assistents`;
     if (oLikes.current) g += `likes`;

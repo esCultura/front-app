@@ -28,11 +28,11 @@ export default function AmicCard(props) {
         >
           <Image
             style={styles.profileImage}
-            source={{
-              uri: props.info.p_imatge
-                ? props.info.p_imatge
-                : "https://static.wikia.nocookie.net/amogus/images/4/4d/OBUNGUS.jpg/revision/latest?cb=20220210101127",
-            }}
+            source={
+              props.info.p_imatge
+                ? { uri: props.info.p_imatge }
+                : require("../../assets/profile-base-icon.png")
+            }
           />
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             {props.info.p_nom}
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 75,
     height: 75,
-    borderColor: "#3347FF",
-    borderWidth: 5,
+    borderColor: "#44941E",
+    borderWidth: 2,
     borderRadius: 40,
   },
 });
